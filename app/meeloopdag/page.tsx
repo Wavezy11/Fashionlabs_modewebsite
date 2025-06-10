@@ -1,29 +1,49 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
+import type React from "react"
 
-export default function FavorietenPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [photos, setPhotos] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+import { useState } from "react"
+import Image from "next/image"
 
-  useEffect(() => {
-    async function fetchPhotos() {
-      try {
-        const response = await fetch("/api/photos")
-        if (response.ok) {
-          const data = await response.json()
-          setPhotos(data)
-        }
-      } catch (error) {
-        console.error("Error fetching photos:", error)
-      } finally {
-        setIsLoading(false)
+export default function MeeloopDag() {
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch("/api/registrations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        window.location.href = "/success"
+      } else {
+        alert("Er is een fout opgetreden. Probeer het opnieuw.")
       }
+    } catch (error) {
+      alert("Er is een fout opgetreden. Probeer het opnieuw.")
+    } finally {
+      setIsSubmitting(false)
     }
-    fetchPhotos()
-  }, [])
+  }
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -76,7 +96,10 @@ export default function FavorietenPage() {
             </div>
 
             {/* Yonder Text */}
-            <div className="text-white text-lg font-light tracking-wider">yonder</div>
+           <div className="text-white text-lg font-light tracking-wider">
+  <img src="/Yonder-paars-White.png" alt="Logo" className="h-[50px] w-[140px] top-[20px]" />
+</div>
+
           </header>
 
           {/* Navigation Menu Overlay */}
@@ -87,60 +110,60 @@ export default function FavorietenPage() {
               <nav className="text-center">
                 <ul className="space-y-8">
                   <li>
-                    <Link
+                    <a
                       href="#"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       HOME
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      href="#"
+                    <a
+                      href="/"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       MEELOOPDAG
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      href="#"
+                    <a
+                      href="/informatie"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       PROGRAMMA
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      href="#"
+                    <a
+                      href="/tickets"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       MODESHOW
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
+                    <a
                       href="#"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       NIEUWS
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      href="#"
+                    <a
+                      href="/favorieten"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       FAVORIETEN
-                    </Link>
+                    </a>
                   </li>
                   <li>
-                    <Link
-                      href="#"
+                    <a
+                      href="/contact"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                     >
                       CONTACT
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </nav>
@@ -163,57 +186,81 @@ export default function FavorietenPage() {
           {/* Main Content */}
           <main className="bg-white">
             {/* Title */}
-            <h1 className="text-xl font-bold text-center py-5 tracking-wider">FAVORIETEN</h1>
+            <h1 className="text-xl font-bold text-center py-5 tracking-wider">MEELOOPDAG</h1>
 
-            {/* Favorites Info */}
-            <div className="px-8 pb-6" >
-             <p className="text-center mb-8 bg-[#9480AB]" style={{ color: 'white' }}>
-  Bij Favorieten vind je de mooiste foto&apos;s van onze bezoekers! Upload je eigen foto, verzamel likes
-  en maak kans op €100. De winnaar wordt een maand na de show bekendgemaakt op onze socials!
-</p>
-
-              <h2 className="font-bold text-lg mb-4">FOTO&apos;S VAN FASHIONLABS 2024</h2>
-
-              {/* Photo Grid */}
-              {isLoading ? (
-                <div className="flex justify-center py-8">
-                  <div className="w-8 h-8 border-4 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {photos.slice(0, 4).map((photo) => (
-                    <div key={photo.id} className="aspect-square bg-gray-200 rounded-md relative overflow-hidden">
-                      <img
-                        src={photo.image_url || "/placeholder.svg"}
-                        alt={photo.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.src = "/placeholder.svg?height=200&width=200"
-                        }}
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2">
-                        <p className="text-xs font-bold">{photo.title}</p>
-                        <p className="text-xs">❤️ {photo.likes}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Upload Button */}
-              <div className="flex justify-center">
-                <Link
-                  href="/dashboard/photos/new"
-                  className="bg-black text-white px-12 py-4 text-lg font-bold tracking-wide hover:bg-gray-800 transition-colors"
-                >
-                  UPLOAD
-                </Link>
+            {/* Hero Image */}
+            <div className="w-full px-8 mb-0">
+              <div className="relative w-full h-[220px] rounded-lg overflow-hidden">
+                <Image src="/meeloopdag-hero.png" alt="Fashion Labs studenten" fill className="object-cover" />
+                {/* Decorative squares */}
+                <div className="absolute top-4 right-4 w-4 h-4 bg-[#9480AB] opacity-80"></div>
+                <div className="absolute top-8 right-8 w-4 h-4 bg-[#9480AB] opacity-60"></div>
+                <div className="absolute bottom-4 right-4 w-4 h-4 bg-[#9480AB] opacity-80"></div>
               </div>
+            </div>
+
+            {/* Info Section */}
+            <div className="bg-[#9480AB] text-white px-8 py-12 text-center">
+              <p className="text-base leading-relaxed">
+                Wil jij ervaren hoe het is om bij ons te studeren? Loop een dag mee! Volg de lessen, ontmoet studenten
+                en ontdek of de opleiding bij je past.
+              </p>
+            </div>
+
+            {/* Registration Form */}
+            <div className="px-8 py-6 bg-white">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  name="first_name"
+                  placeholder="Voornaam*"
+                  value={formData.first_name}
+                  onChange={handleChange}
+                  className="w-full p-4 border border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
+                  required
+                />
+                <input
+                  type="text"
+                  name="last_name"
+                  placeholder="Achternaam*"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  className="w-full p-4 border border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email*"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-4 border border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
+                  required
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Mobiele Telefoonnummer"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full p-4 border border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
+                />
+
+                <div className="flex justify-center pt-4">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-black text-white px-12 py-4 text-lg font-bold tracking-wide hover:bg-gray-800 transition-colors disabled:opacity-50"
+                  >
+                    {isSubmitting ? "BEZIG..." : "REGISTREER"}
+                  </button>
+                </div>
+              </form>
             </div>
 
             {/* Checkered Pattern */}
             <div
-              className="w-full h-10 mt-8"
+              className="w-full h-10"
               style={{
                 backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%), 
                                  linear-gradient(-45deg, #000 25%, transparent 25%), 
@@ -231,27 +278,27 @@ export default function FavorietenPage() {
                   <ul className="space-y-4">
                     <li className="flex items-center">
                       <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
+                      <a href="#" className="text-base hover:underline">
                         Voor studenten
-                      </Link>
+                      </a>
                     </li>
                     <li className="flex items-center">
                       <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
+                      <a href="#" className="text-base hover:underline">
                         Voor volwassenen
-                      </Link>
+                      </a>
                     </li>
                     <li className="flex items-center">
                       <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
+                      <a href="#" className="text-base hover:underline">
                         Voor bedrijven
-                      </Link>
+                      </a>
                     </li>
                     <li className="flex items-center">
                       <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
+                      <a href="#" className="text-base hover:underline">
                         Over FashionLabs
-                      </Link>
+                      </a>
                     </li>
                   </ul>
                 </nav>

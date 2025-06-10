@@ -126,7 +126,7 @@ export default function LoginPage() {
                   </li>
                   <li>
                     <Link
-                      href="/modeshow"
+                      href="/tickets"
                       className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
                       onClick={toggleMenu}
                     >

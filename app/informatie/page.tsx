@@ -1,402 +1,326 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
+import { Plus } from "lucide-react"
+import Image from "next/image"
 
-export default function InformatiePage() {
+export default function FashionLabsProgram() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [expandedProgram, setExpandedProgram] = useState<string | null>(null)
+
+  const programItems = [
+    {
+      id: "texlab",
+      time: "14:30",
+      title: "TexLab expo",
+      location: "'t Hart / Vide - 2e jaars mode",
+      hasPlus: true,
+    },
+    {
+      id: "demos1",
+      time: "15:00",
+      title: "Demo's",
+      location: "Overal - kappers demo's",
+      hasPlus: true,
+    },
+    {
+      id: "pitches",
+      time: "15:30",
+      title: "Pitches Texlab",
+      location: "Vide",
+      hasPlus: true,
+    },
+    {
+      id: "chatgpt",
+      time: "16:00",
+      title: "Chat GPT",
+      location: "Forum - Roel Mathijsen?",
+      hasPlus: true,
+    },
+    {
+      id: "demos2",
+      time: "16:30",
+      title: "Demo's",
+      location: "Overal",
+      hasPlus: true,
+    },
+    {
+      id: "fashionshow1",
+      time: "17:30",
+      title: "Fashionshow & Prijsuitrijking 1",
+      location: "'t Hart",
+      hasPlus: true,
+    },
+    {
+      id: "altalk",
+      time: "18:00",
+      title: "Al talk",
+      location: "Forum - Elmo Mistiaen",
+      hasPlus: true,
+    },
+    {
+      id: "netwerkborrel",
+      time: "19:00",
+      title: "Netwerkborrel",
+      location: "Horeca bar",
+      hasPlus: true,
+    },
+    {
+      id: "graduation-expo",
+      time: "19:30",
+      title: "Graduation expo",
+      location: "'t Hart",
+      hasPlus: true,
+    },
+    {
+      id: "graduation-talk",
+      time: "20:00",
+      title: "Graduation talk",
+      location: "Forum ?",
+      hasPlus: true,
+    },
+    {
+      id: "graduation-show",
+      time: "20:40",
+      title: "Graduation show Prijsuitrijking 2",
+      location: "'t Hart",
+      hasPlus: true,
+    },
+  ]
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
+  const toggleProgram = (programId: string) => {
+    setExpandedProgram(expandedProgram === programId ? null : programId)
+  }
+
+  const scrollToTop = () => {
+    const screen = document.querySelector(".screen")
+    if (screen) {
+      screen.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="relative w-[390px] h-[844px] bg-white rounded-[60px] shadow-2xl overflow-hidden">
-        {/* iPhone Notch */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[210px] h-[30px] bg-black rounded-b-[15px] z-20 flex items-center justify-between px-4">
-          <span className="text-white text-xs font-semibold">9:41</span>
-          <div className="flex items-center gap-1">
-            <div className="flex gap-[2px]">
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-            </div>
-            <div className="w-6 h-3 border border-white rounded-sm">
-              <div className="w-4 h-2 bg-white rounded-sm m-[1px]"></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Screen Content */}
-        <div className="h-full pt-[30px] overflow-y-auto overflow-x-hidden">
-          {/* Header - Fixed Position */}
-          <header className="fixed top-[30px] left-0 right-0 h-[145px] bg-[#242424] flex items-center justify-between px-4 z-10 w-[390px] mx-auto">
-            {/* Menu Icon */}
-            <div className="w-8 h-8 cursor-pointer relative z-20" onClick={toggleMenu}>
-              <div
-                className={`absolute w-full h-[3px] bg-[#9480AB] rounded transition-all duration-300 ${isMenuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-2"}`}
-              ></div>
-              <div
-                className={`absolute w-full h-[3px] bg-[#9480AB] rounded transition-all duration-300 ${isMenuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-2"}`}
-              ></div>
-            </div>
-
-            {/* Fashion Labs Logo */}
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="flex flex-col items-center">
-                <img src="/placeholder.svg?height=32&width=32" alt="Fashion Labs Logo" className="w-8 h-8 mb-1" />
-                <img src="/placeholder.svg?height=24&width=60" alt="Fashion Labs Text" className="h-6" />
-              </div>
-            </div>
-
-            {/* Yonder Logo */}
-            <img src="/placeholder.svg?height=18&width=60" alt="Yonder" className="h-[18px]" />
-          </header>
-
-          {/* Navigation Menu Overlay */}
-          <div
-            className={`fixed inset-0 bg-black z-30 transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
-            onClick={toggleMenu}
-          >
-            <div className="flex flex-col justify-between h-full pt-32 pb-12 px-8" onClick={(e) => e.stopPropagation()}>
-              <nav className="text-center">
-                <ul className="space-y-8">
-                  <li>
-                    <Link
-                      href="/"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      HOME
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      MEELOOPDAG
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/modeshow"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      MODESHOW
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/informatie"
-                      className="text-[#9480AB] text-xl font-bold tracking-wide"
-                      onClick={toggleMenu}
-                    >
-                      INFORMATIE
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/favorieten"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      FAVORIETEN
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      CONTACT
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="flex justify-center items-center gap-8">
-                <div className="flex flex-col items-center">
-                  <img src="/placeholder.svg?height=48&width=48" alt="Fashion Labs Logo" className="w-12 h-12 mb-2" />
-                  <img src="/placeholder.svg?height=32&width=80" alt="Fashion Labs Text" className="h-8" />
-                </div>
-                <img src="/placeholder.svg?height=18&width=60" alt="Yonder" className="h-[18px]" />
+    <div className="min-h-screen bg-black flex justify-center items-center overflow-hidden">
+      <div className="p-5 bg-black">
+        <div className="w-[390px] h-[844px] bg-white rounded-[60px] shadow-[0_0_30px_rgba(0,0,0,0.7)] relative overflow-hidden">
+          {/* iPhone Notch */}
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[210px] h-[30px] bg-black rounded-b-[15px] z-10 flex justify-center items-center">
+            <div className="flex justify-between items-center w-full px-2.5 text-white text-xs font-semibold">
+              <span className="font-bold">9:41</span>
+              <div className="flex items-center gap-0.5">
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="w-1 h-1 bg-white rounded-full"></div>
               </div>
             </div>
           </div>
 
-          {/* Main Content */}
-          <main className="bg-white pt-[145px]">
-            {/* Title */}
-            <h1 className="text-xl font-bold text-center py-5 tracking-wider">INFORMATIE</h1>
-
-            {/* Event Info */}
-            <div className="px-6 pb-4">
-              <p className="text-sm leading-relaxed mb-6">
-                Op 26 juli vindt de tweede editie van Fashion Labs & Looks plaats bij MindLabs in Tilburg, georganiseerd
-                door Yonder. Dit event wordt georganiseerd door de Yonder School voor Mode. Studenten van de opleidingen
-                Mode en Uiterlijke Verzorging, ICT en Media, en Kunst, Cultuur en Media hebben de inhoud vormgegeven.
-                Tijdens de bijeenkomst komen mode, beauty en interactieve technologie samen en zal er worden geshowd,
-                gepresenteerd, geëxposeerd en genetwerkt.
-              </p>
-
-              {/* Location and Time */}
-              <div className="mb-6">
-                <p className="font-bold text-sm">MindLabs</p>
-                <p className="text-sm">Locomotiefboulevard 101 5041 SE Tilburg</p>
-                <p className="font-bold text-sm mt-2">14:30 - 21:30</p>
+          {/* Screen Content */}
+          <div className="screen h-full w-full overflow-y-auto pt-[30px] relative">
+            {/* Header */}
+            <header className="h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex items-center justify-between px-6">
+              {/* Plus Icon - Left */}
+              <div className="flex items-center">
+                <Plus className="w-6 h-6 text-white" onClick={toggleMenu} />
               </div>
 
-              {/* Program */}
-              <h2 className="font-bold text-lg mb-4">PROGRAMMA</h2>
-              <div className="space-y-4 mb-6">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">14:30</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">TexLab expo</p>
-                        <p className="text-xs text-gray-600">'t Hart / Vide - 2e jaars mode</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
+              {/* Fashion Labs Logo - Center */}
+  <div className="text-white text-lg font-bold text-center">
+  <Image
+    src="/fashionlabs.png"
+    alt="Fashion Labs Logo"
+    width={150}
+    height={150}
+    className="max-h-[100px] max-w-[100px] object-contain mx-auto translate-x-5"
+  />
+</div>
 
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">15:00</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Demo's</p>
-                        <p className="text-xs text-gray-600">Overal - kappers demo's</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">15:30</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Pitches Texlab</p>
-                        <p className="text-xs text-gray-600">Vide</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">16:00</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Chat GPT</p>
-                        <p className="text-xs text-gray-600">Forum - Roel Mathijsen?</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">16:30</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Demo's</p>
-                        <p className="text-xs text-gray-600">Overal</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">17:30</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Fashionshow & Prijsuitrijking 1</p>
-                        <p className="text-xs text-gray-600">'t Hart</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">18:00</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">AI talk</p>
-                        <p className="text-xs text-gray-600">Forum - Elmo Mistiaen</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">19:00</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Netwerkborrel</p>
-                        <p className="text-xs text-gray-600">Horeca bar</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">19:30</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Graduation expo</p>
-                        <p className="text-xs text-gray-600">'t Hart</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">20:00</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Graduation talk</p>
-                        <p className="text-xs text-gray-600">Forum ?</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
-
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-start">
-                      <span className="font-bold text-sm mr-3 min-w-[45px]">20:40</span>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Graduation show Prijsuitrijking 2</p>
-                        <p className="text-xs text-gray-600">'t Hart</p>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-[#9480AB] text-xl font-bold ml-3">+</span>
-                </div>
+              {/* Yonder - Right */}
+              <div className="text-white text-lg font-light">
+                <Image
+                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                      alt="Yonder Logo"
+                      width={80}
+                      height={40}
+                      className="max-h-10 max-w-[120px]"
+                    />
               </div>
+            </header>
 
-              {/* Buttons */}
-              <div className="flex gap-4 mb-6">
-                <button className="bg-black text-white px-6 py-3 text-sm font-bold">TICKETS</button>
-                <button className="bg-black text-white px-6 py-3 text-sm font-bold">PLATTEGROND</button>
-              </div>
-
-              {/* Map */}
-              <div className="bg-gray-200 h-40 rounded-md mb-4 relative overflow-hidden">
-                {/* Simple map representation */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400">
-                  {/* Street lines */}
-                  <div className="absolute top-8 left-0 right-0 h-1 bg-gray-500"></div>
-                  <div className="absolute top-16 left-0 right-0 h-1 bg-gray-500"></div>
-                  <div className="absolute top-24 left-0 right-0 h-1 bg-gray-500"></div>
-                  <div className="absolute left-8 top-0 bottom-0 w-1 bg-gray-500"></div>
-                  <div className="absolute left-16 top-0 bottom-0 w-1 bg-gray-500"></div>
-
-                  {/* Location marker */}
-                  <div className="absolute top-20 left-20 w-4 h-4 bg-red-500 rounded-full border-2 border-white"></div>
-
-                  {/* Street labels */}
-                  <div className="absolute top-2 left-2 text-xs text-gray-700">Burgemeester Brokxlaan</div>
-                  <div className="absolute top-10 left-2 text-xs text-gray-700">Station Tilburg</div>
-                  <div className="absolute top-18 left-2 text-xs text-gray-700">Spoorlaan</div>
-                  <div className="absolute bottom-8 right-2 text-xs text-gray-700 font-bold">Mindlabs</div>
-                  <div className="absolute bottom-2 left-2 text-xs text-gray-700">Het Wapen van Tilburg</div>
-                </div>
-              </div>
-
-              <p className="text-center text-sm text-gray-600 mb-4">
-                Mindlabs - Locomotiefboulevard 101 5041 SE Tilburg
-              </p>
-            </div>
-
-            {/* Checkered Pattern */}
+            {/* Navigation Menu Overlay */}
             <div
-              className="w-full h-10"
-              style={{
-                backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(-45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(45deg, transparent 75%, #000 75%), 
-                                 linear-gradient(-45deg, transparent 75%, #000 75%)`,
-                backgroundSize: "20px 20px",
-                backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-              }}
-            ></div>
+              className={`absolute top-0 left-0 w-full h-full bg-black z-[55] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+            >
+              <div className="w-full h-full flex flex-col justify-between p-5 pt-[100px] pb-[50px]">
+                <ul className="list-none text-center mt-[60px]">
+                  {["HOME", "MEELOOPDAG", "PROGRAMMA", "MODESHOW", "NIEUWS", "FAVORIETEN", "CONTACT"].map((item) => (
+                    <li key={item} className="mb-[30px]">
+                      <a
+                        href="/homepagina"
+                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+                      >
+                        {item}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                  <div className="flex justify-center items-center gap-5 mb-10">
+                    <div className="flex items-center justify-center">
+                    <Image
+                    src="/fashionlabs.png"
+                    alt="Fashion Labs Logo"
+                    width={150}
+                    height={150}
+                    className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+                  />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                      alt="Yonder Logo"
+                      width={120}
+                      height={40}
+                      className="max-h-10 max-w-[120px]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* App Content */}
+            <div className="relative w-full">
+              {/* Information Section with Background */}
+              <div className="relative w-full">
+                {/* Background Image */}
+                <Image
+                  src="/background.png"
+                  alt="Background"
+                  width={390}
+                  height={400}
+                  className="w-full h-[400px] object-cover"
+                />
+
+                {/* Text Overlay */}
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-6">
+                  <h2 className="text-xl font-bold text-white mb-4">INFORMATIE</h2>
+                  <p className="text-sm text-white leading-relaxed">
+                    Op 26 juli vindt de tweede editie van Fashion Labs & Looks plaats bij MindLabs in Tilburg,
+                    georganiseerd door Yonder. Dit event wordt georganiseerd door de Yonder School voor Mode. Studenten
+                    van de opleidingen Mode en Uiterlijke Verzorging, ICT en Media, en Kunst, Cultuur en Media hebben de
+                    inhoud vormgegeven. Tijdens de bijeenkomst komen mode, beauty en interactieve technologie samen en
+                    zal er worden geshowd, gepresenteerd, geëxposeerd en genetwerkt.
+                  </p>
+                </div>
+              </div>
+
+              {/* Location and Time - Black Box */}
+              <div className="bg-black text-white p-6 text-center">
+                <div className="font-bold text-lg mb-2">MindLabs</div>
+                <div className="text-sm mb-2">Locomotiefboulevard 101 5041 SE Tilburg</div>
+                <div className="font-bold text-lg">14:30 - 21:30</div>
+              </div>
+
+              {/* Program Section */}
+              <div className="bg-[#9480AB] px-4 py-6">
+                <h2 className="text-xl font-bold text-white mb-6 text-center">PROGRAMMA</h2>
+
+                <div className="space-y-4">
+                  {programItems.map((item) => (
+                    <div key={item.id} className="space-y-2">
+                      {/* Program Item */}
+                      <div className="flex items-center">
+                        {/* Time Box */}
+                        <div className="bg-black text-white px-4 py-3 font-bold text-lg min-w-[80px] text-center">
+                          {item.time}
+                        </div>
+
+                        {/* Content Box */}
+                        <div className="bg-white flex-1 px-4 py-3 flex items-center justify-between">
+                          <h3 className="font-bold text-[#9480AB] text-lg">{item.title}</h3>
+                          {item.hasPlus && (
+                            <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0">
+                              <Plus className="w-6 h-6 text-[#9480AB]" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Location Text */}
+                      <div className="text-white text-sm pl-4">{item.location}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tickets Section */}
+              <div className="px-4 py-6 bg-[#9480AB] flex justify-center">
+                <a
+                  href="/tickets"
+                  className="bg-black text-white px-8 py-3 rounded-none font-bold text-center inline-block min-w-[200px]"
+                >
+                  TICKETS
+                </a>
+              </div>
+
+              {/* Map Section */}
+              <div className="bg-black text-white py-4 text-center">
+                <h2 className="text-xl font-bold mb-4">PLATTEGROND</h2>
+              </div>
+
+              <div className="px-4 py-6 bg-white">
+                <Image
+                  src="/maps.png"
+                  alt="Plattegrond Tilburg"
+                  width={350}
+                  height={200}
+                  className="w-full h-[200px] object-cover rounded-lg mb-4"
+                />
+                <div className="text-center text-sm text-gray-600">
+                  Mindlabs - Locomotiefboulevard 101 5041 SE Tilburg
+                </div>
+              </div>
+            </div>
 
             {/* Footer */}
-            <footer className="bg-[#1a1a1a] text-white px-8 py-8">
-              <div className="space-y-6">
-                <nav>
-                  <ul className="space-y-4">
-                    <li className="flex items-center">
-                      <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
-                        Voor studenten
-                      </Link>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
-                        Voor volwassenen
-                      </Link>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
-                        Voor bedrijven
-                      </Link>
-                    </li>
-                    <li className="flex items-center">
-                      <span className="text-[#9480AB] text-xl font-bold mr-3">+</span>
-                      <Link href="#" className="text-base hover:underline">
-                        Over FashionLabs
-                      </Link>
-                    </li>
+            <footer className="bg-[#1a1a1a] text-white p-[30px_20px_20px] relative">
+              <div className="flex justify-between max-w-[1200px] mx-auto pb-5">
+                <div>
+                  <ul className="list-none">
+                    {["Voor studenten", "Voor volwassenen", "Voor bedrijven", "Over FashionLabs"].map((item) => (
+                      <li key={item} className="mb-[15px] flex items-center">
+                        <span className="text-[#9480AB] mr-2.5 font-bold text-lg">+</span>
+                        <a href="#" className="text-white no-underline text-base hover:underline">
+                          {item}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
-                </nav>
-
-                <div className="flex justify-center items-center gap-8 py-4">
-                  <div className="flex flex-col items-center">
-                    <img src="/placeholder.svg?height=40&width=40" alt="Fashion Labs Logo" className="w-10 h-10 mb-2" />
-                    <img src="/placeholder.svg?height=24&width=60" alt="Fashion Labs Text" className="h-6" />
-                  </div>
-                  <img src="/placeholder.svg?height=18&width=60" alt="Yonder" className="h-[18px]" />
                 </div>
 
-                <div className="text-center">
-                  <button
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                    className="bg-white text-black px-8 py-3 w-full max-w-xs text-base font-medium hover:bg-gray-100 transition-colors"
-                  >
-                    Terug naar boven
-                  </button>
+                <div className="flex flex-col items-end gap-5">
+                  <div className="text-white font-bold flex flex-col items-start relative">
+                    <span className="text-xl">FASHION</span>
+                    <span className="text-xl">LABS++:</span>
+                  </div>
+                  <div className="text-white text-lg italic">yonder</div>
                 </div>
               </div>
+
+              <div className="flex justify-center mt-2.5">
+                <button
+                  onClick={scrollToTop}
+                  className="bg-white text-[#1a1a1a] border-none p-[12px_20px] w-full max-w-[300px] text-center text-base cursor-pointer transition-colors hover:bg-[#f0f0f0]"
+                >
+                  Terug naar boven
+                </button>
+              </div>
             </footer>
-          </main>
+          </div>
         </div>
       </div>
     </div>
