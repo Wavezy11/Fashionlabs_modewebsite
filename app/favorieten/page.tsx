@@ -8,13 +8,28 @@ export default function FavorietenPage() {
   const [photos, setPhotos] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  // Add the fullscreen modal component and state at the top of the component
+  // Add these lines after the useState declarations:
+
+  const [fullscreenPhoto, setFullscreenPhoto] = useState(null)
+  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false)
+  const [likedPhotos, setLikedPhotos] = useState(new Set())
+
   useEffect(() => {
     async function fetchPhotos() {
       try {
         const response = await fetch("/api/photos")
         if (response.ok) {
           const data = await response.json()
-          setPhotos(data)
+          // Ensure likes are numbers and sort by likes in descending order
+          const sortedData = data
+            .map((photo) => ({
+              ...photo,
+              likes: Number(photo.likes) || 0,
+              id: Number(photo.id),
+            }))
+            .sort((a, b) => b.likes - a.likes)
+          setPhotos(sortedData)
         }
       } catch (error) {
         console.error("Error fetching photos:", error)
@@ -25,8 +40,80 @@ export default function FavorietenPage() {
     fetchPhotos()
   }, [])
 
+  useEffect(() => {
+    // Load liked photos from localStorage
+    const savedLikes = localStorage.getItem("likedPhotos")
+    if (savedLikes) {
+      setLikedPhotos(new Set(JSON.parse(savedLikes)))
+    }
+  }, [])
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  // Add this function after the toggleMenu function
+  const handleLike = async (photoId) => {
+    // Check if photo is already liked
+    if (likedPhotos.has(photoId)) {
+      alert("Je hebt deze foto al geliked!")
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/photos/${photoId}/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (response.ok) {
+        const updatedPhoto = await response.json()
+        console.log("Like updated successfully:", updatedPhoto)
+
+        // Update the photos array with the new likes count
+        setPhotos((prevPhotos) => {
+          const newPhotos = prevPhotos.map((photo) => {
+            if (photo.id === photoId) {
+              return { ...photo, likes: Number(updatedPhoto.likes) }
+            }
+            return photo
+          })
+
+          // Sort by likes in descending order
+          return newPhotos.sort((a, b) => Number(b.likes) - Number(a.likes))
+        })
+
+        // If we're in fullscreen mode, update the fullscreen photo too
+        if (fullscreenPhoto && fullscreenPhoto.id === photoId) {
+          setFullscreenPhoto((prevPhoto) => ({
+            ...prevPhoto,
+            likes: Number(updatedPhoto.likes),
+          }))
+        }
+
+        // Add to liked photos and save to localStorage
+        const newLikedPhotos = new Set(likedPhotos)
+        newLikedPhotos.add(photoId)
+        setLikedPhotos(newLikedPhotos)
+        localStorage.setItem("likedPhotos", JSON.stringify([...newLikedPhotos]))
+      } else {
+        const errorData = await response.json()
+        console.error("Error liking photo:", errorData)
+      }
+    } catch (error) {
+      console.error("Error liking photo:", error)
+    }
+  }
+
+  const openFullscreen = (photo) => {
+    setFullscreenPhoto(photo)
+    setIsFullscreenOpen(true)
+  }
+
+  const closeFullscreen = () => {
+    setIsFullscreenOpen(false)
   }
 
   return (
@@ -166,34 +253,97 @@ export default function FavorietenPage() {
             <h1 className="text-xl font-bold text-center py-5 tracking-wider">FAVORIETEN</h1>
 
             {/* Favorites Info */}
-            <div className="px-8 pb-6" >
-             <p className="text-center mb-8 bg-[#9480AB]" style={{ color: 'white' }}>
-  Bij Favorieten vind je de mooiste foto&apos;s van onze bezoekers! Upload je eigen foto, verzamel likes
-  en maak kans op €100. De winnaar wordt een maand na de show bekendgemaakt op onze socials!
-</p>
+            <div className="px-8 pb-6">
+              <p className="text-center mb-8 bg-[#9480AB]" style={{ color: "white" }}>
+                Bij Favorieten vind je de mooiste foto&apos;s van onze bezoekers! Upload je eigen foto, verzamel likes
+                en maak kans op €100. De winnaar wordt een maand na de show bekendgemaakt op onze socials!
+              </p>
 
               <h2 className="font-bold text-lg mb-4">FOTO&apos;S VAN FASHIONLABS 2024</h2>
 
-              {/* Photo Grid */}
+              {/* Photo Grid - Single Column Layout */}
               {isLoading ? (
                 <div className="flex justify-center py-8">
                   <div className="w-8 h-8 border-4 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {photos.slice(0, 4).map((photo) => (
-                    <div key={photo.id} className="aspect-square bg-gray-200 rounded-md relative overflow-hidden">
-                      <img
-                        src={photo.image_url || "/placeholder.svg"}
-                        alt={photo.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.src = "/placeholder.svg?height=200&width=200"
-                        }}
-                      />
-                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2">
-                        <p className="text-xs font-bold">{photo.title}</p>
-                        <p className="text-xs">❤️ {photo.likes}</p>
+                <div className="space-y-8 mb-8">
+                  {photos.map((photo, index) => (
+                    <div key={photo.id} className="relative mx-auto max-w-[320px]">
+                      {/* Photo Container */}
+                      <div className="relative aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden shadow-lg">
+                        <img
+                          src={photo.image_url || "/placeholder.svg"}
+                          alt={photo.title}
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            e.target.src = "/placeholder.svg?height=300&width=400"
+                          }}
+                        />
+
+                        {/* Fullscreen Button */}
+                        <button
+                          onClick={() => openFullscreen(photo)}
+                          className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 p-2 rounded-full transition-all duration-200"
+                          aria-label="View fullscreen"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <polyline points="9 21 3 21 3 15"></polyline>
+                            <line x1="21" y1="3" x2="14" y2="10"></line>
+                            <line x1="3" y1="21" x2="10" y2="14"></line>
+                          </svg>
+                        </button>
+
+                        {/* Overlay with title and like button */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <p className="text-white font-bold text-lg mb-1">{photo.title}</p>
+                              <p className="text-white/80 text-sm">by {photo.user_name || "Anonymous"}</p>
+                            </div>
+
+                            {/* Like Button and Count */}
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={() => handleLike(photo.id)}
+                                disabled={likedPhotos.has(photo.id)}
+                                className={`flex items-center gap-1 backdrop-blur-sm rounded-full px-3 py-2 transition-all duration-200 active:scale-95 ${
+                                  likedPhotos.has(photo.id)
+                                    ? "bg-green-500/30 cursor-not-allowed"
+                                    : "bg-white/20 hover:bg-white/30"
+                                }`}
+                              >
+                                <span className="text-red-500 text-lg">❤️</span>
+                                <span className="text-white font-bold">{photo.likes}</span>
+                                {likedPhotos.has(photo.id) && <span className="text-green-400 text-sm ml-1">✓</span>}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Ranking Badge for top 3 */}
+                        {index < 3 && (
+                          <div className="absolute top-3 left-3">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
+                                index === 0 ? "bg-yellow-500" : index === 1 ? "bg-gray-400" : "bg-orange-600"
+                              }`}
+                            >
+                              {index + 1}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -282,6 +432,71 @@ export default function FavorietenPage() {
           </main>
         </div>
       </div>
+
+      {/* Fullscreen Modal */}
+      {isFullscreenOpen && fullscreenPhoto && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 overflow-hidden"
+          onClick={closeFullscreen}
+        >
+          <div className="relative max-w-4xl w-full h-[80vh] flex flex-col">
+            <button
+              onClick={closeFullscreen}
+              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200 z-10"
+              aria-label="Close fullscreen"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            <div className="flex-1 overflow-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="min-h-full w-full flex items-center justify-center">
+                <img
+                  src={fullscreenPhoto.image_url || "/placeholder.svg"}
+                  alt={fullscreenPhoto.title}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            </div>
+
+            <div className="bg-black/70 p-4 flex justify-between items-center">
+              <div>
+                <h3 className="text-white text-xl font-bold">{fullscreenPhoto.title}</h3>
+                <p className="text-white/70">by {fullscreenPhoto.user_name || "Anonymous"}</p>
+              </div>
+
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleLike(fullscreenPhoto.id)
+                }}
+                disabled={likedPhotos.has(fullscreenPhoto.id)}
+                className={`flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 transition-all duration-200 ${
+                  likedPhotos.has(fullscreenPhoto.id)
+                    ? "bg-green-500/30 cursor-not-allowed"
+                    : "bg-white/20 hover:bg-white/30"
+                }`}
+              >
+                <span className="text-red-500 text-xl">❤️</span>
+                <span className="text-white font-bold">{fullscreenPhoto.likes}</span>
+                {likedPhotos.has(fullscreenPhoto.id) && <span className="text-green-400 text-xl ml-1">✓</span>}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

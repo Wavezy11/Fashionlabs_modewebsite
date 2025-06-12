@@ -1,0 +1,126 @@
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+
+export default function FashionHeader() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
+  return (
+    <div className="min-h-screen bg-black flex justify-center items-center overflow-hidden">
+      <div className="p-5 bg-black">
+        <div className="w-[390px] h-[844px] bg-white rounded-[60px] shadow-[0_0_30px_rgba(0,0,0,0.7)] relative overflow-hidden">
+          {/* Screen Content */}
+          <div className="screen h-full w-full overflow-y-auto relative">
+            {/* Header */}
+            <header className="h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex">
+              {/* Logo */}
+              <div className="absolute left-[38%] top-[22.5%] h-full flex">
+                <Image
+                  src="/fashionlabs.png"
+                  alt="Fashion Labs Logo"
+                  width={150}
+                  height={150}
+                  className="max-h-[100px] max-w-[100px] object-contain mx-auto"
+                />
+              </div>
+
+              {/* Yonder */}
+              <div className="absolute top-[37%] left-[5%] max-h-[68px] h-full flex items-center justify-center pr-5">
+                <div className="text-white text-lg font-light">
+                  <Image
+                    src="/Yonder-paars-White.png"
+                    alt="Yonder Logo"
+                    width={80}
+                    height={40}
+                    className="max-h-10 max-w-[120px]"
+                  />
+                </div>
+              </div>
+
+              {/* Menu Icon */}
+              <div className="absolute top-[52%] right-[5%] max-h-5 h-full flex items-center justify-center pr-5 z-[60]">
+                <div className="relative w-[30px] h-[30px] cursor-pointer" onClick={toggleMenu}>
+                  <span
+                    className={`absolute w-full h-[3px] bg-[#9480AB] rounded-sm top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300 ${
+                      isMenuOpen ? "rotate-45" : ""
+                    }`}
+                  ></span>
+                  <span
+                    className={`absolute w-[3px] h-full bg-[#9480AB] rounded-sm left-1/2 top-0 transform -translate-x-1/2 transition-all duration-300 ${
+                      isMenuOpen ? "rotate-45" : ""
+                    }`}
+                  ></span>
+                </div>
+              </div>
+            </header>
+
+            {/* Navigation Menu Overlay */}
+            <div
+              className={`absolute top-0 left-0 w-full h-full bg-black z-[55] flex justify-center items-center transition-all duration-300 ${
+                isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
+            >
+              <div className="w-full h-full flex flex-col justify-between p-5 pt-[100px] pb-[50px]">
+                <ul className="list-none text-center mt-[60px]">
+                  {[
+                    { name: "HOME", path: "/" },
+                    { name: "MEELOOPDAG", path: "/meeloopdag" },
+                    { name: "PROGRAMMA", path: "/programma" },
+                    { name: "MODESHOW", path: "/modeshow" },
+                    { name: "NIEUWS", path: "/nieuws" },
+                    { name: "FAVORIETEN", path: "/favorieten" },
+                    { name: "CONTACT", path: "/contact" },
+                  ].map((item) => (
+                    <li key={item.name} className="mb-[30px]">
+                      <a
+                        href={item.path}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+                      >
+                        {item.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="flex justify-center items-center gap-5 mb-10">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src="/fashionlabs.png"
+                      alt="Fashion Labs Logo"
+                      width={150}
+                      height={150}
+                      className="max-h-[100px] max-w-[100px] object-contain mx-auto"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src="/Yonder-paars-White.png"
+                      alt="Yonder Logo"
+                      width={120}
+                      height={40}
+                      className="max-h-10 max-w-[120px]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Rest of your content can go here */}
+            <main className="bg-white h-full">
+              <div className="p-6">
+                <h1 className="text-2xl font-bold">Your content here</h1>
+                <p className="text-gray-600">Add your main content below the header</p>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -4,7 +4,6 @@ import pool from "../../../lib/database"
 export async function GET() {
   try {
     const [rows] = await pool.execute("SELECT * FROM pending_photos ORDER BY created_at DESC")
-
     return NextResponse.json(rows)
   } catch (error) {
     console.error("Database error:", error)

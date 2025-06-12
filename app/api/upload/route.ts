@@ -14,18 +14,22 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    // Genereer een unieke bestandsnaam
-    const fileExtension = file.name.split(".").pop()
-    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${fileExtension}`
-    const filePath = path.join(process.cwd(), "public", "uploads", fileName)
+    // Create unique filename
+    const timestamp = Date.now()
+    const randomString = Math.random().toString(36).substring(2, 15)
+    const extension = path.extname(file.name)
+    const filename = `${timestamp}-${randomString}${extension}`
 
-    // Schrijf het bestand naar de public/uploads folder
-    await writeFile(filePath, buffer)
+    // Save to public/uploads directory
+    const uploadDir = path.join(process.cwd(), "public", "uploads")
+    const filepath = path.join(uploadDir, filename)
 
-    return NextResponse.json({
-      success: true,
-      url: `/uploads/${fileName}`,
-    })
+    await writeFile(filepath, buffer)
+
+    // Return the public URL
+    const url = `/uploads/${filename}`
+
+    return NextResponse.json({ success: true, url })
   } catch (error) {
     console.error("Upload error:", error)
     return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })

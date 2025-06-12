@@ -20,11 +20,11 @@ export default function FashionLabsApp() {
   const [isDragging, setIsDragging] = useState(false)
 
   const slides = [
-    "/placeholder.svg?height=200&width=275&text=Slide+1",
-    "/placeholder.svg?height=200&width=275&text=Slide+2",
-    "/placeholder.svg?height=200&width=275&text=Slide+3",
-    "/placeholder.svg?height=200&width=275&text=Slide+4",
-    "/placeholder.svg?height=200&width=275&text=Slide+5",
+    "/1.png?height=200&width=275&text=Slide+1",
+    "/2.png?height=200&width=275&text=Slide+2",
+    "/3.png?height=200&width=275&text=Slide+3",
+    "/4.png?height=200&width=275&text=Slide+4",
+    "/5.png?height=200&width=275&text=Slide+5",
   ]
 
   const courses = [
@@ -156,44 +156,33 @@ export default function FashionLabsApp() {
     <div className="min-h-screen bg-black flex justify-center items-center overflow-hidden">
       <div className="p-5 bg-black">
         <div className="w-[390px] h-[844px] bg-white rounded-[60px] shadow-[0_0_30px_rgba(0,0,0,0.7)] relative overflow-hidden">
-          {/* iPhone Notch */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[210px] h-[30px] bg-black rounded-b-[15px] z-10 flex justify-center items-center">
-            <div className="flex justify-between items-center w-full px-2.5 text-white text-xs font-semibold">
-              <span className="font-bold">9:41</span>
-              <div className="flex items-center gap-0.5">
-                <div className="w-4 h-2 bg-white rounded-sm"></div>
-                <div className="w-4 h-2 bg-gray-300 rounded-sm"></div>
-                <div className="w-4 h-2 bg-gray-300 rounded-sm"></div>
-              </div>
-            </div>
-          </div>
-
           {/* Screen Content */}
-          <div className="screen h-full w-full overflow-y-auto pt-[30px] relative">
+          <div className="screen h-full w-full overflow-y-auto relative">
             {/* Header */}
             <header className="h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex">
               {/* Logo */}
               <div className="absolute left-[38%] top-[22.5%] h-full flex">
-             <Image
-                                src="/fashionlabs.png"
-                                alt="Fashion Labs Logo"
-                                width={150}
-                                height={150}
-                                className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                              />
+                <Image
+                  src="/fashionlabs.png"
+                  alt="Fashion Labs Logo"
+                  width={150}
+                  height={150}
+                  className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+                />
               </div>
 
               {/* Yonder */}
               <div className="absolute top-[37%] left-[5%] max-h-[68px] h-full flex items-center justify-center pr-5">
-  <div className="text-white text-lg font-light">
-                <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={80}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-              </div>              </div>
+                <div className="text-white text-lg font-light">
+                  <Image
+                    src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                    alt="Yonder Logo"
+                    width={80}
+                    height={40}
+                    className="max-h-10 max-w-[120px]"
+                  />
+                </div>{" "}
+              </div>
 
               {/* Menu Icon */}
               <div className="absolute top-[52%] right-[5%] max-h-5 h-full flex items-center justify-center pr-5 z-[60]">
@@ -214,13 +203,22 @@ export default function FashionLabsApp() {
             >
               <div className="w-full h-full flex flex-col justify-between p-5 pt-[100px] pb-[50px]">
                 <ul className="list-none text-center mt-[60px]">
-                  {["HOME", "MEELOOPDAG", "PROGRAMMA", "MODESHOW", "NIEUWS", "FAVORIETEN", "CONTACT"].map((item) => (
-                    <li key={item} className="mb-[30px]">
+                  {[
+                    { name: "HOME", path: "/" },
+                    { name: "MEELOOPDAG", path: "/meeloopdag" },
+                    { name: "PROGRAMMA", path: "/programma" },
+                    { name: "MODESHOW", path: "/modeshow" },
+                    { name: "NIEUWS", path: "/nieuws" },
+                    { name: "FAVORIETEN", path: "/favorieten" },
+                    { name: "CONTACT", path: "/contact" },
+                  ].map((item) => (
+                    <li key={item.name} className="mb-[30px]">
                       <a
-                        href="#"
+                        href={item.path}
+                        onClick={() => setIsMenuOpen(false)}
                         className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
                       >
-                        {item}
+                        {item.name}
                       </a>
                     </li>
                   ))}
@@ -228,13 +226,13 @@ export default function FashionLabsApp() {
 
                 <div className="flex justify-center items-center gap-5 mb-10">
                   <div className="flex items-center justify-center">
-                     <Image
-                                    src="/fashionlabs.png"
-                                    alt="Fashion Labs Logo"
-                                    width={150}
-                                    height={150}
-                                    className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                                  />
+                    <Image
+                      src="/fashionlabs.png"
+                      alt="Fashion Labs Logo"
+                      width={150}
+                      height={150}
+                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+                    />
                   </div>
                   <div className="flex items-center justify-center">
                     <Image
@@ -259,11 +257,11 @@ export default function FashionLabsApp() {
                   width={390}
                   height={500}
                   className="w-full h-full object-cover absolute left-0 top-[30vh]"
-                /> 
-                <a href="/">
-                <button className="absolute -bottom-[150px] left-1/2 transform -translate-x-1/2 bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[2] font-bold">
-                  PROGRAMMA
-                </button>
+                />
+                <a href="/informatie">
+                  <button className="absolute -bottom-[150px] left-1/2 transform -translate-x-1/2 bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[2] font-bold">
+                    PROGRAMMA
+                  </button>
                 </a>
               </div>
 
@@ -365,9 +363,9 @@ export default function FashionLabsApp() {
                     className="h-full w-full object-cover justify-center items-center z-[4] relative"
                   />
                   <a href="/meeloopdag">
-                  <button className="absolute bottom-[3.5%] left-1/2 transform translate-x-[-50%] translate-y-[-50%] bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[20] font-bold">
-                    AANMELDEN
-                  </button>
+                    <button className="absolute bottom-[3.5%] left-1/2 transform translate-x-[-50%] translate-y-[-50%] bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[20] font-bold">
+                      AANMELDEN
+                    </button>
                   </a>
                 </div>
 
@@ -386,11 +384,16 @@ export default function FashionLabsApp() {
               <div className="flex justify-between max-w-[1200px] mx-auto pb-5">
                 <div>
                   <ul className="list-none">
-                    {["Voor studenten", "Voor volwassenen", "Voor bedrijven", "Over FashionLabs"].map((item) => (
-                      <li key={item} className="mb-[15px] flex items-center">
+                    {[
+                      { name: "Voor studenten", path: "/voor-studenten" },
+                      { name: "Voor volwassenen", path: "/voor-volwassenen" },
+                      { name: "Voor bedrijven", path: "/voor-bedrijven" },
+                      { name: "Over FashionLabs", path: "/over-fashionlabs" },
+                    ].map((item) => (
+                      <li key={item.name} className="mb-[15px] flex items-center">
                         <span className="text-[#9480AB] mr-2.5 font-bold text-lg">+</span>
-                        <a href="#" className="text-white no-underline text-base hover:underline">
-                          {item}
+                        <a href={item.path} className="text-white no-underline text-base hover:underline">
+                          {item.name}
                         </a>
                       </li>
                     ))}
@@ -399,22 +402,22 @@ export default function FashionLabsApp() {
 
                 <div className="flex flex-col items-end gap-5">
                   <div className="flex items-center justify-center">
-                     <Image
-                                        src="/fashionlabs.png"
-                                        alt="Fashion Labs Logo"
-                                        width={150}
-                                        height={150}
-                                        className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                                      />
+                    <Image
+                      src="/fashionlabs.png"
+                      alt="Fashion Labs Logo"
+                      width={150}
+                      height={150}
+                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+                    />
                   </div>
                   <div className="flex items-center justify-center">
-                     <Image
-                                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                                      alt="Yonder Logo"
-                                      width={102.5}
-                                      height={40}
-                                      className="max-h-10 max-w-[120px]"
-                                    />
+                    <Image
+                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                      alt="Yonder Logo"
+                      width={102.5}
+                      height={40}
+                      className="max-h-10 max-w-[120px]"
+                    />
                   </div>
                 </div>
               </div>
