@@ -252,7 +252,7 @@ export default function FashionLabsApp() {
               {/* Hero Section */}
               <div className="relative w-full h-[500px] -top-[220px]">
                 <Image
-                  src="/background-hero.png?height=500&width=390&text=Hero+Image"
+                  src="/background-hero foute.jpg?height=500&width=390&text=Hero+Image"
                   alt="Hero"
                   width={390}
                   height={500}

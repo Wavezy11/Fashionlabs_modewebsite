@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus } from "lucide-react"
+import { Plus, Minus } from "lucide-react"
 import Image from "next/image"
 
 export default function FashionLabsProgram() {
@@ -11,82 +11,92 @@ export default function FashionLabsProgram() {
   const programItems = [
     {
       id: "texlab",
-      time: "14:30",
+      time: "15:00",
       title: "TexLab expo",
       location: "'t Hart / Vide - 2e jaars mode",
-      hasPlus: true,
+      hasPlus: false,
+      isExpandable: false,
     },
     {
-      id: "demos1",
+      id: "Pitches",
       time: "15:00",
-      title: "Demo's",
-      location: "Overal - kappers demo's",
-      hasPlus: true,
-    },
-    {
-      id: "pitches",
-      time: "15:30",
-      title: "Pitches Texlab",
+      title: "Pitches TexLab",
       location: "Vide",
-      hasPlus: true,
+      hasPlus: false,
+      isExpandable: false,
     },
     {
-      id: "chatgpt",
-      time: "16:00",
-      title: "Chat GPT",
-      location: "Forum - Roel Mathijsen?",
-      hasPlus: true,
-    },
-    {
-      id: "demos2",
+      id: "Digital Alumni talk",
       time: "16:30",
-      title: "Demo's",
-      location: "Overal",
-      hasPlus: true,
+      title: "Digital Alumni talk",
+      location: "Forum / Alumni Student Wanida",
+      hasPlus: false,
+      isExpandable: false,
     },
     {
-      id: "fashionshow1",
+      id: "Fashionshow",
       time: "17:30",
-      title: "Fashionshow & Prijsuitrijking 1",
-      location: "'t Hart",
+      title: "Fashionshow",
+      location: "`t Hart / mode en kappers",
       hasPlus: true,
+      isExpandable: true,
     },
     {
-      id: "altalk",
-      time: "18:00",
-      title: "Al talk",
-      location: "Forum - Elmo Mistiaen",
-      hasPlus: true,
-    },
-    {
-      id: "netwerkborrel",
-      time: "19:00",
-      title: "Netwerkborrel",
+      id: "Netwerk borrel",
+      time: "18:30",
+      title: "Netwerk borrel",
       location: "Horeca bar",
-      hasPlus: true,
+      hasPlus: false,
+      isExpandable: false,
     },
     {
-      id: "graduation-expo",
+      id: "AI talk Elmo Mistiaen",
+      time: "19:00",
+      title: "AI talk Elmo Mistiaen",
+      location: "Forum / Elmo Mistiaen",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "Graduation Pitches",
       time: "19:30",
-      title: "Graduation expo",
-      location: "'t Hart",
+      title: "Graduation Pitches",
+      location: "t Hart / vide *",
       hasPlus: true,
+      isExpandable: true,
     },
     {
-      id: "graduation-talk",
+      id: "Graduation Talk",
       time: "20:00",
-      title: "Graduation talk",
-      location: "Forum ?",
-      hasPlus: true,
+      title: "Graduation Talk",
+      location: "Forum / Jim intervieuw, Nisa, Jomar en .......",
+      hasPlus: false,
+      isExpandable: false,
     },
     {
-      id: "graduation-show",
-      time: "20:40",
-      title: "Graduation show Prijsuitrijking 2",
-      location: "'t Hart",
+      id: "Graduation show",
+      time: "20:30",
+      title: "Graduation show",
+      location: "'t Hart / examenstudenten mode",
       hasPlus: true,
+      isExpandable: true,
     },
   ]
+
+  const expandedContent = {
+    Fashionshow: {
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    },
+    "Graduation Pitches": {
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    },
+    "Graduation show": {
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+    },
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -108,19 +118,10 @@ export default function FashionLabsProgram() {
       <div className="p-5 bg-black">
         <div className="w-[390px] h-[844px] bg-white rounded-[60px] shadow-[0_0_30px_rgba(0,0,0,0.7)] relative overflow-hidden">
           {/* iPhone Notch */}
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[210px] h-[30px] bg-black rounded-b-[15px] z-10 flex justify-center items-center">
-            <div className="flex justify-between items-center w-full px-2.5 text-white text-xs font-semibold">
-              <span className="font-bold">9:41</span>
-              <div className="flex items-center gap-0.5">
-                <div className="w-1 h-1 bg-white rounded-full"></div>
-                <div className="w-1 h-1 bg-white rounded-full"></div>
-                <div className="w-1 h-1 bg-white rounded-full"></div>
-              </div>
-            </div>
-          </div>
+   
 
           {/* Screen Content */}
-          <div className="screen h-full w-full overflow-y-auto pt-[30px] relative">
+          <div className="screen h-full w-full overflow-y-auto pt-[0] relative">
             {/* Header */}
             <header className="h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex items-center justify-between px-6">
               {/* Plus Icon - Left */}
@@ -129,25 +130,25 @@ export default function FashionLabsProgram() {
               </div>
 
               {/* Fashion Labs Logo - Center */}
-  <div className="text-white text-lg font-bold text-center">
-  <Image
-    src="/fashionlabs.png"
-    alt="Fashion Labs Logo"
-    width={150}
-    height={150}
-    className="max-h-[100px] max-w-[100px] object-contain mx-auto translate-x-5"
-  />
-</div>
+              <div className="text-white text-lg font-bold text-center">
+                <Image
+                  src="/fashionlabs.png"
+                  alt="Fashion Labs Logo"
+                  width={150}
+                  height={150}
+                  className="max-h-[100px] max-w-[100px] object-contain mx-auto translate-x-5"
+                />
+              </div>
 
               {/* Yonder - Right */}
               <div className="text-white text-lg font-light">
                 <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={80}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
+                  src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                  alt="Yonder Logo"
+                  width={80}
+                  height={40}
+                  className="max-h-10 max-w-[120px]"
+                />
               </div>
             </header>
 
@@ -169,15 +170,15 @@ export default function FashionLabsProgram() {
                   ))}
                 </ul>
 
-                  <div className="flex justify-center items-center gap-5 mb-10">
-                    <div className="flex items-center justify-center">
+                <div className="flex justify-center items-center gap-5 mb-10">
+                  <div className="flex items-center justify-center">
                     <Image
-                    src="/fashionlabs.png"
-                    alt="Fashion Labs Logo"
-                    width={150}
-                    height={150}
-                    className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                  />
+                      src="/fashionlabs.png"
+                      alt="Fashion Labs Logo"
+                      width={150}
+                      height={150}
+                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+                    />
                   </div>
                   <div className="flex items-center justify-center">
                     <Image
@@ -244,7 +245,11 @@ export default function FashionLabsProgram() {
                           <h3 className="font-bold text-[#9480AB] text-lg">{item.title}</h3>
                           {item.hasPlus && (
                             <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0">
-                              <Plus className="w-6 h-6 text-[#9480AB]" />
+                              {expandedProgram === item.id ? (
+                                <Minus className={`w-6 h-6 text-[#9480AB] ${item.isExpandable ? "stroke-[3]" : ""}`} />
+                              ) : (
+                                <Plus className={`w-6 h-6 text-[#9480AB] ${item.isExpandable ? "stroke-[3]" : ""}`} />
+                              )}
                             </button>
                           )}
                         </div>
@@ -252,6 +257,15 @@ export default function FashionLabsProgram() {
 
                       {/* Location Text */}
                       <div className="text-white text-sm pl-4">{item.location}</div>
+
+                      {/* Expanded Content */}
+                      {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
+                        <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
+                          <p className="text-gray-800 text-sm leading-relaxed">
+                            {expandedContent[item.title].description}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
