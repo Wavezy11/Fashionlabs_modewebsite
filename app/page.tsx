@@ -206,10 +206,11 @@ export default function FashionLabsApp() {
               <ul className="list-none text-center">
                 {[
                   { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/programma" },
-                  { name: "FASHIONSHOW", path: "/modeshow" },
-                  { name: "TAILORSHOW", path: "/TAILERSHOW" },
-                  { name: "NIEUWS", path: "/nieuws" },
+                  { name: "PROGRAMMA", path: "/informatie" },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
+                  { name: "TAILORSHOW", path: "/tailor-show" },
+                  { name: "NIEUWS", path: "/" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },

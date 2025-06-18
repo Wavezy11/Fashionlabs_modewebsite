@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -53,128 +54,91 @@ export default function LoginPage() {
     }
   }
 
+  const scrollToTop = () => {
+    const scrollContainer = document.querySelector(".scroll-container")
+    if (scrollContainer) {
+      scrollContainer.scrollTo({ top: 0, behavior: "smooth" })
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="relative w-[390px] h-[844px] bg-white rounded-[60px] shadow-2xl overflow-hidden">
-        {/* iPhone Notch */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[210px] h-[30px] bg-black rounded-b-[15px] z-20 flex items-center justify-between px-4">
-          <span className="text-white text-xs font-semibold">9:41</span>
-          <div className="flex items-center gap-1">
-            <div className="flex gap-[2px]">
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-              <div className="w-1 h-1 bg-white rounded-full"></div>
-            </div>
-            <div className="w-6 h-3 border border-white rounded-sm">
-              <div className="w-4 h-2 bg-white rounded-sm m-[1px]"></div>
-            </div>
-          </div>
-        </div>
-
+    <div className="min-h-screen bg-black flex items-center justify-center md:p-4 p-0">
+      <div className="relative w-full h-full md:w-[390px] md:max-w-[390px] md:h-[90vh] md:max-h-[844px] bg-white md:rounded-[60px] md:shadow-2xl overflow-hidden overscroll-none">
         {/* Screen Content */}
-        <div className="h-full pt-[30px] overflow-y-auto overflow-x-hidden">
-          {/* Header - Fixed Position */}
-          <header className="fixed top-[30px] left-0 right-0 h-[145px] bg-[#242424] flex items-center justify-between px-4 z-10 w-[390px] mx-auto">
-            {/* Menu Icon */}
-            <div className="w-8 h-8 cursor-pointer relative z-20" onClick={toggleMenu}>
-              <div
-                className={`absolute w-full h-[3px] bg-[#9480AB] rounded transition-all duration-300 ${isMenuOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-2"}`}
-              ></div>
-              <div
-                className={`absolute w-full h-[3px] bg-[#9480AB] rounded transition-all duration-300 ${isMenuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-2"}`}
-              ></div>
+        <div className="scroll-container h-full pt-[0] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overscroll-none">
+          {/* Header */}
+          <header className={`h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex ${isMenuOpen ? "relative" : ""}`}>
+            {/* Logo */}
+            <div className="absolute left-[40%] top-[22.5%] h-full flex">
+              <Image
+                src="/fashionlabs.png"
+                alt="Fashion Labs Logo"
+                width={150}
+                height={150}
+                className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+              />
             </div>
 
-            {/* Fashion Labs Logo */}
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <div className="flex flex-col items-center">
-                <img src="/placeholder.svg?height=32&width=32" alt="Fashion Labs Logo" className="w-8 h-8 mb-1" />
-                <img src="/placeholder.svg?height=24&width=60" alt="Fashion Labs Text" className="h-6" />
+            {/* Yonder */}
+            <div className="absolute top-[40%] left-[7.5%] max-h-[68px] h-full flex items-center justify-center pr-5">
+              <div className="text-white text-lg font-light">
+                <Image
+                  src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                  alt="Yonder Logo"
+                  width={80}
+                  height={40}
+                  className="max-h-10 max-w-[120px]"
+                />
               </div>
             </div>
 
-            {/* Yonder Logo */}
-            <img src="/placeholder.svg?height=18&width=60" alt="Yonder" className="h-[18px]" />
+            {/* Menu Icon */}
+            <div className="absolute top-[55%] right-[7.5%] max-h-5 h-full flex items-center justify-center pr-5 z-[60]">
+              <div className="relative w-[30px] h-[30px] cursor-pointer" onClick={toggleMenu}>
+                <span
+                  className={`absolute w-full h-[5px] bg-[#9480AB] rounded-sm top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
+                ></span>
+                <span
+                  className={`absolute w-[5px] h-full bg-[#9480AB] rounded-sm left-1/2 top-0 transform -translate-x-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
+                ></span>
+              </div>
+            </div>
           </header>
 
           {/* Navigation Menu Overlay */}
           <div
-            className={`fixed inset-0 bg-black z-30 transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
-            onClick={toggleMenu}
+            className={`absolute top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
-            <div className="flex flex-col justify-between h-full pt-32 pb-12 px-8" onClick={(e) => e.stopPropagation()}>
-              <nav className="text-center">
-                <ul className="space-y-8">
-                  <li>
+            <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
+              <ul className="list-none text-center">
+                {[
+                  { name: "HOME", path: "/" },
+                  { name: "PROGRAMMA", path: "/programma" },
+                  { name: "FASHIONSHOW", path: "/modeshow" },
+                  { name: "TAILORSHOW", path: "/TAILERSHOW" },
+                  { name: "NIEUWS", path: "/nieuws" },
+                  { name: "MOMENTS", path: "/favorieten" },
+                  { name: "INFORMATIE", path: "/informatie" },
+                  { name: "CONTACT", path: "/contact" },
+                ].map((item) => (
+                  <li key={item.name} className="mb-[20px]">
                     <Link
-                      href="/"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
+                      href={item.path}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
                     >
-                      HOME
+                      {item.name}
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href="/"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      MEELOOPDAG
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/tickets"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      MODESHOW
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/informatie"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      INFORMATIE
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/favorieten"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      FAVORIETEN
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/contact"
-                      className="text-white text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors"
-                      onClick={toggleMenu}
-                    >
-                      CONTACT
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="flex justify-center items-center gap-8">
-                <div className="flex flex-col items-center">
-                  <img src="/placeholder.svg?height=48&width=48" alt="Fashion Labs Logo" className="w-12 h-12 mb-2" />
-                  <img src="/placeholder.svg?height=32&width=80" alt="Fashion Labs Text" className="h-8" />
-                </div>
-                <img src="/placeholder.svg?height=18&width=60" alt="Yonder" className="h-[18px]" />
-              </div>
+                ))}
+              </ul>
             </div>
           </div>
 
           {/* Main Content */}
-          <main className="bg-white pt-[145px]">
+          <main className="bg-white relative">
             {/* Login Form */}
             <div className="flex flex-col items-center justify-center px-8 py-20">
               <h1 className="text-3xl font-bold mb-8">INLOGGEN</h1>
@@ -188,7 +152,7 @@ export default function LoginPage() {
                   placeholder="Gebruikersnaam*"
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full p-4 border border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
+                  className="w-full p-4 border-2 border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
                   required
                 />
                 <input
@@ -197,7 +161,7 @@ export default function LoginPage() {
                   placeholder="Wachtwoord*"
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full p-4 border border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
+                  className="w-full p-4 border-2 border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
                   required
                 />
 
@@ -229,15 +193,56 @@ export default function LoginPage() {
             ></div>
 
             {/* Footer */}
-            <footer className="bg-[#1a1a1a] text-white px-8 py-8">
-              <div className="space-y-6">
-                <div className="flex justify-center items-center gap-8 py-4">
-                  <div className="flex flex-col items-center">
-                    <img src="/placeholder.svg?height=40&width=40" alt="Fashion Labs Logo" className="w-10 h-10 mb-2" />
-                    <img src="/placeholder.svg?height=24&width=60" alt="Fashion Labs Text" className="h-6" />
-                  </div>
-                  <img src="/placeholder.svg?height=18&width=60" alt="Yonder" className="h-[18px]" />
+            <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
+              <div className="flex justify-between w-full pb-5">
+                <div>
+                  <ul className="list-none">
+                    {[
+                      { name: "Voor studenten", path: "/voor-studenten" },
+                      { name: "Voor volwassenen", path: "/voor-volwassenen" },
+                      { name: "Voor bedrijven", path: "/voor-bedrijven" },
+                      { name: "Over FashionLabs", path: "/over-fashionlabs" },
+                    ].map((item) => (
+                      <li key={item.name} className="mb-[15px] flex items-center">
+                        <span className="text-[#9480AB] mr-2.5 font-bold text-lg">+</span>
+                        <Link href={item.path} className="text-white no-underline text-base hover:underline">
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
+
+                <div className="flex flex-col items-end gap-5">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src="/fashionlabs.png"
+                      alt="Fashion Labs Logo"
+                      width={150}
+                      height={150}
+                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                      alt="Yonder Logo"
+                      width={102.5}
+                      height={40}
+                      className="max-h-10 max-w-[120px]"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Back to top button - full width at bottom */}
+              <div className="w-full">
+                <button
+                  onClick={scrollToTop}
+                  className="bg-white text-[#1a1a1a] border-none p-4 w-full text-center text-base cursor-pointer transition-colors hover:bg-[#f0f0f0] font-medium rounded-t-lg"
+                >
+                  Terug naar boven
+                </button>
               </div>
             </footer>
           </main>
