@@ -146,9 +146,9 @@ export default function FashionLabsApp() {
   }
 
   const scrollToTop = () => {
-    const screen = document.querySelector(".scroll-container") || window
-    if (screen && "scrollTo" in screen) {
-      screen.scrollTo({ top: 0, behavior: "smooth" })
+    const scrollContainer = document.querySelector(".scroll-container")
+    if (scrollContainer) {
+      scrollContainer.scrollTo({ top: 0, behavior: "smooth" })
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" })
     }
@@ -202,8 +202,8 @@ export default function FashionLabsApp() {
           <div
             className={`absolute top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
-            <div className="w-full h-full flex flex-col justify-center p-5 pt-[120px] pb-[60px]">
-              <ul className="list-none text-center mt-[20px]">
+            <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
+              <ul className="list-none text-center">
                 {[
                   { name: "HOME", path: "/" },
                   { name: "PROGRAMMA", path: "/programma" },
