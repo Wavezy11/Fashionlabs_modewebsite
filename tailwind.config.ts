@@ -62,6 +62,13 @@ const config: Config = {
   				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
+  		fontFamily: {
+  			// Adobe Typekit fonts - vervang deze namen met de juiste font namen uit je Typekit kit
+  			'typekit-sans': ['proxima-nova', 'sans-serif'],
+  			'typekit-serif': ['minion-pro', 'serif'],
+  			'typekit-display': ['futura-pt', 'sans-serif'],
+  			// Je kunt meer fonts toevoegen afhankelijk van wat er in je Typekit kit zit
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

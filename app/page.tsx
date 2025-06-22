@@ -3,14 +3,17 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import { Plus } from "lucide-react"
+import { Plus, Minus } from 'lucide-react'
 import Image from "next/image"
 
 export default function FashionLabsApp() {
   // Slideshow state
-  const [currentSlide, setCurrentSlide] = useState(2) // Start at slide 3 (index 2)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [expandedCourse, setExpandedCourse] = useState<string | null>(null)
+  const [expandedProgram, setExpandedProgram] = useState<string | null>(null)
+
+  const [photos, setPhotos] = useState([])
+  const [isLoadingPhotos, setIsLoadingPhotos] = useState(true)
 
   // Slideshow refs and state
   const slideshowRef = useRef<HTMLDivElement>(null)
@@ -19,31 +22,135 @@ export default function FashionLabsApp() {
   const [touchEnd, setTouchEnd] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
 
-  const slides = [
-    "/1.png?height=200&width=275&text=Slide+1",
-    "/2.png?height=200&width=275&text=Slide+2",
-    "/3.png?height=200&width=275&text=Slide+3",
-    "/4.png?height=200&width=275&text=Slide+4",
-    "/5.png?height=200&width=275&text=Slide+5",
+  useEffect(() => {
+    async function fetchPhotos() {
+      try {
+        const response = await fetch("/api/photos")
+        if (response.ok) {
+          const data = await response.json()
+          // Only use photos that have actual image URLs (not the old static ones)
+          const validPhotos = data.filter(
+            (photo) =>
+              photo.image_url &&
+              !photo.image_url.includes("/1.png") &&
+              !photo.image_url.includes("/2.png") &&
+              !photo.image_url.includes("/3.png") &&
+              !photo.image_url.includes("/4.png") &&
+              !photo.image_url.includes("/5.png"),
+          )
+
+          // Get top 5 photos sorted by likes for slideshow
+          const topPhotos = validPhotos
+            .map((photo) => ({
+              ...photo,
+              likes: Number(photo.likes) || 0,
+              id: Number(photo.id),
+            }))
+            .sort((a, b) => b.likes - a.likes)
+            .slice(0, 5)
+
+          setPhotos(topPhotos)
+        }
+      } catch (error) {
+        console.error("Error fetching photos:", error)
+      } finally {
+        setIsLoadingPhotos(false)
+      }
+    }
+    fetchPhotos()
+  }, [])
+
+  const slides = photos.length > 0 ? photos.map((photo) => photo.image_url || "/placeholder.svg") : []
+
+  const programItems = [
+    {
+      id: "texlab",
+      time: "15:00",
+      title: "TexLab expo",
+      location: "'t Hart / Vide - 2e jaars mode",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "Pitches",
+      time: "15:00",
+      title: "Pitches TexLab",
+      location: "Vide",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "Digital Alumni talk",
+      time: "16:30",
+      title: "Digital Alumni talk",
+      location: "Forum / Alumni Student Wanida",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "Fashionshow",
+      time: "17:30",
+      title: "Fashionshow",
+      location: "`t Hart / mode en kappers",
+      hasPlus: true,
+      isExpandable: true,
+    },
+    {
+      id: "Netwerk borrel",
+      time: "18:30",
+      title: "Netwerk borrel",
+      location: "Horeca bar",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "AI talk Elmo Mistiaen",
+      time: "19:00",
+      title: "AI talk Elmo Mistiaen",
+      location: "Forum / Elmo Mistiaen",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "Graduation Pitches",
+      time: "19:30",
+      title: "Graduation Pitches",
+      location: "t Hart / vide *",
+      hasPlus: true,
+      isExpandable: true,
+    },
+    {
+      id: "Graduation Talk",
+      time: "20:00",
+      title: "Graduation Talk",
+      location: "Forum / Jim intervieuw, Nisa, Jomar en .......",
+      hasPlus: false,
+      isExpandable: false,
+    },
+    {
+      id: "Graduation show",
+      time: "20:30",
+      title: "Graduation show",
+      location: "'t Hart / examenstudenten mode",
+      hasPlus: true,
+      isExpandable: true,
+    },
   ]
 
-  const courses = [
-    {
-      id: "fashion-designer",
-      title: "Fashion Designer BOL",
-      description: "Tijdens het basisdeel van deze fashion designer opleiding breng je de modewereld in.",
+  const expandedContent = {
+    Fashionshow: {
+      description:
+        "Ervaar de nieuwste modetrends en ontwerpen van onze getalenteerde studenten. Een spectaculaire show vol creativiteit en innovatie.",
     },
-    {
-      id: "fashion-tailor",
-      title: "Fashion-Tailor",
-      description: "Tijdens het basisdeel van deze Fashion Tailor opleiding breng je de modewereld in beeld en...",
+    "Graduation Pitches": {
+      description:
+        "De afstudeerstudenten presenteren hun projecten en ideeën. Een kijkje in de toekomst van mode en design.",
     },
-    {
-      id: "basismedewerker",
-      title: "Basismedewerker-BOL",
-      description: "Kun jij netjes werken en heb je gevoel voor stijl? Dan zit de opleiding Basismedewerker...",
+    "Graduation show": {
+      description:
+        "De afstudeerstudenten presenteren hun eindwerken in een indrukwekkende modeshow. Het hoogtepunt van hun opleiding.",
     },
-  ]
+  }
 
   // Auto slideshow functionality
   const startAutoSlide = () => {
@@ -64,13 +171,15 @@ export default function FashionLabsApp() {
 
   // Initialize slideshow
   useEffect(() => {
-    startAutoSlide()
+    if (slides.length > 0) {
+      startAutoSlide()
+    }
     return () => {
       if (autoSlideRef.current) {
         clearInterval(autoSlideRef.current)
       }
     }
-  }, [])
+  }, [slides.length])
 
   // Handle slide navigation
   const goToSlide = (index: number) => {
@@ -141,8 +250,8 @@ export default function FashionLabsApp() {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const toggleCourse = (courseId: string) => {
-    setExpandedCourse(expandedCourse === courseId ? null : courseId)
+  const toggleProgram = (programId: string) => {
+    setExpandedProgram(expandedProgram === programId ? null : programId)
   }
 
   const scrollToTop = () => {
@@ -200,7 +309,7 @@ export default function FashionLabsApp() {
 
           {/* Navigation Menu Overlay */}
           <div
-            className={`absolute top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+            className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
@@ -234,29 +343,30 @@ export default function FashionLabsApp() {
             {/* App Content */}
             <div className="relative w-full">
               {/* Hero Section */}
-              <div className="relative w-full h-[500px] -top-[220px]">
+              <div className="relative w-full h-[500px] md:-top-[145px] -top-[220px]">
                 <Image
                   src="/fashionlabs-hero.png?height=500&width=390&text=Hero+Image"
                   alt="Hero"
                   width={390}
                   height={500}
-                  className="w-full h-full object-cover absolute left-0 top-[30vh]"
+                  className="w-full h-full object-cover absolute left-0 md:top-[145px] top-[30vh]"
                 />
                 <a href="/informatie">
-                  <button className="absolute -bottom-[175px] left-1/2 transform -translate-x-1/2 bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[2] font-bold">
+                  <button className="absolute md:bottom-[20px] -bottom-[200px] left-1/2 transform -translate-x-1/2 bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[2] font-bold">
                     PROGRAMMA
                   </button>
                 </a>
               </div>
 
               {/* News Section */}
-              <div className="h-[300px] w-full bg-white">
-                <br />
-                <h2 className="text-2xl text-center mb-5 font-bold">NIEUWS</h2>
+              <div className="h-[300px] w-full bg-white md:mt-0 mt-0">
+                <div className="pt-8">
+                  <h2 className="text-2xl text-center mb-5 font-bold text-black">POPULAIRE MOMENTS</h2>
+                </div>
 
                 {/* Slideshow */}
                 <div
-                  className="absolute h-[200px] w-[275px] left-1/2 transform -translate-x-1/2 overflow-hidden"
+                  className="relative h-[200px] w-[275px] left-1/2 transform -translate-x-1/2 overflow-hidden mt-4"
                   onMouseEnter={pauseAutoSlide}
                   onMouseLeave={startAutoSlide}
                   onTouchStart={handleTouchStart}
@@ -267,98 +377,115 @@ export default function FashionLabsApp() {
                   onMouseUp={handleMouseUp}
                   onMouseLeave={handleMouseUp}
                 >
-                  <div
-                    ref={slideshowRef}
-                    className="flex w-full h-full transition-transform duration-500 ease-in-out"
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                  >
-                    {slides.map((slide, index) => (
-                      <div key={index} className="min-w-full h-full">
-                        <Image
-                          src={slide || "/placeholder.svg"}
-                          alt={`Fashion Labs Slide ${index + 1}`}
-                          width={275}
-                          height={200}
-                          className="w-full h-full object-cover"
-                        />
+                  {isLoadingPhotos ? (
+                    <div className="flex justify-center items-center w-full h-full">
+                      <div className="w-8 h-8 border-4 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : slides.length > 0 ? (
+                    <>
+                      <div
+                        ref={slideshowRef}
+                        className="flex w-full h-full transition-transform duration-500 ease-in-out"
+                        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                      >
+                        {slides.map((slide, index) => (
+                          <div key={index} className="min-w-full h-full relative">
+                            <Image
+                              src={slide || "/placeholder.svg"}
+                              alt={photos[index]?.title || `Fashion Labs Slide ${index + 1}`}
+                              width={275}
+                              height={200}
+                              className="w-full h-full object-contain bg-gray-100"
+                            />
+                            {photos[index] && (
+                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+                                <p className="text-white text-sm font-bold truncate">{photos[index].title}</p>
+                                <p className="text-white/80 text-xs">❤️ {photos[index].likes}</p>
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
 
-                  {/* Dots */}
-                  <div className="absolute bottom-2.5 left-0 right-0 flex justify-center gap-2">
-                    {slides.map((_, index) => (
-                      <span
-                        key={index}
-                        className={`w-2 h-2 rounded-full cursor-pointer transition-colors duration-300 ${
-                          index === currentSlide ? "bg-[rgb(46,212,207)]" : "bg-[rgba(21,21,21,0.5)]"
-                        }`}
-                        onClick={() => goToSlide(index)}
-                      />
-                    ))}
-                  </div>
+                      {/* Dots */}
+                      <div className="absolute bottom-2.5 left-0 right-0 flex justify-center gap-2">
+                        {slides.map((_, index) => (
+                          <span
+                            key={index}
+                            className={`w-2 h-2 rounded-full cursor-pointer transition-colors duration-300 ${
+                              index === currentSlide ? "bg-[rgb(46,212,207)]" : "bg-[rgba(21,21,21,0.5)]"
+                            }`}
+                            onClick={() => goToSlide(index)}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex justify-center items-center w-full h-full bg-gray-100">
+                      <p className="text-gray-500 text-center">
+                        Geen foto's beschikbaar.
+                        <br />
+                        Upload foto's in de MOMENTS sectie!
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Education Section */}
-              <div className="h-[600px] w-full bg-[#9480AB] relative">
-                <br />
-                <h2 className="text-[19px] text-center mb-5 font-bold text-white">OPLEIDINGEN</h2>
+              {/* Program Section */}
+              <div className="w-full bg-[#9480AB] relative px-4 py-8">
+                <h2 className="text-2xl text-center mb-8 font-bold text-white">PROGRAMMA</h2>
 
-                {courses.map((course, index) => (
-                  <div
-                    key={course.id}
-                    className={`relative left-0 bg-white h-[20%] w-[75%] mb-5 ${
-                      index === 0 ? "top-[2%]" : index === 1 ? "top-[7%]" : "top-[12%]"
-                    }`}
+         
+
+                <div className="space-y-4">
+                  {programItems.map((item) => (
+                    <div key={item.id} className="space-y-2">
+                      {/* Program Item */}
+                      <div className="flex items-center">
+                        {/* Time Box */}
+                        <div className="bg-black text-white px-4 py-3 font-bold text-base min-w-[80px] text-center">
+                          {item.time}
+                        </div>
+
+                        {/* Content Box */}
+                        <div className="bg-white flex-1 px-4 py-3 flex items-center justify-between">
+                          <h3 className="font-bold text-[#9480AB] text-base">{item.title}</h3>
+                          {item.hasPlus && (
+                            <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0">
+                              {expandedProgram === item.id ? (
+                                <Minus className="w-6 h-6 text-[#9480AB]" />
+                              ) : (
+                                <Plus className="w-6 h-6 text-[#9480AB]" />
+                              )}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Location Text */}
+                      <div className="text-white text-sm pl-4">{item.location}</div>
+
+                      {/* Expanded Content */}
+                      {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
+                        <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
+                          <p className="text-gray-800 text-sm leading-relaxed">
+                            {expandedContent[item.title].description}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Tickets Button */}
+                <div className="flex justify-center mt-8">
+                  <a
+                    href="/tickets"
+                    className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
                   >
-                    <h2 className="text-base text-left mb-5 font-bold text-[#9480AB] absolute top-[15%] left-[5%]">
-                      {course.title}
-                    </h2>
-
-                    <p className="text-[13.5px] mb-5 font-light text-black absolute top-[35%] left-[5%] w-[200px]">
-                      {course.description}
-                    </p>
-
-                    {/* Decorative blocks */}
-                    <div className="absolute right-0 top-0 h-[10%] w-[5%] bg-[#9480AB]"></div>
-                    <div className="absolute right-[10%] top-0 h-[10%] w-[5%] bg-[#9480AB]"></div>
-                    <div className="absolute right-0 top-[20%] h-[10%] w-[5%] bg-[#9480AB]"></div>
-
-                    {/* Plus icon */}
-                    <Plus
-                      className="absolute w-6 h-6 right-[15px] top-1/2 transform -translate-y-1/2 cursor-pointer text-[#9480AB]"
-                      onClick={() => toggleCourse(course.id)}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Sign Up Section */}
-              <div className="h-[600px] w-full bg-white">
-                <div className="relative top-0 left-0 w-full h-[30%]"></div>
-
-                <div className="h-[60vh] w-[75%] justify-center items-center relative -top-[30%] left-[12.5%] rounded-b-[45px]">
-                  <Image
-                    src="/meeloopdag-foto.png?height=400&width=300&text=Student+Photo"
-                    alt="Aanmelden foto"
-                    width={300}
-                    height={400}
-                    className="h-full w-full object-cover justify-center items-center z-[4] relative"
-                  />
-                  <a href="/meeloopdag">
-                    <button className="absolute bottom-[3.5%] left-1/2 transform translate-x-[-50%] translate-y-[-50%] bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[20] font-bold">
-                      AANMELDEN
-                    </button>
+                    TICKETS
                   </a>
-                </div>
-
-                <div className="h-[600px] w-full flex -top-[491px] justify-center items-center bg-[#9480AB] relative z-0">
-                  <h2 className="text-[23px] text-center mb-5 font-bold text-white absolute top-[55%]">MEELOOPDAG</h2>
-                  <p className="text-sm mb-5 font-light text-white absolute top-[60%] text-center w-[235px]">
-                    Wil jij ervaren hoe het is om bij ons te studeren? Loop een dag mee! Volg de lessen, ontmoet
-                    studenten en ontdek of de opleiding bij je past.
-                  </p>
                 </div>
               </div>
             </div>
