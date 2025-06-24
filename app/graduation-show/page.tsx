@@ -7,12 +7,22 @@ import { Instagram } from "lucide-react"
 
 const graduationStudents = [
   {
-    id: "brandon",
-    name: "Brandon",
-    image: "fashionshow/Brandon.jpg",
-    instagram: ["Https.brandon013"],
+    id: "may-zaan",
+    name: "May-Zaan",
+    image: "fashionshow/May-Zaan.jpg",
+    imagePosition: "center", // Voorbeeld: focus op bovenkant
+    instagram: ["mayie_05_"],
     description:
-      "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
+      '"To the future and past" De collectie "To the future and Past" is gebaseerd op traditionele/culturele kleding van China met een fusion van moderne EGL/Lolita kledingstyle van Japan. In mijn collectie laat ik een ander en ander beeld zien van de Chinese cultuur dat mensen weinig of geen van afweten. Deze kledingstukken worden geïnspireerd van de Chinese Hanfu en Qipao met erbij de lolita jurken.\n\n- By May-zaan Tang',
+  },
+  {
+    id: "luna",
+    name: "Luna",
+    image: "fashionshow/Luna.jpg",
+    // Geen imagePosition = default "center center"
+    instagram: ["lunascova"],
+    description:
+      "Deze collectie draait om de balans tussen licht en donker, sterk en zacht. Wit staat voor rust en hoop, zwart voor diepte en kracht. Door contrasten in stoffen, vormen en structuren ontstaat een harmonie tussen tegenstellingen.",
   },
   {
     id: "izis",
@@ -23,36 +33,21 @@ const graduationStudents = [
       '"Once we\'ll escape from the reality"\n\nEen fase in een menselijk leven, waarbij ontsnapping uit het dagelijkse leven even nodig is om jezelf te herontdekken.\nDoor een tijdje in een magische wereld te stappen waar je jezelf kan zijn en de volledige rust kan pakken, krijg je de kans om de juiste keuzes te maken voor de toekomst.',
   },
   {
-    id: "lise",
-    name: "Lise",
-    image: "fashionshow/lise.jfif",
-    instagram: ["lisette_gelata"],
+    id: "sarah",
+    name: "Sarah",
+    image: "fashionshow/Sarah.jpg",
+     imagePosition: "center top", // Voorbeeld: focus op bovenkant
+    instagram: ["sarahsmans"],
     description:
-      'Vintage dollhouse is de naam van mijn collectie. "Bij deze collectie ben ik gegaan voor een elegante vintage look, geïnspireerd door porseleinen poppen en hun tijdloze charme."',
+      "Mijn collectie heet shapes of time, ik wil de kenmerken van vroeger in een modern jasje gaan steken. Met mijn collectie wil ik de vormen van vroeger laten terug komen in mijn kledingstukken en dat mijn kleding een klassiek en sierlijk gevoel uitstraalt.",
   },
   {
-    id: "luna",
-    name: "Luna",
-    image: "fashionshow/Luna.jpg",
-    instagram: ["lunascova"],
+    id: "vera",
+    name: "Vera",
+    image: "fashionshow/Vera.jpg",
+    instagram: ["veravandenthillart", "portfolio_veravandenthillart"],
     description:
-      "Deze collectie draait om de balans tussen licht en donker, sterk en zacht. Wit staat voor rust en hoop, zwart voor diepte en kracht. Door contrasten in stoffen, vormen en structuren ontstaat een harmonie tussen tegenstellingen.",
-  },
-  {
-    id: "maud",
-    name: "Maud",
-    image: "fashionshow/Maud.jpg",
-    instagram: ["chickie_nuggets2"],
-    description:
-      "Mijn idee voor mijn collectie is om surrealisme naar boven te halen in de kleding, maar ook het ook vrouwelijk te houden. Ik houd zelf van het idee dat dingen net iets te ver gaan voor sommige mensen dus net buiten de lijntjes te kleuren. Dit is ook te zien in mijn concept bord. Voor vormen en silhouetten ben ik gegaan voor aan sluitende kleding om de vormen van het lichaam te accentueren en ook heb ik er voor gekozen om het skelet weer naar boven te laten komen, omdat dit mij altijd aanspreekt en toch een beetje buiten de lijntjes te gaan.",
-  },
-  {
-    id: "may-zaan",
-    name: "May-Zaan",
-    image: "fashionshow/May-Zaan.jpg",
-    instagram: ["mayie_05_"],
-    description:
-      '"To the future and past" De collectie "To the future and Past" is gebaseerd op traditionele/culturele kleding van China met een fusion van moderne EGL/Lolita kledingstyle van Japan. In mijn collectie laat ik een ander en ander beeld zien van de Chinese cultuur dat mensen weinig of geen van afweten. Deze kledingstukken worden geïnspireerd van de Chinese Hanfu en Qipao met erbij de lolita jurken.\n\n- By May-zaan Tang',
+      "Mijn collectie heet 5 stages of grief, ik geef vorm in mijn collectie de emoties die veel mensen ervaren als ze door een periode van rauw gaan. Als ze iemand verliezen die dierbaar voor ze zijn. De emoties die je gaat zien zijn: boosheid, verdriet, angst, schok & ongeloof en acceptatie.",
   },
   {
     id: "nisa",
@@ -61,6 +56,22 @@ const graduationStudents = [
     instagram: ["studiona_bi"],
     description:
       "Met een wereld vol overproductie en textielafval brengt deze collectie een bewuste benadering van mode, waar tijdloze ontwerpen en duurzame stoffen centraal staan.\nDoor minimalisme en doordachte materialen te combineren, laat deze collectie zien dat stijl en verantwoordelijkheid hand in hand kunnen gaan.",
+  },
+  {
+    id: "vy",
+    name: "Vy",
+    image: "fashionshow/Vy.jpg",
+    instagram: ["vylocxfashion", "Vyloc_"],
+    description:
+      'Het concept van mijn collectie is "Bloom in your own way, every flower had its own."\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
+  },
+  {
+    id: "maud",
+    name: "Maud",
+    image: "fashionshow/Maud.jpg",
+    instagram: ["chickie_nuggets2"],
+    description:
+      "Mijn idee voor mijn collectie is om surrealisme naar boven te halen in de kleding, maar ook het ook vrouwelijk te houden. Ik houd zelf van het idee dat dingen net iets te ver gaan voor sommige mensen dus net buiten de lijntjes te kleuren. Dit is ook te zien in mijn concept bord. Voor vormen en silhouetten ben ik gegaan voor aan sluitende kleding om de vormen van het lichaam te accentueren en ook heb ik er voor gekozen om het skelet weer naar boven te laten komen, omdat dit mij altijd aanspreekt en toch een beetje buiten de lijntjes te gaan.",
   },
   {
     id: "olivier",
@@ -79,12 +90,12 @@ const graduationStudents = [
       "Street with a touch of weirdness\n\nIk heb mijn collectie deze naam gegeven omdat het voornamelijk streetwear/urban kleding is en omdat er meer ongebruikelijke prints en fournituren zijn gebruikt zoals teddyberen op een jas en graffiti op kleding.\nIk wil met mijn collectie laten zien dat je uit je comfort zone mag gaan en dat je daar door een inspiratie kan zijn voor de mensen om jou heen.\nBen de inspiratie en laat inspireren!",
   },
   {
-    id: "sarah",
-    name: "Sarah",
-    image: "fashionshow/Sarah.jpg",
-    instagram: ["sarahsmans"],
+    id: "brandon",
+    name: "Brandon",
+    image: "fashionshow/Brandon.jpg",
+    instagram: ["Https.brandon013"],
     description:
-      "Mijn collectie heet shapes of time, ik wil de kenmerken van vroeger in een modern jasje gaan steken. Met mijn collectie wil ik de vormen van vroeger laten terug komen in mijn kledingstukken en dat mijn kleding een klassiek en sierlijk gevoel uitstraalt.",
+      "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
   },
   {
     id: "senna",
@@ -95,20 +106,12 @@ const graduationStudents = [
       "Ik ben Senna 21 jaar, en ik ben trots om mijn Shape Collectie met jullie te delen. Deze collectie draait volledig om bodypositivity – het vieren van elk lichaam, in elke vorm, maat en kleur. Door het gebruik van fijn kant wil ik laten zien dat álle lichamen er mogen zijn. Ieder detail is ontworpen met liefde en respect voor diversiteit, zodat jij je gezien en krachtig voelt, precies zoals je bent.",
   },
   {
-    id: "vera",
-    name: "Vera",
-    image: "fashionshow/Vera.jpg",
-    instagram: ["veravandenthillart", "portfolio_veravandenthillart"],
+    id: "lise",
+    name: "Lise",
+    image: "fashionshow/lise.jfif",
+    instagram: ["lisette_gelata"],
     description:
-      "Mijn collectie heet 5 stages of grief, ik geef vorm in mijn collectie de emoties die veel mensen ervaren als ze door een periode van rauw gaan. Als ze iemand verliezen die dierbaar voor ze zijn. De emoties die je gaat zien zijn: boosheid, verdriet, angst, schok & ongeloof en acceptatie.",
-  },
-  {
-    id: "vy",
-    name: "Vy",
-    image: "fashionshow/Vy.jpg",
-    instagram: ["vylocxfashion", "Vyloc_"],
-    description:
-      'Het concept van mijn collectie is "Bloom in your own way, every flower had its own."\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
+      'Vintage dollhouse is de naam van mijn collectie. "Bij deze collectie ben ik gegaan voor een elegante vintage look, geïnspireerd door porseleinen poppen en hun tijdloze charme."',
   },
 ]
 
@@ -126,7 +129,7 @@ const StudentSection = ({ student, index }: { student: any; index: number }) => 
           className="w-full h-full object-cover grayscale contrast-125 brightness-90"
           style={{
             filter: "grayscale(100%) contrast(1.2) brightness(0.9)",
-            objectPosition: "center center",
+            objectPosition: student.imagePosition || "center center",
           }}
         />
       </div>
@@ -262,9 +265,6 @@ export default function GraduationShowPage() {
 
             {/* Purple Section with Text (moved up) */}
             <div className="bg-[#B8A5D1] px-6 py-8 text-center relative z-10">
-              {/* Decorative crosses - Left side */}
-            
-
               <p className="text-white text-sm leading-relaxed max-w-sm mx-auto">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -330,15 +330,12 @@ export default function GraduationShowPage() {
 
             {/* Vote Button Section */}
             <div className="bg-[#1a1a1a] px-6 py-8 text-center">
-              <a href="https://www.menti.com/almyi42oep2a" target="_blank" rel="noopener noreferrer"> 
-              <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-black transition-colors rounded-lg">
-                STEMMEN
-              </button>
+              <a href="https://www.menti.com/almyi42oep2a" target="_blank" rel="noopener noreferrer">
+                <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-black transition-colors rounded-lg">
+                  STEMMEN
+                </button>
               </a>
             </div>
-
-          
-
 
             {/* Footer */}
             <footer className="bg-[#1a1a1a] text-white p-[20px] relative">

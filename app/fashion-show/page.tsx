@@ -8,60 +8,61 @@ const fashionShowItems = [
   {
     id: "the-white-screen",
     name: "The White Screen",
-    image: "fashion-items/the-white-screen.jpg",
+    image: "fashion-items/The White Screen.png",
     description:
       "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
   },
   {
     id: "jeans-it-up",
     name: "Jeans it up",
-    image: "fashion-items/jeans-it-up.jpg",
+    image: "fashion-items/Jeans it up.png",
     description:
-      "Een moderne interpretatie van klassieke denim. Deze collectie combineert traditionele jeans technieken met innovatieve designs en duurzame materialen. Elke piece vertelt een verhaal van comfort, stijl en tijdloze elegantie.",
+      "Het produceren van één paar jeans verbuikt maar liefst 7000 liter water, schokkend! Onze 2e jaars Tailor Fashion studenten hebben na moeten denken over de impact van de mode-industrie op onze planeet. \nZij hebben deze uitdaging omarmd en prachtige items gecreëerd van gebruikte jeans. Door oude materialen een nieuw leven te geven, tonen zij aan dat mode niet alleen mooi kan zijn, maar ook verantwoord.\n Duurzaamheid is de toekomst, en wij zijn trots om deze boodschap te delen met jullie!",
   },
   {
     id: "fashion-meets-gambia",
     name: "Fashion_Meets_Gambia",
     image: "fashion-items/fashion-meets-gambia.jpg",
     description:
-      "Een culturele fusie die de rijke tradities van Gambia combineert met moderne mode-elementen. Levendige kleuren, traditionele patronen en hedendaagse silhouetten komen samen in deze unieke collectie.",
+      "In dit showonderdeel nemen we je mee op reis naar Gambia, waar 10 mode studenten zich twee weken lang hebben ingezet voor uiteenlopende projecten.\n Eën van de project was een samenwerking met een lokale kleermaker, waarmee ze een outfit hebben ontworpen en gemaakt.",
   },
   {
     id: "excellent-hair-dressers",
     name: "Excellent hair dressers",
-    image: "fashion-items/excellent-hair-dressers.jpg",
+    image: "fashion-items/Excellent Hairdressers.png",
     description:
-      "Mode en haar styling gaan hand in hand. Deze collectie verkent de relatie tussen kledingdesign en haarstyling, waarbij accessoires en kledingstukken speciaal ontworpen zijn om het haar te complementeren.",
+      "Onze excellentieklas startte het jaar met een traject vol inspirerende, wekelijkse thema’s ter voorbereiding op het eindproduct. De kappers kozen als overkoepelend thema ‘film’ en vertaalden hun gekozen film naar kapsel, make-up en kleding. We zijn enorm trots op onze klas en de creatieve meesterwerken die zij hebben neergezet, en nemen jullie graag mee op deze filmische reis.",
   },
   {
     id: "ai-makes-business",
     name: "AI makes you're business",
-    image: "fashion-items/ai-makes-business.jpg",
+    image: "fashion-items/AI Makes Your Business.png",
     description:
-      "De toekomst van mode ligt in technologie. Deze collectie integreert AI-gegenereerde patronen en smart textiles om kleding te creëren die reageert op de omgeving en de drager.",
+      "You're first impression counts! \nDe 2e en 3ejaars Fashion Tailor studenten hebben met veel passie en vakmanschap een stijlvolle blouse en bijpassende broek gecreëerd, die niet alleen de perfecte balans tussen professionaliteit en flair uitstralen, maar ook de unieke persoonlijkheid van elke student weerspiegelen. Met deze prachtige ensembles zijn onze studenten klaar om de wereld van de mode en het bedrijfsleven te veroveren!",
   },
   {
     id: "stunning-red",
     name: "Stunning red",
-    image: "fashion-items/stunning-red.jpg",
+    image: "fashion-items/Stunning Red.png",
     description:
-      "Rood als statement kleur. Deze collectie draait volledig om de kracht en passie van rood in al zijn tinten. Van diep bordeaux tot fel karmijn, elke nuance vertelt een eigen verhaal.",
+      "In een tijdperk waarin artificiële technologie steeds meer invloed heeft op de mode-industrie, hebben onze 2e en 3ejaars Fashion Tailor studenten de uitdaging aangegaan om deze technologie te combineren met traditionele ambacht. Tijdens hun ontwerpproces hebben ze zich afgevraagd: 'Denkt de computer echt net als ik, of is er nog steeds menselijke creativiteit en intuïtie nodig?' Laten we genieten van hun prachtige creaties en de innovatieve geest die hen heeft geïnspireerd!",
   },
   {
     id: "laser-layers",
     name: "Laser Layers",
-    image: "fashion-items/laser-layers.jpg",
+    image: "fashion-items/Laser Layers.png",
     description:
-      "Precisie en technologie ontmoeten mode. Door laser-cutting technieken ontstaan complexe gelaagde designs die spelen met transparantie, textuur en geometrische vormen.",
+      "We zijn verheugd om de creaties van onze getalenteerde 1ejaars basismedewerkers fashion studenten te presenteren. Deze studenten hebben op een innovatieve manier met een laser cutter hun ontwerp op hun design laten laseren. Hun creativiteit en technische vaardigheden komen prachtig samen in deze unieke collectie!",
   },
   {
     id: "whats-your-statement",
     name: "What's your statement?",
-    image: "fashion-items/whats-your-statement.jpg",
+    image: "fashion-items/What's Your Statement.png",
     description:
-      "Mode als persoonlijke expressie. Deze collectie daagt je uit om je eigen statement te maken door middel van gedurfde prints, onverwachte combinaties en persoonlijke styling keuzes.",
+      "De 3jaars tailor studenten showen hun unieke creaties, geïnspireerd door hun visie op de toekomst. Elk van deze outfits is niet alleen een mode-item, maar ook een verhaal dat de dromen, innovaties en duurzaamheid van morgen weerspiegelt. Laat je inspireren door de toekomst die onze studenten voor ogen hebben en geniet van deze bijzondere creaties vol talent en verbeeldingskracht!",
   },
 ]
+
 
 const ItemSection = ({ item, index }: { item: any; index: number }) => (
   <div className="bg-[#B8A5D1] px-6 py-12 text-center">
@@ -83,14 +84,7 @@ const ItemSection = ({ item, index }: { item: any; index: number }) => (
         className="overflow-hidden shadow-lg"
         style={{ width: "302px", height: "280px", borderRadius: "32px 0 32px 0" }}
       >
-        <img
-          src={item.image || "/placeholder.svg"}
-          alt={item.name}
-          className="w-full h-full object-cover"
-          style={{
-            objectPosition: "center center",
-          }}
-        />
+        <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-full h-full object-contain" />
       </div>
     </div>
     <div className="text-white text-sm leading-relaxed max-w-sm mx-auto mb-4 whitespace-pre-line">
@@ -213,60 +207,13 @@ export default function FashionShowItemsPage() {
               <ItemSection key={item.id} item={item} index={index} />
             ))}
 
-            {/* SVG Transition Border - Purple to Black */}
-            <div className="w-full h-11 bg-[#B8A5D1] relative">
-              <svg
-                width="393"
-                height="44"
-                viewBox="0 0 393 44"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 left-0 w-full h-full z-30"
-              >
-                <path
-                  d="M72.7208 14.5208V0.000238189H58.2003V14.5208H43.6798V29.0413H58.2003V43.5618H72.7208V29.0413H87.244V14.5208H72.7208Z"
-                  fill="black"
-                />
-                <path
-                  d="M160.08 14.5208V0.000238189H145.56V14.5208H131.039V29.0413H145.56V43.5618H160.08V29.0413H174.604V14.5208H160.08Z"
-                  fill="black"
-                />
-                <path d="M14.5205 0.000238189H0V14.5208H14.5205V0.000238189Z" fill="#9480AB" />
-                <path d="M43.5615 0.000238189H29.041V14.5208H43.5615V0.000238189Z" fill="#9480AB" />
-                <path d="M14.5205 29.0414H0V43.562H14.5205V29.0414Z" fill="#9480AB" />
-                <path d="M43.5615 29.0414H29.041V43.562H43.5615V29.0414Z" fill="#9480AB" />
-                <path d="M101.88 0.000238189H87.3596V14.5208H101.88V0.000238189Z" fill="#9480AB" />
-                <path d="M130.921 0.000238189H116.401V14.5208H130.921V0.000238189Z" fill="#9480AB" />
-                <path d="M101.88 29.0414H87.3596V43.562H101.88V29.0414Z" fill="#9480AB" />
-                <path d="M130.921 29.0414H116.401V43.562H130.921V29.0414Z" fill="#9480AB" />
-                <path
-                  d="M247.44 14.5208V0.000238189H232.92V14.5208H218.399V29.0413H232.92V43.5618H247.44V29.0413H261.963V14.5208H247.44Z"
-                  fill="#9480AB"
-                />
-                <path
-                  d="M334.8 14.5208V0.000238189H320.279V14.5208H305.759V29.0413H320.279V43.5618H334.8V29.0413H349.323V14.5208H334.8Z"
-                  fill="#9480AB"
-                />
-                <path d="M189.24 0.000238189H174.719V14.5208H189.24V0.000238189Z" fill="#9480AB" />
-                <path d="M218.281 0H203.76V14.5205H218.281V0Z" fill="#9480AB" />
-                <path d="M189.24 29.0412H174.719V43.5617H189.24V29.0412Z" fill="#9480AB" />
-                <path d="M218.281 29.0412H203.76V43.5617H218.281V29.0412Z" fill="#9480AB" />
-                <path d="M276.599 0.000238189H262.079V14.5208H276.599V0.000238189Z" fill="#9480AB" />
-                <path d="M305.64 0H291.12V14.5205H305.64V0Z" fill="#9480AB" />
-                <path d="M276.599 29.0412H262.079V43.5617H276.599V29.0412Z" fill="#9480AB" />
-                <path d="M305.64 29.0412H291.12V43.5617H305.64V29.0412Z" fill="#9480AB" />
-                <path d="M363.959 0.000238189H349.438V14.5208H363.959V0.000238189Z" fill="#9480AB" />
-                <path d="M393 0H378.479V14.5205H393V0Z" fill="#9480AB" />
-                <path d="M363.959 29.0412H349.438V43.5617H363.959V29.0412Z" fill="#9480AB" />
-                <path d="M393 29.0412H378.479V43.5617H393V29.0412Z" fill="#9480AB" />
-              </svg>
-            </div>
-
-            {/* Vote Button Section - Black background */}
-            <div className="bg-[#1a1a1a] px-6 py-8 text-center">
-              <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-black transition-colors rounded-lg">
+            {/* Vote Button Section - Purple background */}
+            <div className="bg-[#B8A5D1] px-6 py-8 text-center">
+              <a href="https://www.menti.com/alaqeqbw738s" target="_blank" rel="noopener noreferrer">
+              <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-[#B8A5D1] transition-colors rounded-lg">
                 STEMMEN
               </button>
+              </a>
             </div>
 
             {/* Footer */}
