@@ -142,7 +142,7 @@ export default function FashionLabsApp() {
       description:
         "Ervaar de nieuwste modetrends en ontwerpen van onze getalenteerde studenten. Een spectaculaire show vol creativiteit en innovatie.",
       buttonText: "BEKIJK FASHIONSHOW",
-      buttonLink: "/fashionshow",
+      buttonLink: "/fashion-show",
     },
     "Graduation Pitches": {
       description:
