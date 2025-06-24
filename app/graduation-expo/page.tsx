@@ -3,105 +3,106 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { Instagram } from "lucide-react"
 
 const graduationExpoStudents = [
   {
-    id: "isabelle",
-    name: "Isabelle",
-    image: "graduation-expo/Isabelle.jpg",
+    id: "boudy",
+    name: "Boudy",
+    image: "graduation-expo/Boudy.jfif",
+    instagram: ["abdlrhmn_fr"],
     description:
-      "Deze collectie is een artistieke en rebelse verkiezing van mentale gezondheid en de impact van sociale media op onze samenleving. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos, maar ook van kracht, intelligentie en creativiteit.",
-    highlightWords: ["mentale gezondheid", "kracht"],
+      "Ik ben 20 jaar en heb een grote passie voor mode, vooral voor het technische gedeelte. Mijn collectie van Thom Browne is hier een goed voorbeeld van. Zijn stijl, strakke pasvormen, korte broeken en jasjes, en bijzondere details spreekt mij enorm aan. Maar ik draag het niet zomaar; ik verwerk zijn stijl op mijn eigen manier. Wat mij het meest fascineert, is hoe kleding wordt gemaakt. De manier waarop stoffen worden gebruikt, hoe een pak in elkaar zit, en welke technieken erachter zitten. In mijn collectie combineer ik Thom Browne's klassieke stijl met mijn eigen ideeën. Ik speel met pasvormen, materialen en details om iets unieks te creëren dat bij mij past. Thom Browne doorbreekt de regels van herenkleding, en dat inspireert mij om hetzelfde te doen. Zijn invloed is duidelijk aanwezig in mijn stijl, maar altijd met mijn eigen draai eraan.",
   },
   {
     id: "jadie-marie",
     name: "Jadie-Marie",
     image: "graduation-expo/Jadie-Marie.jpg",
+    instagram: ["jadi.vd"],
     description:
-      "Een collectie geïnspireerd door de kracht van vrouwelijke empowerment en moderne elegantie. Door het combineren van sterke silhouetten met zachte details ontstaat een perfecte balans tussen kracht en kwetsbaarheid.",
-    highlightWords: ["vrouwelijke empowerment", "perfecte balans"],
-  },
-  {
-    id: "jomar",
-    name: "Jomar",
-    image: "graduation-expo/Jomar.jfif",
-    description:
-      "Deze collectie verkent de grenzen tussen streetwear en haute couture. Door urbane invloeden te mengen met luxe materialen ontstaat een unieke esthetiek die de moderne jeugdcultuur reflecteert.",
-    highlightWords: ["streetwear", "jeugdcultuur"],
-  },
-  {
-    id: "maud",
-    name: "Maud",
-    image: "graduation-expo/Maud.jpg",
-    description:
-      "Een experimentele collectie die duurzaamheid en innovatie combineert. Door het hergebruiken van vintage materialen en het toepassen van zero-waste technieken ontstaat mode met een bewuste boodschap.",
-    highlightWords: ["duurzaamheid", "bewuste boodschap"],
-  },
-  {
-    id: "mirac",
-    name: "Mirac",
-    image: "graduation-expo/Mirac.jfif",
-    description:
-      "Deze collectie omarmt culturele diversiteit en traditionele ambachten. Door het integreren van verschillende textieltraditieën ontstaat een rijke tapestry die verhalen van verschillende culturen vertelt.",
-    highlightWords: ["culturele diversiteit", "verschillende culturen"],
-  },
-  {
-    id: "nina",
-    name: "Nina",
-    image: "graduation-expo/Nina.jpg",
-    description:
-      "Een minimalistische collectie die de essentie van vorm en functie verkent. Strakke lijnen en doordachte details creëren tijdloze stukken die elegantie en prakticaliteit perfect combineren.",
-    highlightWords: ["minimalistische", "tijdloze stukken"],
-  },
-  {
-    id: "quinty",
-    name: "Quinty",
-    image: "graduation-expo/Quinty.jfif",
-    description:
-      "Deze collectie onderzoekt de relatie tussen technologie en mode. Door het integreren van smart textiles en wearable technology ontstaat kleding die reageert op de omgeving en de drager.",
-    highlightWords: ["smart textiles", "wearable technology"],
+      "Voor mijn collectie wil ik werken met organische vormen, omdat ze zachte, maar interessante silhouetten creëren. Ik wil kleding ontwerpen die zowel vrouwelijk als krachtig is en echt opvalt. Kleuren spelen daarbij een grote rol: ik kies voor roze en oranje omdat deze tinten energie, creativiteit en zelfvertrouwen uitstralen. Daarnaast wil ik experimenteren met verschillende texturen en materialen om mijn ontwerpen uniek te maken. Door een combinatie van technologie, kunst en innovatieve technieken te gebruiken, streef ik naar een moderne en vernieuwende collectie waarin traditie en innovatie samenkomen.",
   },
   {
     id: "sydney",
     name: "Sydney",
     image: "graduation-expo/Sydney.jfif",
+    instagram: ["syd__ster____"],
     description:
-      "Een collectie geïnspireerd door de kracht van transformatie en persoonlijke groei. Adaptieve ontwerpen en veelzijdige styling opties creëren kledingstukken die meegroeien met de drager.",
-    highlightWords: ["transformatie", "persoonlijke groei"],
+    "CLOWNCHROMA \nClownchroma is fel, gedurfd en grensverleggend. Het verkent identiteit aan de hand van gekke, opvallende vormen, levendige primaire kleuren—geel, oranje, rood, blauw, groen en paars—en een explosie van speelse patronen zoals ruitjes en stippen.Geïnspireerd door de theatrale geest van Walter van Beirendonck, versmelt de collectie clown-esthetiek met persoonlijke expressie en genderfluïditeit. \nOntworpen voor alle lichamen en identiteiten is Clownchroma mode als performance, spel en trots.",
   },
   {
-    id: "zoe",
-    name: "Zoe",
-    image: "graduation-expo/Zoe.jpg",
+    id: "maud",
+    name: "Maud",
+    image: "graduation-expo/Maud.jpg",
+    instagram: ["maudlaseroms"],
     description:
-      "Deze collectie viert de schoonheid van imperfectie en authenticiteit. Door het omarmen van natuurlijke texturen en organische vormen ontstaat een eerlijke benadering van hedendaagse mode.",
-    highlightWords: ["imperfectie", "authenticiteit"],
-  },
-  {
-    id: "boudy",
-    name: "Boudy",
-    image: "graduation-expo/Boudy.jfif",
-    description:
-      "Een collectie die de grenzen van genderexpressie verkent. Door het doorbreken van traditionele kledingcodes ontstaat mode die iedereen de vrijheid geeft om zichzelf authentiek uit te drukken.",
-    highlightWords: ["genderexpressie", "authentiek uit te drukken"],
+      "Out of Sight, Censored, Unveiled.\n Mijn collectie geeft het proces van groei, bewustwording en zelfontwikkeling bij een vrouw weer. Waarin zij zich verbergt, blootstelt en haarzelf volledig omarmt en durft te laten zien. Mijn collectie is een visuele weergave van deze reis, geïnspireerd op natuur en dier om dit proces te weergeven"
   },
   {
     id: "isabella",
     name: "Isabella",
     image: "graduation-expo/Isabella.jfif",
+    instagram: ["Isabellamilada"],
     description:
-      "Deze collectie onderzoekt de kracht van storytelling door middel van mode. Elk ontwerp vertelt een persoonlijk verhaal door symboliek, kleur en textuur, waardoor kleding wordt getransformeerd tot kunst.",
-    highlightWords: ["storytelling", "getransformeerd tot kunst"],
+      "Hoi! Ik ben Isabella Medel Espinoza, 20 jaar oud, en ik ontwerp momenteel mijn collectie “Futuristic Elegance”. Als student design/mode ontwerper wil ik technologie en luxe couture combineren, geïnspireerd door Pierpaolo Piccioli, die romantische elegantie mengt met moderne elementen. \n\n Mijn Ontwerpconcept: “Futuristic Elegance” Mijn collectie combineert luxe couture met technologische innovaties, zoals LED-verlichting en kleurveranderende stoffen die reageren op beweging. Ik gebruik duurzame en innovatieve materialen om een balans te creëren tussen esthetiek en interactiviteit. \n\n Mijn ontwerpen, zoals de Tech-Infused Fishtail Dress en de Sustainable Luxury A-Line Gown, weerspiegelen mijn visie op mode: technologie, duurzaamheid en luxe. Hoewel de ontwerpen nog in ontwikkeling zijn, ben ik enthousiast om ze verder uit te werken en te presenteren op de expositie. \n\nIk kijk erg uit naar de voortgang van dit project en de uiteindelijke expositie!",
+  },
+  {
+    id: "mirac",
+    name: "Mirac",
+    image: "graduation-expo/Mirac.jfif",
+    instagram: ["mirac_heritage"],
+    description:
+      "Deze collectie omarmt culturele diversiteit en traditionele ambachten. Door het integreren van verschillende textieltraditieën ontstaat een rijke tapestry die verhalen van verschillende culturen vertelt.",
+  },
+  {
+    id: "zoe",
+    name: "Zoë",
+    image: "graduation-expo/Zoe.jpg",
+    instagram: ["zoe_authentic"],
+    description:
+      "Met mijn collectie ben ik bezig om het nostalgische gevoel naar boven te brengen, ik wil graag dingen van het verleden gebruiken voor een prachtig design.",
+  },
+  {
+    id: "nina",
+    name: "Nina",
+    image: "graduation-expo/Nina.jpg",
+    instagram: ["ninarugbx"],
+    description:
+      "Hi, my name is Nina Rugbonding Sing. I'm 22 years old and currently studying Fashion Design. I'd like to tell you about the collection I made for my final exam. \nThe collection is called 'Fashion of the Unknown' and is based on the mysteries of the atmosphere. What lives there? What do they look like? And of course, what would they wear? The clothes are otherworldly, not normal, and therefore designed for the unknown. \n The collection is inspired by the one and only Iris van Herpen.",
+  },
+  {
+    id: "jomar",
+    name: "Jomar",
+    image: "graduation-expo/Jomar.jfif",
+    instagram: ["user064071531", "rcnsnt"],
+    description:
+      "Voor dit project haal ik inspiratie uit de visionaire ontwerper Ying Gao, die technologie, interactiviteit en mode naadloos combineert. Haar avant-garde benadering daagt conventionele kledingconstructie uit en sluit perfect aan bij de drie modetrends die ik heb gekozen: \n\nReal Authentic: Ying Gao’s ontwerpen belichamen authenticiteit door een conceptuele en innovatieve aanpak. Ik wil dit weerspiegelen door vakmanschap te combineren met moderne technologie. \n\nForm: Haar experimenten met vorm en structuur inspireren mij om onconventionele silhouetten te verkennen en de relatie tussen kleding en het lichaam opnieuw te definiëren.\n\nWorker: Veel van haar ontwerpen hebben een functionele en utilitaire esthetiek. Ik omarm werkwear-elementen zoals duurzaamheid en aanpasbaarheid, zodat mode zowel een statement maakt als functioneel is. \nDoor deze trends te integreren, streef ik naar een collectie die innovatie, authenticiteit en modern vakmanschap uitstraalt—net zoals Ying Gao de toekomst van mode blijft herdefiniëren.",
+  },
+  {
+    id: "quinty",
+    name: "Quinty",
+    image: "graduation-expo/Quinty.jfif",
+    instagram: ["quintyvanvught"],
+    description:
+      "hoi! Ik ben Quinty, Mijn collectie is gebaseerd op natuurlijke vormen, structuren en prints. Ik heb gekeken naar de prints en voormen die in de natuur voor komen, deze organsiche lijnen en texturen heb ik omgezet naar silhouetten, stoffen en natuurlijke kleuren.",
+  },
+  {
+    id: "isabelle",
+    name: "Isabelle",
+    image: "graduation-expo/Isabelle.jpg",
+    instagram: ["isabellevd.w"],
+    description:
+      "Mijn collectie is geïnspireerd op Malou Breuls, met haar speelse vormen en fantasierijke stijl. Daarnaast haal ik inspiratie uit de organische vormen van bloemen, die vrouwelijkheid en sierlijkheid uitstralen. Deze combinatie vertaalt zich in zachte silhouetten en elegante details",
   },
 ]
 
 const StudentSection = ({ student, index }: { student: any; index: number }) => (
-  <div className="bg-[#1a1a1a] px-6 py-8 text-center">
+  <div className="bg-[#1a1a1a] px-6 py-12 text-center">
     <h2 className="text-white text-2xl font-bold mb-6">{student.name}</h2>
-    <div className="flex justify-center mb-6">
+    <div className="flex justify-center mb-8">
       <div
         className="overflow-hidden shadow-lg"
-        style={{ width: "302px", height: "202px", borderRadius: "32px 0 32px 0" }}
+        style={{ width: "302px", height: "280px", borderRadius: "32px 0 32px 0" }}
       >
         <img
           src={student.image || "/placeholder.svg"}
@@ -109,25 +110,29 @@ const StudentSection = ({ student, index }: { student: any; index: number }) => 
           className="w-full h-full object-cover grayscale contrast-125 brightness-90"
           style={{
             filter: "grayscale(100%) contrast(1.2) brightness(0.9)",
-            objectPosition: "center top",
+            objectPosition: "center center",
           }}
         />
       </div>
     </div>
-    <p className="text-white text-sm leading-relaxed max-w-sm mx-auto">
-      {student.description.split(" ").map((word, wordIndex) => {
-        const isHighlighted = student.highlightWords.some((highlight) =>
-          word.toLowerCase().includes(highlight.toLowerCase()),
-        )
-        return isHighlighted ? (
-          <span key={wordIndex} className="font-bold">
-            {word}{" "}
-          </span>
-        ) : (
-          <span key={wordIndex}>{word} </span>
-        )
-      })}
-    </p>
+    <div className="text-white text-sm leading-relaxed max-w-sm mx-auto mb-4 whitespace-pre-line">
+      {student.description}
+    </div>
+
+    {/* Instagram links */}
+    <div className="flex flex-wrap justify-center items-center gap-3">
+      {student.instagram.map((handle, index) => (
+        <a
+          key={index}
+          href={`https://instagram.com/${handle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-[#9480AB] hover:text-white transition-colors duration-200 text-sm font-medium"
+        >
+          <Instagram className="w-4 h-4" />@{handle}
+        </a>
+      ))}
+    </div>
   </div>
 )
 
@@ -225,7 +230,19 @@ export default function GraduationExpoPage() {
           <main className="bg-white relative">
             {/* Title Section */}
             <div className="bg-white px-6 py-8 text-center relative">
-              <h1 className="text-2xl font-bold tracking-wide text-black">Graduation Expo</h1>
+              <h1
+                className="text-black"
+                style={{
+                  fontFamily: "Axia",
+                  fontWeight: 900,
+                  fontSize: "32px",
+                  lineHeight: "28px",
+                  letterSpacing: "0px",
+                  textAlign: "center",
+                }}
+              >
+                Graduation Expo
+              </h1>
             </div>
 
             {/* Transition with decorative crosses - only at the top */}
@@ -266,11 +283,7 @@ export default function GraduationExpoPage() {
             ))}
 
             {/* Vote Button Section */}
-            <div className="bg-[#1a1a1a] px-6 py-8 text-center">
-              <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-black transition-colors rounded-lg">
-                STEMMEN
-              </button>
-            </div>
+       
 
             {/* SVG Transition Border */}
             <div className="w-full h-11 bg-[#1a1a1a] relative">
