@@ -1,16 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server"
-import pool from "../../../../lib/database"
+import { supabase } from "../../../../lib/supabase"
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { username, password } = body
 
-    // Zoek gebruiker in database
-    const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [username])
+    // Zoek gebruiker in Supabase database
+    const { data: users, error } = await supabase.from("users").select("*").eq("username", username).limit(1)
 
-    if (Array.isArray(rows) && rows.length > 0) {
-      const user = rows[0]
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Server error" }, { status: 500 })
+    }
+
+    if (users && users.length > 0) {
+      const user = users[0]
 
       // Voor nu simpele wachtwoord check (in productie zou je bcrypt gebruiken)
       if (password === "admin123") {

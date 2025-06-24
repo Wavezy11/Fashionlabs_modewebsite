@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { writeFile } from "fs/promises"
-import path from "path"
+import { supabase } from "../../../lib/supabase"
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,25 +10,37 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 })
     }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-
     // Create unique filename
     const timestamp = Date.now()
     const randomString = Math.random().toString(36).substring(2, 15)
-    const extension = path.extname(file.name)
-    const filename = `${timestamp}-${randomString}${extension}`
+    const extension = file.name.split(".").pop()
+    const filename = `${timestamp}-${randomString}.${extension}`
 
-    // Save to public/uploads directory
-    const uploadDir = path.join(process.cwd(), "public", "uploads")
-    const filepath = path.join(uploadDir, filename)
+    // Convert file to buffer
+    const bytes = await file.arrayBuffer()
+    const buffer = new Uint8Array(bytes)
 
-    await writeFile(filepath, buffer)
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("uploads") // Make sure this bucket exists in Supabase
+      .upload(filename, buffer, {
+        contentType: file.type,
+        upsert: false,
+      })
 
-    // Return the public URL
-    const url = `/uploads/${filename}`
+    if (uploadError) {
+      console.error("Supabase upload error:", uploadError)
+      return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })
+    }
 
-    return NextResponse.json({ success: true, url })
+    // Get public URL
+    const { data: urlData } = supabase.storage.from("uploads").getPublicUrl(filename)
+
+    return NextResponse.json({
+      success: true,
+      url: urlData.publicUrl,
+      path: uploadData.path,
+    })
   } catch (error) {
     console.error("Upload error:", error)
     return NextResponse.json({ error: "Failed to upload file" }, { status: 500 })

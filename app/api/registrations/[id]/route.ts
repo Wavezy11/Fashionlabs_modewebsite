@@ -1,15 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server"
-import pool from "../../../../lib/database"
+import { supabase } from "../../../../lib/supabase"
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const [rows] = await pool.execute("SELECT * FROM registrations WHERE id = ?", [params.id])
+    const { data: registration, error } = await supabase.from("registrations").select("*").eq("id", params.id).single()
 
-    if (Array.isArray(rows) && rows.length === 0) {
-      return NextResponse.json({ error: "Registration not found" }, { status: 404 })
+    if (error) {
+      if (error.code === "PGRST116") {
+        return NextResponse.json({ error: "Registration not found" }, { status: 404 })
+      }
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to fetch registration" }, { status: 500 })
     }
 
-    return NextResponse.json(rows[0])
+    return NextResponse.json(registration)
   } catch (error) {
     console.error("Database error:", error)
     return NextResponse.json({ error: "Failed to fetch registration" }, { status: 500 })
@@ -21,10 +25,21 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const body = await request.json()
     const { first_name, last_name, email, phone, status } = body
 
-    await pool.execute(
-      "UPDATE registrations SET first_name = ?, last_name = ?, email = ?, phone = ?, status = ? WHERE id = ?",
-      [first_name, last_name, email, phone, status, params.id],
-    )
+    const { error } = await supabase
+      .from("registrations")
+      .update({
+        first_name,
+        last_name,
+        email,
+        phone,
+        status,
+      })
+      .eq("id", params.id)
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to update registration" }, { status: 500 })
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
@@ -35,7 +50,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await pool.execute("DELETE FROM registrations WHERE id = ?", [params.id])
+    const { error } = await supabase.from("registrations").delete().eq("id", params.id)
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to delete registration" }, { status: 500 })
+    }
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Database error:", error)

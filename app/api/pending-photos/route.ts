@@ -1,10 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server"
-import pool from "../../../lib/database"
+import { supabase } from "../../../lib/supabase"
 
 export async function GET() {
   try {
-    const [rows] = await pool.execute("SELECT * FROM pending_photos ORDER BY created_at DESC")
-    return NextResponse.json(rows)
+    const { data: pendingPhotos, error } = await supabase
+      .from("pending_photos")
+      .select("*")
+      .order("created_at", { ascending: false })
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to fetch pending photos" }, { status: 500 })
+    }
+
+    return NextResponse.json(pendingPhotos || [])
   } catch (error) {
     console.error("Database error:", error)
     return NextResponse.json({ error: "Failed to fetch pending photos" }, { status: 500 })
@@ -16,14 +25,28 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { title, description, image_url, user_name, email } = body
 
-    const [result] = await pool.execute(
-      "INSERT INTO pending_photos (title, description, image_url, user_name, email, status) VALUES (?, ?, ?, ?, ?, 'pending')",
-      [title, description, image_url, user_name, email],
-    )
+    const { data, error } = await supabase
+      .from("pending_photos")
+      .insert([
+        {
+          title,
+          description,
+          image_url,
+          user_name,
+          email,
+          status: "pending",
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to create pending photo" }, { status: 500 })
+    }
 
     return NextResponse.json({
       success: true,
-      id: (result as any).insertId,
+      id: data[0]?.id,
     })
   } catch (error) {
     console.error("Database error:", error)

@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import pool from "../../../../../lib/database"
+import { supabase } from "../../../../../lib/supabase"
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -10,18 +10,26 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     }
 
     // First get the current photo to get its likes
-    const [rows] = await pool.execute("SELECT * FROM photos WHERE id = ?", [photoId])
+    const { data: photo, error: fetchError } = await supabase.from("photos").select("*").eq("id", photoId).single()
 
-    if (Array.isArray(rows) && rows.length === 0) {
-      return NextResponse.json({ error: "Photo not found" }, { status: 404 })
+    if (fetchError) {
+      if (fetchError.code === "PGRST116") {
+        return NextResponse.json({ error: "Photo not found" }, { status: 404 })
+      }
+      console.error("Supabase fetch error:", fetchError)
+      return NextResponse.json({ error: "Failed to fetch photo" }, { status: 500 })
     }
 
-    const photo = rows[0]
     const currentLikes = Number(photo.likes) || 0
     const newLikes = currentLikes + 1
 
     // Update the likes count
-    await pool.execute("UPDATE photos SET likes = ? WHERE id = ?", [newLikes, photoId])
+    const { error: updateError } = await supabase.from("photos").update({ likes: newLikes }).eq("id", photoId)
+
+    if (updateError) {
+      console.error("Supabase update error:", updateError)
+      return NextResponse.json({ error: "Failed to update likes" }, { status: 500 })
+    }
 
     // Return the updated photo with the new likes count
     return NextResponse.json({

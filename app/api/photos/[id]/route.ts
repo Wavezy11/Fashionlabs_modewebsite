@@ -1,15 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server"
-import pool from "../../../../lib/database"
+import { supabase } from "../../../../lib/supabase"
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const [rows] = await pool.execute("SELECT * FROM photos WHERE id = ?", [params.id])
+    const { data: photo, error } = await supabase.from("photos").select("*").eq("id", params.id).single()
 
-    if (Array.isArray(rows) && rows.length === 0) {
-      return NextResponse.json({ error: "Photo not found" }, { status: 404 })
+    if (error) {
+      if (error.code === "PGRST116") {
+        return NextResponse.json({ error: "Photo not found" }, { status: 404 })
+      }
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to fetch photo" }, { status: 500 })
     }
 
-    return NextResponse.json(rows[0])
+    return NextResponse.json(photo)
   } catch (error) {
     console.error("Database error:", error)
     return NextResponse.json({ error: "Failed to fetch photo" }, { status: 500 })
@@ -21,13 +25,20 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const body = await request.json()
     const { title, description, user_name, likes } = body
 
-    await pool.execute("UPDATE photos SET title = ?, description = ?, user_name = ?, likes = ? WHERE id = ?", [
-      title,
-      description,
-      user_name,
-      likes,
-      params.id,
-    ])
+    const { error } = await supabase
+      .from("photos")
+      .update({
+        title,
+        description,
+        user_name,
+        likes,
+      })
+      .eq("id", params.id)
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to update photo" }, { status: 500 })
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
@@ -38,7 +49,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    await pool.execute("DELETE FROM photos WHERE id = ?", [params.id])
+    const { error } = await supabase.from("photos").delete().eq("id", params.id)
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to delete photo" }, { status: 500 })
+    }
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Database error:", error)
