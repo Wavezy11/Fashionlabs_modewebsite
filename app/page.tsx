@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import { Plus, Minus } from 'lucide-react'
+import { Plus, Minus } from "lucide-react"
 import Image from "next/image"
 
 export default function FashionLabsApp() {
@@ -141,14 +141,20 @@ export default function FashionLabsApp() {
     Fashionshow: {
       description:
         "Ervaar de nieuwste modetrends en ontwerpen van onze getalenteerde studenten. Een spectaculaire show vol creativiteit en innovatie.",
+      buttonText: "BEKIJK FASHIONSHOW",
+      buttonLink: "/fashionshow",
     },
     "Graduation Pitches": {
       description:
-        "De afstudeerstudenten presenteren hun projecten en ideeën. Een kijkje in de toekomst van mode en design.",
+        "De design studenten hebben voor hun laatste project de opdracht gekregen om voor een een designer van de tentoonstelling SHAPE een collectie te ontwikkelen. Hierin hebben zij onderzoek gedaan naar trends, een marketingplan opgesteld, een eigen concept vormgeven en verschillende designs uitgwerkt en voorbereid voor de productie. ",
+      buttonText: "BEKIJK EXPO",
+      buttonLink: "/graduation-expo",
     },
     "Graduation show": {
       description:
-        "De afstudeerstudenten presenteren hun eindwerken in een indrukwekkende modeshow. Het hoogtepunt van hun opleiding.",
+        "De tailor studenten hebben hun eindcollectie laten inspireren op de tentoonstelling SHAPE, zij hebben allemaal een kunstenaar of designer gekozen daarvoor een collectie van 4 outfits ontworpen en vervaardigd. ",
+      buttonText: "BEKIJK GRADUATION SHOW",
+      buttonLink: "/graduation-show",
     },
   }
 
@@ -436,8 +442,6 @@ export default function FashionLabsApp() {
               <div className="w-full bg-[#9480AB] relative px-4 py-8">
                 <h2 className="text-2xl text-center mb-8 font-bold text-white">PROGRAMMA</h2>
 
-         
-
                 <div className="space-y-4">
                   {programItems.map((item) => (
                     <div key={item.id} className="space-y-2">
@@ -469,9 +473,17 @@ export default function FashionLabsApp() {
                       {/* Expanded Content */}
                       {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
                         <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
-                          <p className="text-gray-800 text-sm leading-relaxed">
+                          <p className="text-gray-800 text-sm leading-relaxed mb-4">
                             {expandedContent[item.title].description}
                           </p>
+                          <div className="flex justify-center">
+                            <a
+                              href={expandedContent[item.title].buttonLink}
+                              className="bg-[#9480AB] text-white px-6 py-3 font-bold text-center inline-block rounded hover:bg-[#7a6b8a] transition-colors duration-300"
+                            >
+                              {expandedContent[item.title].buttonText}
+                            </a>
+                          </div>
                         </div>
                       )}
                     </div>
