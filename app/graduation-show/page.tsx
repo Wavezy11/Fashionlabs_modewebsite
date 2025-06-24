@@ -3,140 +3,151 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { Instagram } from "lucide-react"
 
 const graduationStudents = [
   {
     id: "brandon",
     name: "Brandon",
     image: "fashionshow/Brandon.jpg",
+    instagram: ["Https.brandon013"],
     description:
-      "Deze collectie is een artistieke en rebelse verkiezing van mentale gezondheid en de impact van sociale media op onze samenleving. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos, maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
-    highlightWords: ["mentale gezondheid", "essentieel onderdeel"],
+      "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
   },
   {
     id: "izis",
     name: "Izis",
     image: "fashionshow/Izis.jpg",
+    instagram: ["_izis__kips"],
     description:
-      "Een collectie geïnspireerd door de kracht van vrouwelijkheid en moderne elegantie. Elk ontwerp vertelt een verhaal van zelfvertrouwen en authenticiteit, waarbij traditionele technieken worden gecombineerd met hedendaagse silhouetten.",
-    highlightWords: ["vrouwelijkheid", "authenticiteit"],
+      '"Once we\'ll escape from the reality"\n\nEen fase in een menselijk leven, waarbij ontsnapping uit het dagelijkse leven even nodig is om jezelf te herontdekken.\nDoor een tijdje in een magische wereld te stappen waar je jezelf kan zijn en de volledige rust kan pakken, krijg je de kans om de juiste keuzes te maken voor de toekomst.',
   },
   {
     id: "lise",
     name: "Lise",
     image: "fashionshow/lise.jfif",
+    instagram: ["lisette_gelata"],
     description:
-      "Deze collectie verkent de harmonie tussen natuur en mode. Door gebruik te maken van organische vormen en duurzame materialen ontstaat een unieke symbiose tussen comfort en stijl. Elk stuk vertelt het verhaal van bewuste keuzes en milieuvriendelijke innovatie.",
-    highlightWords: ["natuur", "duurzame materialen"],
+      'Vintage dollhouse is de naam van mijn collectie. "Bij deze collectie ben ik gegaan voor een elegante vintage look, geïnspireerd door porseleinen poppen en hun tijdloze charme."',
   },
   {
     id: "luna",
     name: "Luna",
     image: "fashionshow/Luna.jpg",
+    instagram: ["lunascova"],
     description:
-      "Een dromerige collectie die de mystiek van de nacht omarmt. Zachte texturen en vloeiende silhouetten creëren een gevoel van sereniteit en elegantie. Deze ontwerpen nodigen uit tot contemplatie en innerlijke rust.",
-    highlightWords: ["mystiek", "sereniteit"],
+      "Deze collectie draait om de balans tussen licht en donker, sterk en zacht. Wit staat voor rust en hoop, zwart voor diepte en kracht. Door contrasten in stoffen, vormen en structuren ontstaat een harmonie tussen tegenstellingen.",
   },
   {
     id: "maud",
     name: "Maud",
     image: "fashionshow/Maud.jpg",
+    instagram: ["chickie_nuggets2"],
     description:
-      "Een krachtige collectie die de grenzen van conventionele mode doorbreekt. Door experimentele technieken en onverwachte materiaalcombinaties ontstaat een revolutionaire benadering van hedendaagse kleding. Elk ontwerp daagt de kijker uit om anders te denken.",
-    highlightWords: ["revolutionaire", "experimentele technieken"],
+      "Mijn idee voor mijn collectie is om surrealisme naar boven te halen in de kleding, maar ook het ook vrouwelijk te houden. Ik houd zelf van het idee dat dingen net iets te ver gaan voor sommige mensen dus net buiten de lijntjes te kleuren. Dit is ook te zien in mijn concept bord. Voor vormen en silhouetten ben ik gegaan voor aan sluitende kleding om de vormen van het lichaam te accentueren en ook heb ik er voor gekozen om het skelet weer naar boven te laten komen, omdat dit mij altijd aanspreekt en toch een beetje buiten de lijntjes te gaan.",
   },
   {
     id: "may-zaan",
     name: "May-Zaan",
     image: "fashionshow/May-Zaan.jpg",
+    instagram: ["mayie_05_"],
     description:
-      "Deze collectie viert de diversiteit van culturele invloeden en moderne interpretaties. Door het mengen van traditionele patronen met eigentijdse snit ontstaat een unieke fusie die zowel verleden als toekomst eert.",
-    highlightWords: ["culturele invloeden", "unieke fusie"],
+      '"To the future and past" De collectie "To the future and Past" is gebaseerd op traditionele/culturele kleding van China met een fusion van moderne EGL/Lolita kledingstyle van Japan. In mijn collectie laat ik een ander en ander beeld zien van de Chinese cultuur dat mensen weinig of geen van afweten. Deze kledingstukken worden geïnspireerd van de Chinese Hanfu en Qipao met erbij de lolita jurken.\n\n- By May-zaan Tang',
   },
   {
     id: "nisa",
     name: "Nisa",
     image: "fashionshow/Nisa.jpg",
+    instagram: ["studiona_bi"],
     description:
-      "Een collectie die de kracht van minimalisme en functionaliteit combineert. Strakke lijnen en doordachte details creëren tijdloze stukken die zowel praktisch als elegant zijn. Elke creatie belichaamt de essentie van moderne sophistication.",
-    highlightWords: ["minimalisme", "tijdloze stukken"],
+      "Met een wereld vol overproductie en textielafval brengt deze collectie een bewuste benadering van mode, waar tijdloze ontwerpen en duurzame stoffen centraal staan.\nDoor minimalisme en doordachte materialen te combineren, laat deze collectie zien dat stijl en verantwoordelijkheid hand in hand kunnen gaan.",
   },
   {
     id: "olivier",
     name: "Olivier",
     image: "fashionshow/Olivier.jpg",
+    instagram: ["_oliviervanhoof_"],
     description:
-      "Deze collectie onderzoekt de spanning tussen structuur en vrijheid. Door architecturale elementen te integreren in draagbare mode ontstaat een fascinerende dialoog tussen vorm en functie. Elk ontwerp is een statement van creatieve onafhankelijkheid.",
-    highlightWords: ["architecturale elementen", "creatieve onafhankelijkheid"],
+      "Ik heb mijn collectie gebaseerd op het nostalgische gevoel dat ik kreeg van mijn gekozen modehuis. Het gevoel kwam vooral door het gebruik van de kleuren, motiefjes en het model van zijn kledingstukken. Vandaar heb ik oude foto's gebruikt en ben er zelf voor gegaan om stoffen te gebruiken die een oud gevoel geven.",
   },
   {
     id: "sanne",
     name: "Sanne",
     image: "fashionshow/Sanne.jpg",
+    instagram: ["sanne_sdk"],
     description:
-      "Een speelse collectie die kleur en textuur viert. Door het experimenteren met onconventionele materialen en levendige paletten ontstaat een vrolijke en optimistische benadering van mode. Elk stuk straalt pure vreugde en creativiteit uit.",
-    highlightWords: ["levendige paletten", "pure vreugde"],
+      "Street with a touch of weirdness\n\nIk heb mijn collectie deze naam gegeven omdat het voornamelijk streetwear/urban kleding is en omdat er meer ongebruikelijke prints en fournituren zijn gebruikt zoals teddyberen op een jas en graffiti op kleding.\nIk wil met mijn collectie laten zien dat je uit je comfort zone mag gaan en dat je daar door een inspiratie kan zijn voor de mensen om jou heen.\nBen de inspiratie en laat inspireren!",
   },
   {
     id: "sarah",
     name: "Sarah",
     image: "fashionshow/Sarah.jpg",
+    instagram: ["sarahsmans"],
     description:
-      "Deze collectie omarmt de kracht van transformatie en persoonlijke groei. Door adaptieve ontwerpen en veelzijdige styling opties ontstaan kledingstukken die meegroeien met de drager. Elk ontwerp vertelt een verhaal van evolutie en zelfontdekking.",
-    highlightWords: ["transformatie", "zelfontdekking"],
+      "Mijn collectie heet shapes of time, ik wil de kenmerken van vroeger in een modern jasje gaan steken. Met mijn collectie wil ik de vormen van vroeger laten terug komen in mijn kledingstukken en dat mijn kleding een klassiek en sierlijk gevoel uitstraalt.",
   },
   {
     id: "senna",
     name: "Senna",
     image: "fashionshow/Senna.jpg",
+    instagram: ["Senna_rugbondingsing"],
     description:
-      "Een collectie die de grens tussen kunst en mode verkent. Door het integreren van artistieke technieken in draagbare ontwerpen ontstaat een unieke vorm van wearable art. Elk stuk is zowel functioneel als een kunstwerk op zich.",
-    highlightWords: ["wearable art", "artistieke technieken"],
+      "Ik ben Senna 21 jaar, en ik ben trots om mijn Shape Collectie met jullie te delen. Deze collectie draait volledig om bodypositivity – het vieren van elk lichaam, in elke vorm, maat en kleur. Door het gebruik van fijn kant wil ik laten zien dat álle lichamen er mogen zijn. Ieder detail is ontworpen met liefde en respect voor diversiteit, zodat jij je gezien en krachtig voelt, precies zoals je bent.",
   },
   {
     id: "vera",
     name: "Vera",
     image: "fashionshow/Vera.jpg",
+    instagram: ["veravandenthillart", "portfolio_veravandenthillart"],
     description:
-      "Deze collectie viert de schoonheid van imperfectie en authenticiteit. Door het omarmen van natuurlijke texturen en organische vormen ontstaat een eerlijke en oprechte benadering van mode. Elk ontwerp straalt warmte en menselijkheid uit.",
-    highlightWords: ["authenticiteit", "menselijkheid"],
+      "Mijn collectie heet 5 stages of grief, ik geef vorm in mijn collectie de emoties die veel mensen ervaren als ze door een periode van rauw gaan. Als ze iemand verliezen die dierbaar voor ze zijn. De emoties die je gaat zien zijn: boosheid, verdriet, angst, schok & ongeloof en acceptatie.",
   },
   {
     id: "vy",
     name: "Vy",
     image: "fashionshow/Vy.jpg",
+    instagram: ["vylocxfashion", "Vyloc_"],
     description:
-      "Een futuristische collectie die technologie en mode samenbrengt. Door het integreren van innovatieve materialen en cutting-edge technieken ontstaat een visie op de toekomst van kleding. Elk ontwerp is een blik vooruit naar wat mogelijk is.",
-    highlightWords: ["futuristische", "cutting-edge technieken"],
+      'Het concept van mijn collectie is "Bloom in your own way, every flower had its own."\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
   },
 ]
 
 const StudentSection = ({ student, index }: { student: any; index: number }) => (
-  <div className="bg-[#1a1a1a] px-6 py-8 text-center">
+  <div className="bg-[#1a1a1a] px-6 py-12 text-center">
     <h2 className="text-white text-2xl font-bold mb-6">{student.name}</h2>
-    <div className="flex justify-center mb-6">
-      <div className="w-80 h-80 rounded-3xl overflow-hidden border-4 border-gray-800 shadow-lg">
+    <div className="flex justify-center mb-8">
+      <div
+        className="overflow-hidden shadow-lg"
+        style={{ width: "302px", height: "280px", borderRadius: "32px 0 32px 0" }}
+      >
         <img
           src={student.image || "/placeholder.svg"}
           alt={student.name}
-          className="w-full h-full object-cover grayscale contrast-110 brightness-95"
+          className="w-full h-full object-cover grayscale contrast-125 brightness-90"
+          style={{
+            filter: "grayscale(100%) contrast(1.2) brightness(0.9)",
+            objectPosition: "center center",
+          }}
         />
       </div>
     </div>
-    <p className="text-white text-sm leading-relaxed max-w-sm mx-auto">
-      {student.description.split(" ").map((word, wordIndex) => {
-        const isHighlighted = student.highlightWords.some((highlight) =>
-          word.toLowerCase().includes(highlight.toLowerCase()),
-        )
-        return isHighlighted ? (
-          <span key={wordIndex} className="font-bold">
-            {word}{" "}
-          </span>
-        ) : (
-          <span key={wordIndex}>{word} </span>
-        )
-      })}
-    </p>
+    <div className="text-white text-sm leading-relaxed max-w-sm mx-auto mb-4 whitespace-pre-line">
+      {student.description}
+    </div>
+    {/* Instagram links */}
+    <div className="flex flex-wrap justify-center items-center gap-3">
+      {student.instagram.map((handle, index) => (
+        <a
+          key={index}
+          href={`https://instagram.com/${handle}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-[#9480AB] hover:text-white transition-colors duration-200 text-sm font-medium"
+        >
+          <Instagram className="w-4 h-4" />@{handle}
+        </a>
+      ))}
+    </div>
   </div>
 )
 
@@ -232,107 +243,28 @@ export default function GraduationShowPage() {
 
           {/* Main Content */}
           <main className="bg-white relative">
-            {/* White Title Section */}
-            <div className="bg-white px-6 py-8 text-center relative z-10">
-              <h1 className="text-2xl font-bold tracking-wide text-black">Graduation Show</h1>
+            {/* Title Section */}
+            <div className="bg-white px-6 py-8 text-center relative">
+              <h1
+                className="text-black"
+                style={{
+                  fontFamily: "Axia",
+                  fontWeight: 900,
+                  fontSize: "32px",
+                  lineHeight: "28px",
+                  letterSpacing: "0px",
+                  textAlign: "center",
+                }}
+              >
+                Graduation Show
+              </h1>
             </div>
 
-            {/* Overlapping Image Container */}
-            <div className="relative z-20 flex justify-center -mb-20">
-              {/* Decorative Cross SVGs around the image */}
-              {/* Left side crosses */}
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 46 47"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-4 left-8 z-30"
-              >
-                <path
-                  d="M30.6648 15.616V0.282715H15.3324V15.616H0V30.9494H15.3324V46.2827H30.6648V30.9494H46V15.616H30.6648Z"
-                  fill="#9480AB"
-                />
-              </svg>
+            {/* Purple Section with Text (moved up) */}
+            <div className="bg-[#B8A5D1] px-6 py-8 text-center relative z-10">
+              {/* Decorative crosses - Left side */}
+            
 
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 46 47"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-12 left-4 z-30"
-              >
-                <path
-                  d="M30.6648 15.616V0.282715H15.3324V15.616H0V30.9494H15.3324V46.2827H30.6648V30.9494H46V15.616H30.6648Z"
-                  fill="#9480AB"
-                />
-              </svg>
-
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 46 47"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute bottom-6 left-12 z-30"
-              >
-                <path
-                  d="M30.6648 15.616V0.282715H15.3324V15.616H0V30.9494H15.3324V46.2827H30.6648V30.9494H46V15.616H30.6648Z"
-                  fill="#9480AB"
-                />
-              </svg>
-
-              {/* Right side crosses */}
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 46 47"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-2 right-6 z-30"
-              >
-                <path
-                  d="M30.6648 15.616V0.282715H15.3324V15.616H0V30.9494H15.3324V46.2827H30.6648V30.9494H46V15.616H30.6648Z"
-                  fill="#9480AB"
-                />
-              </svg>
-
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 46 47"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-8 right-12 z-30"
-              >
-                <path
-                  d="M30.6648 15.616V0.282715H15.3324V15.616H0V30.9494H15.3324V46.2827H30.6648V30.9494H46V15.616H30.6648Z"
-                  fill="#9480AB"
-                />
-              </svg>
-
-              <svg
-                width="17"
-                height="17"
-                viewBox="0 0 46 47"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute bottom-4 right-8 z-30"
-              >
-                <path
-                  d="M30.6648 15.616V0.282715H15.3324V15.616H0V30.9494H15.3324V46.2827H30.6648V30.9494H46V15.616H30.6648Z"
-                  fill="#9480AB"
-                />
-              </svg>
-
-              <div className="w-64 h-48 rounded-2xl overflow-hidden shadow-lg">
-                <img src="graduation-show-foto.png" alt="Graduation Show" className="w-full h-full object-cover" />
-              </div>
-            </div>
-
-            {/* Purple Section with Text */}
-            <div className="bg-[#B8A5D1] px-6 pt-24 pb-8 text-center relative z-10">
               <p className="text-white text-sm leading-relaxed max-w-sm mx-auto">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
@@ -342,7 +274,7 @@ export default function GraduationShowPage() {
               </p>
             </div>
 
-            {/* SVG Overlay Border */}
+            {/* SVG Transition Border */}
             <div className="w-full h-11 bg-[#B8A5D1] relative">
               <svg
                 width="393"
@@ -391,17 +323,22 @@ export default function GraduationShowPage() {
               </svg>
             </div>
 
-            {/* Student Sections */}
+            {/* Student Sections (Black background like expo) */}
             {graduationStudents.map((student, index) => (
               <StudentSection key={student.id} student={student} index={index} />
             ))}
 
             {/* Vote Button Section */}
             <div className="bg-[#1a1a1a] px-6 py-8 text-center">
+              <a href="https://www.menti.com/almyi42oep2a" target="_blank" rel="noopener noreferrer"> 
               <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-black transition-colors rounded-lg">
                 STEMMEN
               </button>
+              </a>
             </div>
+
+          
+
 
             {/* Footer */}
             <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
