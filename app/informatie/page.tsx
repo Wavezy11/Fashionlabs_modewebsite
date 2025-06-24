@@ -19,7 +19,7 @@ export default function FashionLabsProgram() {
     },
     {
       id: "Pitches",
-      time: "15:00",
+      time: "15:30",
       title: "Pitches TexLab",
       location: "Vide",
       hasPlus: false,
@@ -30,8 +30,8 @@ export default function FashionLabsProgram() {
       time: "16:30",
       title: "Digital Alumni talk",
       location: "Forum / Alumni Student Wanida",
-      hasPlus: false,
-      isExpandable: false,
+      hasPlus: true,
+      isExpandable: true,
     },
     {
       id: "Fashionshow",
@@ -54,8 +54,8 @@ export default function FashionLabsProgram() {
       time: "19:00",
       title: "AI talk Elmo Mistiaen",
       location: "Forum / Elmo Mistiaen",
-      hasPlus: false,
-      isExpandable: false,
+      hasPlus: true,
+      isExpandable: true,
     },
     {
       id: "Graduation Pitches",
@@ -70,8 +70,8 @@ export default function FashionLabsProgram() {
       time: "20:00",
       title: "Graduation Talk",
       location: "Forum / Jim intervieuw",
-      hasPlus: false,
-      isExpandable: false,
+      hasPlus: true,
+      isExpandable: true,
     },
     {
       id: "Graduation show",
@@ -84,6 +84,22 @@ export default function FashionLabsProgram() {
   ]
 
   const expandedContent = {
+    "Graduation Talk": {
+      description:
+        "Tijdens de graduation talk zal Jim Steward in gesprek gaan met verschillende afstudeer studenten. De vragen hoe zij tegen de veranderende wereld met AI aankijken en hoe zij SHAPE in hun eigen werk hebben vertaald zullen aan bod komen. Maar ook de vraag hoe hun kijk op de mode wereld is zal aan bod komen.",
+    },
+    "AI talk Elmo Mistiaen": {
+      description:
+        "Ik ben Graphic Designer en juwelen ontwerper, gebaseerd in Brussel, België. Mijn stijl is voornamelijk organische vormen en digitaal beelden transformeren in vreemde organismes en biomorphic vormen. \n Met inspiratie uit de microscopische wereld en coralen.",
+      image: "/elmo.png?height=200&width=300&text=AI+Expert+Speaker",
+      imageAlt: "AI Talk Speaker Elmo Mistiaen",
+    },
+    "Digital Alumni talk": {
+      description:
+        "Stel je voor dat je een game had, waar jij jezelf kan stylen met je kledingkast? \nTijdens mijn afstudeerproject ontwikkelde ik Wanida's Closet: een digitale kledingkast waarin je je eigen kleding kunt scannen, stylen en passen via jezelf als 3D-avatar. Mode wordt zo interactief, speels en persoonlijk. In de alumni talk vertel ik hoe dit project is ontstaan, en hoe het aansluit bij mijn huidige studie als multimedia designer en de visie op de toekomst van digitale mode.",
+      image: "/placeholder.svg?height=200&width=300&text=Digital+Alumni+Speaker",
+      imageAlt: "Digital Alumni Talk Speaker",
+    },
     Fashionshow: {
       description:
         "Ervaar de nieuwste modetrends en ontwerpen van onze getalenteerde studenten. Een spectaculaire show vol creativiteit en innovatie.",
@@ -165,7 +181,7 @@ export default function FashionLabsProgram() {
             </div>
           </header>
 
-         {/* Navigation Menu Overlay */}
+          {/* Navigation Menu Overlay */}
           <div
             className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
@@ -215,13 +231,6 @@ export default function FashionLabsProgram() {
               </div>
             </div>
 
-            {/* Location and Time - Black Box */}
-            <div className="bg-black text-white p-6 text-center">
-              <div className="font-bold text-lg mb-2">MindLabs</div>
-              <div className="text-sm mb-2">Locomotiefboulevard 101 5041 SE Tilburg</div>
-              <div className="font-bold text-lg">14:30 - 21:30</div>
-            </div>
-
             {/* Program Section */}
             <div className="bg-[#9480AB] px-4 py-6">
               <h2 className="text-xl font-bold text-white mb-6 text-center">PROGRAMMA</h2>
@@ -257,17 +266,36 @@ export default function FashionLabsProgram() {
                     {/* Expanded Content */}
                     {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
                       <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
-                        <p className="text-gray-800 text-sm leading-relaxed mb-4">
+                        {/* Image for Digital Alumni talk and AI talk */}
+                        {expandedContent[item.title].image && (
+                          <div className="mb-4 flex justify-center">
+                            <Image
+                              src={expandedContent[item.title].image || "/placeholder.svg"}
+                              alt={expandedContent[item.title].imageAlt}
+                              width={250}
+                              height={150}
+                              className="rounded-lg object-cover shadow-md hover:opacity-90 transition-opacity duration-300"
+                            />
+                          </div>
+                        )}
+
+                        <p
+                          className={`text-gray-800 text-sm leading-relaxed mb-4 ${expandedContent[item.title].image ? "text-center" : ""}`}
+                        >
                           {expandedContent[item.title].description}
                         </p>
-                        <div className="flex justify-center">
-                          <a
-                            href={expandedContent[item.title].buttonLink}
-                            className="bg-[#9480AB] text-white px-6 py-3 font-bold text-center inline-block rounded hover:bg-[#7a6b8a] transition-colors duration-300"
-                          >
-                            {expandedContent[item.title].buttonText}
-                          </a>
-                        </div>
+
+                        {/* Only show button if buttonText and buttonLink exist */}
+                        {expandedContent[item.title].buttonText && expandedContent[item.title].buttonLink && (
+                          <div className="flex justify-center">
+                            <a
+                              href={expandedContent[item.title].buttonLink}
+                              className="bg-[#9480AB] text-white px-6 py-3 font-bold text-center inline-block rounded hover:bg-[#7a6b8a] transition-colors duration-300"
+                            >
+                              {expandedContent[item.title].buttonText}
+                            </a>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -283,6 +311,13 @@ export default function FashionLabsProgram() {
               >
                 TICKETS
               </a>
+            </div>
+
+            {/* Location and Time - Black Box */}
+            <div className="bg-black text-white p-6 text-center">
+              <div className="font-bold text-lg mb-2">MindLabs</div>
+              <div className="text-sm mb-2">Locomotiefboulevard 101 5041 SE Tilburg</div>
+              <div className="font-bold text-lg">15:00 - 21:30</div>
             </div>
 
             {/* Map Section */}

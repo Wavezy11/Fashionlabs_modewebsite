@@ -10,7 +10,7 @@ const graduationStudents = [
     id: "may-zaan",
     name: "May-Zaan",
     image: "fashionshow/May-Zaan.jpg",
-    imagePosition: "center", // Voorbeeld: focus op bovenkant
+   
     instagram: ["mayie_05_"],
     description:
       '"To the future and past" De collectie "To the future and Past" is gebaseerd op traditionele/culturele kleding van China met een fusion van moderne EGL/Lolita kledingstyle van Japan. In mijn collectie laat ik een ander en ander beeld zien van de Chinese cultuur dat mensen weinig of geen van afweten. Deze kledingstukken worden geïnspireerd van de Chinese Hanfu en Qipao met erbij de lolita jurken.\n\n- By May-zaan Tang',
@@ -19,7 +19,6 @@ const graduationStudents = [
     id: "luna",
     name: "Luna",
     image: "fashionshow/Luna.jpg",
-    // Geen imagePosition = default "center center"
     instagram: ["lunascova"],
     description:
       "Deze collectie draait om de balans tussen licht en donker, sterk en zacht. Wit staat voor rust en hoop, zwart voor diepte en kracht. Door contrasten in stoffen, vormen en structuren ontstaat een harmonie tussen tegenstellingen.",
@@ -36,7 +35,7 @@ const graduationStudents = [
     id: "sarah",
     name: "Sarah",
     image: "fashionshow/Sarah.jpg",
-     imagePosition: "center top", // Voorbeeld: focus op bovenkant
+    imagePosition: "50% 30%",
     instagram: ["sarahsmans"],
     description:
       "Mijn collectie heet shapes of time, ik wil de kenmerken van vroeger in een modern jasje gaan steken. Met mijn collectie wil ik de vormen van vroeger laten terug komen in mijn kledingstukken en dat mijn kleding een klassiek en sierlijk gevoel uitstraalt.",
@@ -53,6 +52,7 @@ const graduationStudents = [
     id: "nisa",
     name: "Nisa",
     image: "fashionshow/Nisa.jpg",
+        imagePosition: "50% 35%",
     instagram: ["studiona_bi"],
     description:
       "Met een wereld vol overproductie en textielafval brengt deze collectie een bewuste benadering van mode, waar tijdloze ontwerpen en duurzame stoffen centraal staan.\nDoor minimalisme en doordachte materialen te combineren, laat deze collectie zien dat stijl en verantwoordelijkheid hand in hand kunnen gaan.",
@@ -63,7 +63,7 @@ const graduationStudents = [
     image: "fashionshow/Vy.jpg",
     instagram: ["vylocxfashion", "Vyloc_"],
     description:
-      'Het concept van mijn collectie is "Bloom in your own way, every flower had its own."\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
+      'Het concept van mijn collectie is \n"Bloom in your own way, every flower had its own."\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
   },
   {
     id: "maud",
@@ -93,6 +93,7 @@ const graduationStudents = [
     id: "brandon",
     name: "Brandon",
     image: "fashionshow/Brandon.jpg",
+    imagePosition: "50% 30%",
     instagram: ["Https.brandon013"],
     description:
       "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
@@ -221,7 +222,7 @@ export default function GraduationShowPage() {
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
-             { name: "HOME", path: "/" },
+                  { name: "HOME", path: "/" },
                   { name: "PROGRAMMA", path: "/informatie" },
                   { name: "GRADUATION-EXPO", path: "/graduation-expo" },
                   { name: "GRADUATION-SHOW", path: "/graduation-show" },

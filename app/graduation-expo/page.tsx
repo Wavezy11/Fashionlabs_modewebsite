@@ -28,7 +28,7 @@ const graduationExpoStudents = [
     image: "graduation-expo/Sydney.jfif",
     instagram: ["syd__ster____"],
     description:
-    "CLOWNCHROMA \nClownchroma is fel, gedurfd en grensverleggend. Het verkent identiteit aan de hand van gekke, opvallende vormen, levendige primaire kleuren—geel, oranje, rood, blauw, groen en paars—en een explosie van speelse patronen zoals ruitjes en stippen.Geïnspireerd door de theatrale geest van Walter van Beirendonck, versmelt de collectie clown-esthetiek met persoonlijke expressie en genderfluïditeit. \nOntworpen voor alle lichamen en identiteiten is Clownchroma mode als performance, spel en trots.",
+      "CLOWNCHROMA \nClownchroma is fel, gedurfd en grensverleggend. Het verkent identiteit aan de hand van gekke, opvallende vormen, levendige primaire kleuren—geel, oranje, rood, blauw, groen en paars—en een explosie van speelse patronen zoals ruitjes en stippen.Geïnspireerd door de theatrale geest van Walter van Beirendonck, versmelt de collectie clown-esthetiek met persoonlijke expressie en genderfluïditeit. \nOntworpen voor alle lichamen en identiteiten is Clownchroma mode als performance, spel en trots.",
   },
   {
     id: "maud",
@@ -36,20 +36,22 @@ const graduationExpoStudents = [
     image: "graduation-expo/Maud.jpg",
     instagram: ["maudlaseroms"],
     description:
-      "Out of Sight, Censored, Unveiled.\n Mijn collectie geeft het proces van groei, bewustwording en zelfontwikkeling bij een vrouw weer. Waarin zij zich verbergt, blootstelt en haarzelf volledig omarmt en durft te laten zien. Mijn collectie is een visuele weergave van deze reis, geïnspireerd op natuur en dier om dit proces te weergeven"
+      "Out of Sight, Censored, Unveiled.\n Mijn collectie geeft het proces van groei, bewustwording en zelfontwikkeling bij een vrouw weer. Waarin zij zich verbergt, blootstelt en haarzelf volledig omarmt en durft te laten zien. Mijn collectie is een visuele weergave van deze reis, geïnspireerd op natuur en dier om dit proces te weergeven",
   },
   {
     id: "isabella",
     name: "Isabella",
     image: "graduation-expo/Isabella.jfif",
+    imagePosition: "50% 20%",
     instagram: ["Isabellamilada"],
     description:
-      "Hoi! Ik ben Isabella Medel Espinoza, 20 jaar oud, en ik ontwerp momenteel mijn collectie “Futuristic Elegance”. Als student design/mode ontwerper wil ik technologie en luxe couture combineren, geïnspireerd door Pierpaolo Piccioli, die romantische elegantie mengt met moderne elementen. \n\n Mijn Ontwerpconcept: “Futuristic Elegance” Mijn collectie combineert luxe couture met technologische innovaties, zoals LED-verlichting en kleurveranderende stoffen die reageren op beweging. Ik gebruik duurzame en innovatieve materialen om een balans te creëren tussen esthetiek en interactiviteit. \n\n Mijn ontwerpen, zoals de Tech-Infused Fishtail Dress en de Sustainable Luxury A-Line Gown, weerspiegelen mijn visie op mode: technologie, duurzaamheid en luxe. Hoewel de ontwerpen nog in ontwikkeling zijn, ben ik enthousiast om ze verder uit te werken en te presenteren op de expositie. \n\nIk kijk erg uit naar de voortgang van dit project en de uiteindelijke expositie!",
+      'Hoi! Ik ben Isabella Medel Espinoza, 20 jaar oud, en ik ontwerp momenteel mijn collectie "Futuristic Elegance". Als student design/mode ontwerper wil ik technologie en luxe couture combineren, geïnspireerd door Pierpaolo Piccioli, die romantische elegantie mengt met moderne elementen. \n\n Mijn Ontwerpconcept: "Futuristic Elegance" Mijn collectie combineert luxe couture met technologische innovaties, zoals LED-verlichting en kleurveranderende stoffen die reageren op beweging. Ik gebruik duurzame en innovatieve materialen om een balans te creëren tussen esthetiek en interactiviteit. \n\n Mijn ontwerpen, zoals de Tech-Infused Fishtail Dress en de Sustainable Luxury A-Line Gown, weerspiegelen mijn visie op mode: technologie, duurzaamheid en luxe. Hoewel de ontwerpen nog in ontwikkeling zijn, ben ik enthousiast om ze verder uit te werken en te presenteren op de expositie. \n\nIk kijk erg uit naar de voortgang van dit project en de uiteindelijke expositie!',
   },
   {
     id: "mirac",
     name: "Mirac",
     image: "graduation-expo/Mirac.jfif",
+    imagePosition: "50% 44%",
     instagram: ["mirac_heritage"],
     description:
       "Deze collectie omarmt culturele diversiteit en traditionele ambachten. Door het integreren van verschillende textieltraditieën ontstaat een rijke tapestry die verhalen van verschillende culturen vertelt.",
@@ -68,7 +70,7 @@ const graduationExpoStudents = [
     image: "graduation-expo/Nina.jpg",
     instagram: ["ninarugbx"],
     description:
-      "Hi, my name is Nina Rugbonding Sing. I'm 22 years old and currently studying Fashion Design. I'd like to tell you about the collection I made for my final exam. \nThe collection is called 'Fashion of the Unknown' and is based on the mysteries of the atmosphere. What lives there? What do they look like? And of course, what would they wear? The clothes are otherworldly, not normal, and therefore designed for the unknown. \n The collection is inspired by the one and only Iris van Herpen.",
+      "Hi, my name is Nina Rugbonding Sing. \nI'm 22 years old and currently studying Fashion Design.\n I'd like to tell you about the collection I made for my final exam. \n\nThe collection is called 'Fashion of the Unknown' and is based on the mysteries of the atmosphere. What lives there? What do they look like? And of course, what would they wear? The clothes are otherworldly, not normal, and therefore designed for the unknown. \n The collection is inspired by the one and only Iris van Herpen.",
   },
   {
     id: "jomar",
@@ -76,7 +78,7 @@ const graduationExpoStudents = [
     image: "graduation-expo/Jomar.jfif",
     instagram: ["user064071531", "rcnsnt"],
     description:
-      "Voor dit project haal ik inspiratie uit de visionaire ontwerper Ying Gao, die technologie, interactiviteit en mode naadloos combineert. Haar avant-garde benadering daagt conventionele kledingconstructie uit en sluit perfect aan bij de drie modetrends die ik heb gekozen: \n\nReal Authentic: Ying Gao’s ontwerpen belichamen authenticiteit door een conceptuele en innovatieve aanpak. Ik wil dit weerspiegelen door vakmanschap te combineren met moderne technologie. \n\nForm: Haar experimenten met vorm en structuur inspireren mij om onconventionele silhouetten te verkennen en de relatie tussen kleding en het lichaam opnieuw te definiëren.\n\nWorker: Veel van haar ontwerpen hebben een functionele en utilitaire esthetiek. Ik omarm werkwear-elementen zoals duurzaamheid en aanpasbaarheid, zodat mode zowel een statement maakt als functioneel is. \nDoor deze trends te integreren, streef ik naar een collectie die innovatie, authenticiteit en modern vakmanschap uitstraalt—net zoals Ying Gao de toekomst van mode blijft herdefiniëren.",
+      "Voor dit project haal ik inspiratie uit de visionaire ontwerper Ying Gao, die technologie, interactiviteit en mode naadloos combineert. Haar avant-garde benadering daagt conventionele kledingconstructie uit en sluit perfect aan bij de drie modetrends die ik heb gekozen: \n\nReal Authentic: Ying Gao's ontwerpen belichamen authenticiteit door een conceptuele en innovatieve aanpak. Ik wil dit weerspiegelen door vakmanschap te combineren met moderne technologie. \n\nForm: Haar experimenten met vorm en structuur inspireren mij om onconventionele silhouetten te verkennen en de relatie tussen kleding en het lichaam opnieuw te definiëren.\n\nWorker: Veel van haar ontwerpen hebben een functionele en utilitaire esthetiek. Ik omarm werkwear-elementen zoals duurzaamheid en aanpasbaarheid, zodat mode zowel een statement maakt als functioneel is. \nDoor deze trends te integreren, streef ik naar een collectie die innovatie, authenticiteit en modern vakmanschap uitstraalt—net zoals Ying Gao de toekomst van mode blijft herdefiniëren.",
   },
   {
     id: "quinty",
@@ -110,7 +112,7 @@ const StudentSection = ({ student, index }: { student: any; index: number }) => 
           className="w-full h-full object-cover grayscale contrast-125 brightness-90"
           style={{
             filter: "grayscale(100%) contrast(1.2) brightness(0.9)",
-            objectPosition: "center center",
+            objectPosition: student.imagePosition || "center center",
           }}
         />
       </div>
@@ -203,7 +205,7 @@ export default function GraduationExpoPage() {
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
-             { name: "HOME", path: "/" },
+                  { name: "HOME", path: "/" },
                   { name: "PROGRAMMA", path: "/informatie" },
                   { name: "GRADUATION-EXPO", path: "/graduation-expo" },
                   { name: "GRADUATION-SHOW", path: "/graduation-show" },
@@ -284,7 +286,6 @@ export default function GraduationExpoPage() {
             ))}
 
             {/* Vote Button Section */}
-       
 
             {/* SVG Transition Border */}
             <div className="w-full h-11 bg-[#1a1a1a] relative">
