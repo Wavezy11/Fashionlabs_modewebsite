@@ -69,7 +69,7 @@ export default function FashionLabsProgram() {
       id: "Graduation Talk",
       time: "20:00",
       title: "Graduation Talk",
-      location: "Forum / Jim intervieuw, Nisa, Jomar en .......",
+      location: "Forum / Jim intervieuw",
       hasPlus: false,
       isExpandable: false,
     },
@@ -86,15 +86,21 @@ export default function FashionLabsProgram() {
   const expandedContent = {
     Fashionshow: {
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "Ervaar de nieuwste modetrends en ontwerpen van onze getalenteerde studenten. Een spectaculaire show vol creativiteit en innovatie.",
+      buttonText: "BEKIJK FASHIONSHOW",
+      buttonLink: "/fashion-show",
     },
     "Graduation Pitches": {
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        "De design studenten hebben voor hun laatste project de opdracht gekregen om voor een een designer van de tentoonstelling SHAPE een collectie te ontwikkelen. Hierin hebben zij onderzoek gedaan naar trends, een marketingplan opgesteld, een eigen concept vormgeven en verschillende designs uitgwerkt en voorbereid voor de productie. ",
+      buttonText: "BEKIJK EXPO",
+      buttonLink: "/graduation-expo",
     },
     "Graduation show": {
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+        "De tailor studenten hebben hun eindcollectie laten inspireren op de tentoonstelling SHAPE, zij hebben allemaal een kunstenaar of designer gekozen daarvoor een collectie van 4 outfits ontworpen en vervaardigd. ",
+      buttonText: "BEKIJK GRADUATION SHOW",
+      buttonLink: "/graduation-show",
     },
   }
 
@@ -159,18 +165,19 @@ export default function FashionLabsProgram() {
             </div>
           </header>
 
-          {/* Navigation Menu Overlay */}
+         {/* Navigation Menu Overlay */}
           <div
-            className={`absolute top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+            className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
                   { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/programma" },
-                  { name: "FASHIONSHOW", path: "/modeshow" },
-                  { name: "TAILORSHOW", path: "/TAILERSHOW" },
-                  { name: "NIEUWS", path: "/nieuws" },
+                  { name: "PROGRAMMA", path: "/informatie" },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
+                  { name: "TAILORSHOW", path: "/tailor-show" },
+                  { name: "NIEUWS", path: "/" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },
@@ -191,27 +198,20 @@ export default function FashionLabsProgram() {
 
           {/* Main Content */}
           <main className="bg-white relative">
-            {/* Information Section with Background */}
+            {/* Information Section with Timetable SVG */}
             <div className="relative w-full">
-              {/* Background Image */}
-              <Image
-                src="/background.png"
-                alt="Background"
-                width={390}
-                height={400}
-                className="w-full h-[400px] object-cover"
-              />
-
-              {/* Text Overlay */}
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-6">
-                <h2 className="text-xl font-bold text-white mb-4">INFORMATIE</h2>
-                <p className="text-sm text-white leading-relaxed">
-                  Op 26 juli vindt de tweede editie van Fashion Labs & Looks plaats bij MindLabs in Tilburg,
-                  georganiseerd door Yonder. Dit event wordt georganiseerd door de Yonder School voor Mode. Studenten
-                  van de opleidingen Mode en Uiterlijke Verzorging, ICT en Media, en Kunst, Cultuur en Media hebben de
-                  inhoud vormgegeven. Tijdens de bijeenkomst komen mode, beauty en interactieve technologie samen en zal
-                  er worden geshowd, gepresenteerd, geëxposeerd en genetwerkt.
-                </p>
+              {/* Timetable SVG */}
+              <div className="w-full bg-white p-4">
+                <h2 className="text-xl font-bold text-black mb-4 text-center">Informatie</h2>
+                <div className="flex justify-center">
+                  <Image
+                    src="/timetable.svg"
+                    alt="Fashion Labs Timetable"
+                    width={350}
+                    height={400}
+                    className="w-full max-w-[350px] h-auto"
+                  />
+                </div>
               </div>
             </div>
 
@@ -257,9 +257,17 @@ export default function FashionLabsProgram() {
                     {/* Expanded Content */}
                     {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
                       <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
-                        <p className="text-gray-800 text-sm leading-relaxed">
+                        <p className="text-gray-800 text-sm leading-relaxed mb-4">
                           {expandedContent[item.title].description}
                         </p>
+                        <div className="flex justify-center">
+                          <a
+                            href={expandedContent[item.title].buttonLink}
+                            className="bg-[#9480AB] text-white px-6 py-3 font-bold text-center inline-block rounded hover:bg-[#7a6b8a] transition-colors duration-300"
+                          >
+                            {expandedContent[item.title].buttonText}
+                          </a>
+                        </div>
                       </div>
                     )}
                   </div>

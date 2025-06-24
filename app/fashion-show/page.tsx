@@ -160,11 +160,12 @@ export default function FashionShowItemsPage() {
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
-                  { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/programma" },
-                  { name: "FASHIONSHOW", path: "/modeshow" },
-                  { name: "TAILORSHOW", path: "/TAILERSHOW" },
-                  { name: "NIEUWS", path: "/nieuws" },
+             { name: "HOME", path: "/" },
+                  { name: "PROGRAMMA", path: "/informatie" },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
+                  { name: "FASHION-SHOW", path: "/fashion-show" },
+                  { name: "TICKETS", path: "/tickets" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },
