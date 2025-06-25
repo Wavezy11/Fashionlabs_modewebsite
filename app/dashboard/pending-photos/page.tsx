@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 
 type PendingPhoto = {
-  id: string
+  id: number
   title: string
   description: string
   image_url: string
@@ -19,7 +19,7 @@ export default function PendingPhotosPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [pendingPhotos, setPendingPhotos] = useState<PendingPhoto[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [fadingPhotos, setFadingPhotos] = useState<Set<string>>(new Set())
+  const [fadingPhotos, setFadingPhotos] = useState<Set<number>>(new Set())
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -39,8 +39,8 @@ export default function PendingPhotosPage() {
       try {
         const response = await fetch("/api/pending-photos")
         if (response.ok) {
-          const data = await response.json()
-          setPendingPhotos(data)
+          const result = await response.json()
+          setPendingPhotos(result.data || []) // Fix: extract the data array
         }
       } catch (error) {
         console.error("Error fetching pending photos:", error)
@@ -51,10 +51,10 @@ export default function PendingPhotosPage() {
     fetchPendingPhotos()
   }, [])
 
-  const approvePhoto = async (id: string) => {
+  const approvePhoto = async (id: number) => {
     try {
       const response = await fetch(`/api/pending-photos/${id}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -79,10 +79,10 @@ export default function PendingPhotosPage() {
     }
   }
 
-  const rejectPhoto = async (id: string) => {
+  const rejectPhoto = async (id: number) => {
     try {
       const response = await fetch(`/api/pending-photos/${id}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -107,7 +107,7 @@ export default function PendingPhotosPage() {
     }
   }
 
-  const deletePhoto = async (id: string) => {
+  const deletePhoto = async (id: number) => {
     if (confirm("Weet je zeker dat je deze foto wilt verwijderen?")) {
       try {
         const response = await fetch(`/api/pending-photos/${id}`, {
@@ -175,21 +175,19 @@ export default function PendingPhotosPage() {
                 {[
                   { name: "HOME", path: "/" },
                   { name: "PROGRAMMA", path: "/informatie" },
-                  { name: "FASHIONSHOW", path: "/modeshow" },
-                  { name: "TAILORSHOW", path: "/TAILERSHOW" },
-                  { name: "NIEUWS", path: "/" },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
+                  { name: "FASHION-SHOW", path: "/fashion-show" },
+                  { name: "TICKETS", path: "/tickets" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },
-                  { name: "DASHBOARD", path: "/dashboard" },
                 ].map((item) => (
                   <li key={item.name} className="mb-[20px]">
                     <Link
                       href={item.path}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`no-underline text-xl font-bold tracking-wide transition-colors duration-300 ${
-                        item.name === "DASHBOARD" ? "text-[#9480AB]" : "text-white hover:text-[#9480AB]"
-                      }`}
+                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
                     >
                       {item.name}
                     </Link>
@@ -241,7 +239,8 @@ export default function PendingPhotosPage() {
                                 isFading && isRejected ? "grayscale" : ""
                               }`}
                               onError={(e) => {
-                                e.target.src = "/placeholder.svg?height=200&width=200"
+                                const target = e.target as HTMLImageElement
+                                target.src = "/placeholder.svg?height=200&width=200"
                               }}
                             />
                             <div
@@ -310,20 +309,6 @@ export default function PendingPhotosPage() {
               )}
             </div>
 
-            {/* Decorative Pixel Border */}
-            <div
-              className="w-full h-12"
-              style={{
-                backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(-45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(45deg, transparent 75%, #000 75%), 
-                                 linear-gradient(-45deg, transparent 75%, #000 75%)`,
-                backgroundSize: "16px 16px",
-                backgroundPosition: "0 0, 0 8px, 8px -8px, -8px 0px",
-                backgroundColor: "white",
-              }}
-            ></div>
-
             {/* Footer */}
             <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
               <div className="flex justify-between items-center w-full pb-5">
@@ -356,16 +341,16 @@ export default function PendingPhotosPage() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
-                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={102.5}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-                  </div>
+                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                        alt="Yonder Logo"
+                        width={102.5}
+                        height={40}
+                        className="max-h-10 max-w-[120px]"
+                      />
+                    </div>
                   </a>
                 </div>
               </div>

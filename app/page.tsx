@@ -533,12 +533,14 @@ export default function FashionLabsApp() {
 
                 {/* Tickets Button */}
                 <div className="flex justify-center mt-8">
-                  <a
-                    href="/tickets"
-                    className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
-                  >
-                    TICKETS
-                  </a>
+              <a
+                  href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
+                >
+                  TICKETS
+                </a>
                 </div>
               </div>
             </div>

@@ -1,14 +1,11 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 
 export default function NewPhoto() {
-  const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -19,6 +16,7 @@ export default function NewPhoto() {
   const [file, setFile] = useState<File | null>(null)
   const [error, setError] = useState("")
   const [preview, setPreview] = useState<string | null>(null)
+  const [uploadProgress, setUploadProgress] = useState("")
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -38,16 +36,71 @@ export default function NewPhoto() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const compressImage = (file: File, maxWidth = 1200, quality = 0.8): Promise<File> => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement("canvas")
+      const ctx = canvas.getContext("2d")!
+      const img = new window.Image()
+
+      img.onload = () => {
+        // Calculate new dimensions
+        let { width, height } = img
+        if (width > maxWidth) {
+          height = (height * maxWidth) / width
+          width = maxWidth
+        }
+
+        canvas.width = width
+        canvas.height = height
+
+        // Draw and compress
+        ctx.drawImage(img, 0, 0, width, height)
+        canvas.toBlob(
+          (blob) => {
+            const compressedFile = new File([blob!], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            })
+            resolve(compressedFile)
+          },
+          "image/jpeg",
+          quality,
+        )
+      }
+
+      img.src = URL.createObjectURL(file)
+    })
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0]
-      setFile(selectedFile)
 
+      // Check file size (5MB limit)
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        setError("Bestand is te groot. Probeer een kleinere afbeelding of deze wordt automatisch gecomprimeerd.")
+
+        try {
+          // Try to compress the image
+          const compressedFile = await compressImage(selectedFile)
+          setFile(compressedFile)
+          console.log("Compressed from", selectedFile.size, "to", compressedFile.size)
+        } catch (err) {
+          setError("Kon afbeelding niet comprimeren. Kies een kleinere afbeelding.")
+          return
+        }
+      } else {
+        setFile(selectedFile)
+      }
+
+      // Create preview
       const reader = new FileReader()
       reader.onload = (e) => {
         setPreview(e.target?.result as string)
       }
       reader.readAsDataURL(selectedFile)
+
+      setError("") // Clear any previous errors
     }
   }
 
@@ -55,6 +108,7 @@ export default function NewPhoto() {
     e.preventDefault()
     setIsSubmitting(true)
     setError("")
+    setUploadProgress("")
 
     if (!file) {
       setError("Selecteer een afbeelding om te uploaden")
@@ -63,19 +117,30 @@ export default function NewPhoto() {
     }
 
     try {
+      setUploadProgress("Afbeelding uploaden...")
+
       const formDataUpload = new FormData()
       formDataUpload.append("file", file)
+
+      // Increase timeout for large files
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
 
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
         body: formDataUpload,
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
 
       const uploadResult = await uploadResponse.json()
 
       if (!uploadResponse.ok) {
         throw new Error(uploadResult.error || "Failed to upload image")
       }
+
+      setUploadProgress("Foto gegevens opslaan...")
 
       const response = await fetch("/api/pending-photos", {
         method: "POST",
@@ -95,11 +160,21 @@ export default function NewPhoto() {
         throw new Error(result.error || "Failed to create photo")
       }
 
+      setUploadProgress("Voltooid!")
       window.location.href = "/success"
     } catch (err: any) {
-      setError(err.message || "Er is een fout opgetreden bij het uploaden van de foto.")
+      console.error("Upload error:", err)
+
+      if (err.name === "AbortError") {
+        setError("Upload timeout - probeer een kleinere afbeelding")
+      } else if (err.message.includes("fetch failed")) {
+        setError("Netwerkfout - controleer je internetverbinding en probeer opnieuw")
+      } else {
+        setError(err.message || "Er is een fout opgetreden bij het uploaden van de foto.")
+      }
     } finally {
       setIsSubmitting(false)
+      setUploadProgress("")
     }
   }
 
@@ -156,21 +231,19 @@ export default function NewPhoto() {
                 {[
                   { name: "HOME", path: "/" },
                   { name: "PROGRAMMA", path: "/informatie" },
-                  { name: "FASHIONSHOW", path: "/modeshow" },
-                  { name: "TAILORSHOW", path: "/TAILERSHOW" },
-                  { name: "NIEUWS", path: "/" },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
+                  { name: "FASHION-SHOW", path: "/fashion-show" },
+                  { name: "TICKETS", path: "/tickets" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },
-                  { name: "DASHBOARD", path: "/dashboard" },
                 ].map((item) => (
                   <li key={item.name} className="mb-[20px]">
                     <Link
                       href={item.path}
                       onClick={() => setIsMenuOpen(false)}
-                      className={`no-underline text-xl font-bold tracking-wide transition-colors duration-300 ${
-                        item.name === "DASHBOARD" ? "text-[#9480AB]" : "text-white hover:text-[#9480AB]"
-                      }`}
+                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
                     >
                       {item.name}
                     </Link>
@@ -195,6 +268,9 @@ export default function NewPhoto() {
             {/* Form Section */}
             <div className="bg-white px-6 py-6">
               {error && <div className="bg-red-100 text-red-800 p-3 rounded mb-4 text-sm">{error}</div>}
+              {uploadProgress && (
+                <div className="bg-blue-100 text-blue-800 p-3 rounded mb-4 text-sm">{uploadProgress}</div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -243,7 +319,7 @@ export default function NewPhoto() {
 
                 <div>
                   <label htmlFor="photo" className="block text-sm font-medium text-gray-700 mb-1">
-                    Foto*
+                    Foto* (max 5MB)
                   </label>
                   <input
                     type="file"
@@ -254,6 +330,7 @@ export default function NewPhoto() {
                     required
                     className="w-full p-4 border-4 border-[#9480AB] text-base outline-none focus:border-[#7a6b8a]"
                   />
+                  <p className="text-xs text-gray-500 mt-1">Grote afbeeldingen worden automatisch gecomprimeerd</p>
                 </div>
 
                 {preview && (
@@ -266,6 +343,11 @@ export default function NewPhoto() {
                         className="w-full h-full object-cover border border-gray-200 rounded"
                       />
                     </div>
+                    {file && (
+                      <p className="text-xs text-gray-500 text-center mt-1">
+                        Bestandsgrootte: {(file.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    )}
                   </div>
                 )}
 
@@ -280,20 +362,6 @@ export default function NewPhoto() {
                 </div>
               </form>
             </div>
-
-            {/* Decorative Pixel Border */}
-            <div
-              className="w-full h-12"
-              style={{
-                backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(-45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(45deg, transparent 75%, #000 75%), 
-                                 linear-gradient(-45deg, transparent 75%, #000 75%)`,
-                backgroundSize: "16px 16px",
-                backgroundPosition: "0 0, 0 8px, 8px -8px, -8px 0px",
-                backgroundColor: "white",
-              }}
-            ></div>
 
             {/* Footer */}
             <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
@@ -327,16 +395,16 @@ export default function NewPhoto() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
-                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={102.5}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-                  </div>
+                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                        alt="Yonder Logo"
+                        width={102.5}
+                        height={40}
+                        className="max-h-10 max-w-[120px]"
+                      />
+                    </div>
                   </a>
                 </div>
               </div>

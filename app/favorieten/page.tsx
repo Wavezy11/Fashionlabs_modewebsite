@@ -49,12 +49,16 @@ export default function FavorietenPage() {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const handleLike = async (photoId) => {
-    // Check if photo is already liked
-    if (likedPhotos.has(photoId)) {
-      alert("Je hebt deze foto al geliked!")
-      return
+  const resetLikes = () => {
+    if (confirm("Weet je zeker dat je alle likes wilt resetten?")) {
+      setLikedPhotos(new Set())
+      localStorage.removeItem("likedPhotos")
+      alert("Likes gereset! Je kunt nu weer foto's liken.")
     }
+  }
+
+  const handleLike = async (photoId) => {
+    const isCurrentlyLiked = likedPhotos.has(photoId)
 
     try {
       const response = await fetch(`/api/photos/${photoId}/like`, {
@@ -62,6 +66,9 @@ export default function FavorietenPage() {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          action: isCurrentlyLiked ? "unlike" : "like",
+        }),
       })
 
       if (response.ok) {
@@ -89,9 +96,13 @@ export default function FavorietenPage() {
           }))
         }
 
-        // Add to liked photos and save to localStorage
+        // Toggle liked status and save to localStorage
         const newLikedPhotos = new Set(likedPhotos)
-        newLikedPhotos.add(photoId)
+        if (isCurrentlyLiked) {
+          newLikedPhotos.delete(photoId)
+        } else {
+          newLikedPhotos.add(photoId)
+        }
         setLikedPhotos(newLikedPhotos)
         localStorage.setItem("likedPhotos", JSON.stringify([...newLikedPhotos]))
       } else {
@@ -165,7 +176,7 @@ export default function FavorietenPage() {
             </div>
           </header>
 
-           {/* Navigation Menu Overlay */}
+          {/* Navigation Menu Overlay */}
           <div
             className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
@@ -183,13 +194,13 @@ export default function FavorietenPage() {
                   { name: "CONTACT", path: "/contact" },
                 ].map((item) => (
                   <li key={item.name} className="mb-[20px]">
-                    <a
+                    <Link
                       href={item.path}
                       onClick={() => setIsMenuOpen(false)}
                       className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -204,11 +215,15 @@ export default function FavorietenPage() {
             {/* Favorites Info */}
             <div className="px-8 pb-6">
               <p className="text-center mb-8 bg-[#9480AB] p-4 text-white">
-                Bij Favorieten vind je de mooiste foto&apos;s van onze bezoekers! Upload je eigen foto, verzamel likes
-                en maak kans op €100. De winnaar wordt een maand na de show bekendgemaakt op onze socials!
+                Bij Moments vind je de mooiste foto's van onze bezoekers! Upload je eigen foto, verzamel likes en wie
+                weet word jij uitgelicht op onze socials. De meest gewaardeerde inzending krijgt na afloop van de show
+                een speciale vermelding!
               </p>
 
               <h2 className="font-bold text-lg mb-4">FOTO&apos;S VAN FASHIONLABS 2024</h2>
+
+              {/* Reset Likes Button - for testing */}
+         
 
               {/* Photo Grid - Single Column Layout */}
               {isLoading ? (
@@ -266,11 +281,8 @@ export default function FavorietenPage() {
                             <div className="flex items-center gap-2">
                               <button
                                 onClick={() => handleLike(photo.id)}
-                                disabled={likedPhotos.has(photo.id)}
                                 className={`flex items-center gap-1 backdrop-blur-sm rounded-full px-3 py-2 transition-all duration-200 active:scale-95 ${
-                                  likedPhotos.has(photo.id)
-                                    ? "bg-green-500/30 cursor-not-allowed"
-                                    : "bg-white/20 hover:bg-white/30"
+                                  likedPhotos.has(photo.id) ? "bg-red-500/30" : "bg-white/20 hover:bg-white/30"
                                 }`}
                               >
                                 <span className="text-red-500 text-lg">❤️</span>
@@ -354,16 +366,16 @@ export default function FavorietenPage() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
-                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={102.5}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-                  </div>
+                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                        alt="Yonder Logo"
+                        width={102.5}
+                        height={40}
+                        className="max-h-10 max-w-[120px]"
+                      />
+                    </div>
                   </a>
                 </div>
               </div>
