@@ -1,11 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server"
-import pool from "../../../lib/database"
+import { supabase } from "../../../lib/supabase"
 
 export async function GET() {
   try {
-    const [rows] = await pool.execute("SELECT * FROM events ORDER BY event_date ASC")
+    const { data: events, error } = await supabase.from("events").select("*").order("event_date", { ascending: true })
 
-    return NextResponse.json(rows)
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 })
+    }
+
+    return NextResponse.json(events || [])
   } catch (error) {
     console.error("Database error:", error)
     return NextResponse.json({ error: "Failed to fetch events" }, { status: 500 })
@@ -17,14 +22,26 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { title, description, event_date, location } = body
 
-    const [result] = await pool.execute(
-      "INSERT INTO events (title, description, event_date, location) VALUES (?, ?, ?, ?)",
-      [title, description, event_date, location],
-    )
+    const { data, error } = await supabase
+      .from("events")
+      .insert([
+        {
+          title,
+          description,
+          event_date,
+          location,
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error("Supabase error:", error)
+      return NextResponse.json({ error: "Failed to create event" }, { status: 500 })
+    }
 
     return NextResponse.json({
       success: true,
-      id: (result as any).insertId,
+      id: data[0]?.id,
     })
   } catch (error) {
     console.error("Database error:", error)
