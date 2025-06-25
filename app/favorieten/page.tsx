@@ -165,14 +165,14 @@ export default function FavorietenPage() {
             </div>
           </header>
 
-          {/* Navigation Menu Overlay */}
+           {/* Navigation Menu Overlay */}
           <div
-            className={`absolute top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+            className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
-             { name: "HOME", path: "/" },
+                  { name: "HOME", path: "/" },
                   { name: "PROGRAMMA", path: "/informatie" },
                   { name: "GRADUATION-EXPO", path: "/graduation-expo" },
                   { name: "GRADUATION-SHOW", path: "/graduation-show" },
@@ -183,13 +183,13 @@ export default function FavorietenPage() {
                   { name: "CONTACT", path: "/contact" },
                 ].map((item) => (
                   <li key={item.name} className="mb-[20px]">
-                    <Link
+                    <a
                       href={item.path}
                       onClick={() => setIsMenuOpen(false)}
                       className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
                     >
                       {item.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -354,6 +354,7 @@ export default function FavorietenPage() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
+                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
                   <div className="flex items-center justify-center">
                     <Image
                       src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
@@ -363,6 +364,7 @@ export default function FavorietenPage() {
                       className="max-h-10 max-w-[120px]"
                     />
                   </div>
+                  </a>
                 </div>
               </div>
 

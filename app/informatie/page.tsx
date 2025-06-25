@@ -97,7 +97,7 @@ export default function FashionLabsProgram() {
     "Digital Alumni talk": {
       description:
         "Stel je voor dat je een game had, waar jij jezelf kan stylen met je kledingkast? \nTijdens mijn afstudeerproject ontwikkelde ik Wanida's Closet: een digitale kledingkast waarin je je eigen kleding kunt scannen, stylen en passen via jezelf als 3D-avatar. Mode wordt zo interactief, speels en persoonlijk. In de alumni talk vertel ik hoe dit project is ontstaan, en hoe het aansluit bij mijn huidige studie als multimedia designer en de visie op de toekomst van digitale mode.",
-      image: "/placeholder.svg?height=200&width=300&text=Digital+Alumni+Speaker",
+      image: "/wanida.jpg?height=200&width=300&text=Digital+Alumni+Speaker",
       imageAlt: "Digital Alumni Talk Speaker",
     },
     Fashionshow: {
@@ -369,6 +369,7 @@ export default function FashionLabsProgram() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
+                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
                   <div className="flex items-center justify-center">
                     <Image
                       src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
@@ -378,6 +379,7 @@ export default function FashionLabsProgram() {
                       className="max-h-10 max-w-[120px]"
                     />
                   </div>
+                  </a>
                 </div>
               </div>
 

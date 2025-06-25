@@ -356,6 +356,7 @@ export default function PendingPhotosPage() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
+                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
                   <div className="flex items-center justify-center">
                     <Image
                       src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
@@ -365,6 +366,7 @@ export default function PendingPhotosPage() {
                       className="max-h-10 max-w-[120px]"
                     />
                   </div>
+                  </a>
                 </div>
               </div>
 

@@ -10,10 +10,10 @@ const graduationStudents = [
     id: "may-zaan",
     name: "May-Zaan",
     image: "fashionshow/May-Zaan.jpg",
-   
+
     instagram: ["mayie_05_"],
     description:
-      '"To the future and past" De collectie "To the future and Past" is gebaseerd op traditionele/culturele kleding van China met een fusion van moderne EGL/Lolita kledingstyle van Japan. In mijn collectie laat ik een ander en ander beeld zien van de Chinese cultuur dat mensen weinig of geen van afweten. Deze kledingstukken worden geïnspireerd van de Chinese Hanfu en Qipao met erbij de lolita jurken.\n\n- By May-zaan Tang',
+      '"To the future and past"\n De collectie "To the future and Past" is gebaseerd op traditionele/culturele kleding van China met een fusion van moderne EGL/Lolita kledingstyle van Japan. In mijn collectie laat ik een ander en ander beeld zien van de Chinese cultuur dat mensen weinig of geen van afweten. Deze kledingstukken worden geïnspireerd van de Chinese Hanfu en Qipao met erbij de lolita jurken.\n\n- By May-zaan Tang',
   },
   {
     id: "luna",
@@ -46,13 +46,13 @@ const graduationStudents = [
     image: "fashionshow/Vera.jpg",
     instagram: ["veravandenthillart", "portfolio_veravandenthillart"],
     description:
-      "Mijn collectie heet 5 stages of grief, ik geef vorm in mijn collectie de emoties die veel mensen ervaren als ze door een periode van rauw gaan. Als ze iemand verliezen die dierbaar voor ze zijn. De emoties die je gaat zien zijn: boosheid, verdriet, angst, schok & ongeloof en acceptatie.",
+      "Mijn collectie heet 5 stages of grief, \nik geef vorm in mijn collectie de emoties die veel mensen ervaren als ze door een periode van rauw gaan. Als ze iemand verliezen die dierbaar voor ze zijn. De emoties die je gaat zien zijn: boosheid, verdriet, angst, schok & ongeloof en acceptatie.",
   },
   {
     id: "nisa",
     name: "Nisa",
     image: "fashionshow/Nisa.jpg",
-        imagePosition: "50% 35%",
+    imagePosition: "50% 35%",
     instagram: ["studiona_bi"],
     description:
       "Met een wereld vol overproductie en textielafval brengt deze collectie een bewuste benadering van mode, waar tijdloze ontwerpen en duurzame stoffen centraal staan.\nDoor minimalisme en doordachte materialen te combineren, laat deze collectie zien dat stijl en verantwoordelijkheid hand in hand kunnen gaan.",
@@ -63,7 +63,7 @@ const graduationStudents = [
     image: "fashionshow/Vy.jpg",
     instagram: ["vylocxfashion", "Vyloc_"],
     description:
-      'Het concept van mijn collectie is \n"Bloom in your own way, every flower had its own."\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
+      'Het concept van mijn collectie is \n"Bloom in your own way, every flower had its own."\n\nDaarmee wil ik vertellen dat je net zoals bloemen op verschillende manier bloeit, afhankelijk van de soort omgeving, omstandigheden en ontwikkeling.\nNet als een bloem groei je naar een unieke pad in het leven.',
   },
   {
     id: "maud",
@@ -71,7 +71,7 @@ const graduationStudents = [
     image: "fashionshow/Maud.jpg",
     instagram: ["chickie_nuggets2"],
     description:
-      "Mijn idee voor mijn collectie is om surrealisme naar boven te halen in de kleding, maar ook het ook vrouwelijk te houden. Ik houd zelf van het idee dat dingen net iets te ver gaan voor sommige mensen dus net buiten de lijntjes te kleuren. Dit is ook te zien in mijn concept bord. Voor vormen en silhouetten ben ik gegaan voor aan sluitende kleding om de vormen van het lichaam te accentueren en ook heb ik er voor gekozen om het skelet weer naar boven te laten komen, omdat dit mij altijd aanspreekt en toch een beetje buiten de lijntjes te gaan.",
+      "Mijn idee voor mijn collectie is om surrealisme naar boven te halen in de kleding, maar ook het ook vrouwelijk te houden. Ik houd zelf van het idee dat dingen net iets te ver gaan voor sommige mensen dus net buiten de lijntjes te kleuren.\n\n Dit is ook te zien in mijn concept bord. Voor vormen en silhouetten ben ik gegaan voor aan sluitende kleding om de vormen van het lichaam te accentueren en ook heb ik er voor gekozen om het skelet weer naar boven te laten komen, omdat dit mij altijd aanspreekt en toch een beetje buiten de lijntjes te gaan.",
   },
   {
     id: "olivier",
@@ -96,7 +96,7 @@ const graduationStudents = [
     imagePosition: "50% 30%",
     instagram: ["Https.brandon013"],
     description:
-      "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
+      "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. \n\nElk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
   },
   {
     id: "senna",
@@ -104,7 +104,7 @@ const graduationStudents = [
     image: "fashionshow/Senna.jpg",
     instagram: ["Senna_rugbondingsing"],
     description:
-      "Ik ben Senna 21 jaar, en ik ben trots om mijn Shape Collectie met jullie te delen. Deze collectie draait volledig om bodypositivity – het vieren van elk lichaam, in elke vorm, maat en kleur. Door het gebruik van fijn kant wil ik laten zien dat álle lichamen er mogen zijn. Ieder detail is ontworpen met liefde en respect voor diversiteit, zodat jij je gezien en krachtig voelt, precies zoals je bent.",
+      "Ik ben Senna 21 jaar, en ik ben trots om mijn Shape Collectie met jullie te delen. Deze collectie draait volledig om bodypositivity – het vieren van elk lichaam, in elke vorm, maat en kleur. \n\nDoor het gebruik van fijn kant wil ik laten zien dat álle lichamen er mogen zijn. Ieder detail is ontworpen met liefde en respect voor diversiteit, zodat jij je gezien en krachtig voelt, precies zoals je bent.",
   },
   {
     id: "lise",
@@ -112,7 +112,7 @@ const graduationStudents = [
     image: "fashionshow/lise.jfif",
     instagram: ["lisette_gelata"],
     description:
-      'Vintage dollhouse is de naam van mijn collectie. "Bij deze collectie ben ik gegaan voor een elegante vintage look, geïnspireerd door porseleinen poppen en hun tijdloze charme."',
+      'Vintage dollhouse is de naam van mijn collectie. \n"Bij deze collectie ben ik gegaan voor een elegante vintage look, geïnspireerd door porseleinen poppen en hun tijdloze charme."',
   },
 ]
 
@@ -266,62 +266,63 @@ export default function GraduationShowPage() {
             </div>
 
             {/* Purple Section with Text (moved up) */}
-            <div className="bg-[#B8A5D1] px-6 py-8 text-center relative z-10">
+            <div className="bg-[#B8A5D1] px-6 py-8 text-center">
               <p className="text-white text-sm leading-relaxed max-w-sm mx-auto">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
+                Zij hebben zich laten inspireren door de rijke kleuren en patronen van Afrikaanse stoffen. Ze hebben
+                deze invloeden prachtig verwerkt in hun ontwerpen, waardoor unieke blouses zijn ontstaan die zowel
+                modern als traditioneel aanvoelen. Met aandacht voor detail en respect voor de culturele betekenis van
+                de stoffen, hebben ze mode gecreëerd die verhalen vertelt.
               </p>
             </div>
 
-            {/* SVG Transition Border */}
-            <div className="w-full h-11 bg-[#B8A5D1] relative">
+            {/* SVG Transition Border - Fixed without gaps */}
+            <div className="w-full h-11 bg-[#B8A5D1] relative -mt-1">
               <svg
                 width="393"
-                height="44"
+                height="45"
                 viewBox="0 0 393 44"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute top-0 left-0 w-full h-full z-30"
+                className="absolute top-0 left-0 w-full h-full block"
+                style={{ display: "block" }}
               >
+                <rect width="393" height="44" fill="#B8A5D1" />
                 <path
                   d="M72.7208 14.5208V0.000238189H58.2003V14.5208H43.6798V29.0413H58.2003V43.5618H72.7208V29.0413H87.244V14.5208H72.7208Z"
-                  fill="#000000"
+                  fill="#1a1a1a"
                 />
                 <path
                   d="M160.08 14.5208V0.000238189H145.56V14.5208H131.039V29.0413H145.56V43.5618H160.08V29.0413H174.604V14.5208H160.08Z"
-                  fill="#000000"
+                  fill="#1a1a1a"
                 />
-                <path d="M14.5205 0.000238189H0V14.5208H14.5205V0.000238189Z" fill="#000000" />
-                <path d="M43.5615 0.000238189H29.041V14.5208H43.5615V0.000238189Z" fill="#000000" />
-                <path d="M14.5205 29.0414H0V43.562H14.5205V29.0414Z" fill="#000000" />
-                <path d="M43.5615 29.0414H29.041V43.562H43.5615V29.0414Z" fill="#000000" />
-                <path d="M101.88 0.000238189H87.3596V14.5208H101.88V0.000238189Z" fill="#000000" />
-                <path d="M130.921 0.000238189H116.401V14.5208H130.921V0.000238189Z" fill="#000000" />
-                <path d="M101.88 29.0414H87.3596V43.562H101.88V29.0414Z" fill="#000000" />
-                <path d="M130.921 29.0414H116.401V43.562H130.921V29.0414Z" fill="#000000" />
+                <path d="M14.5205 0.000238189H0V14.5208H14.5205V0.000238189Z" fill="#1a1a1a" />
+                <path d="M43.5615 0.000238189H29.041V14.5208H43.5615V0.000238189Z" fill="#1a1a1a" />
+                <path d="M14.5205 29.0414H0V43.562H14.5205V29.0414Z" fill="#1a1a1a" />
+                <path d="M43.5615 29.0414H29.041V43.562H43.5615V29.0414Z" fill="#1a1a1a" />
+                <path d="M101.88 0.000238189H87.3596V14.5208H101.88V0.000238189Z" fill="#1a1a1a" />
+                <path d="M130.921 0.000238189H116.401V14.5208H130.921V0.000238189Z" fill="#1a1a1a" />
+                <path d="M101.88 29.0414H87.3596V43.562H101.88V29.0414Z" fill="#1a1a1a" />
+                <path d="M130.921 29.0414H116.401V43.562H130.921V29.0414Z" fill="#1a1a1a" />
                 <path
                   d="M247.44 14.5208V0.000238189H232.92V14.5208H218.399V29.0413H232.92V43.5618H247.44V29.0413H261.963V14.5208H247.44Z"
-                  fill="#000000"
+                  fill="#1a1a1a"
                 />
                 <path
                   d="M334.8 14.5208V0.000238189H320.279V14.5208H305.759V29.0413H320.279V43.5618H334.8V29.0413H349.323V14.5208H334.8Z"
-                  fill="#000000"
+                  fill="#1a1a1a"
                 />
-                <path d="M189.24 0.000238189H174.719V14.5208H189.24V0.000238189Z" fill="#000000" />
-                <path d="M218.281 0H203.76V14.5205H218.281V0Z" fill="#000000" />
-                <path d="M189.24 29.0412H174.719V43.5617H189.24V29.0412Z" fill="#000000" />
-                <path d="M218.281 29.0412H203.76V43.5617H218.281V29.0412Z" fill="#000000" />
-                <path d="M276.599 0.000238189H262.079V14.5208H276.599V0.000238189Z" fill="#000000" />
-                <path d="M305.64 0H291.12V14.5205H305.64V0Z" fill="#000000" />
-                <path d="M276.599 29.0412H262.079V43.5617H276.599V29.0412Z" fill="#000000" />
-                <path d="M305.64 29.0412H291.12V43.5617H305.64V29.0412Z" fill="#000000" />
-                <path d="M363.959 0.000238189H349.438V14.5208H363.959V0.000238189Z" fill="#000000" />
-                <path d="M393 0H378.479V14.5205H393V0Z" fill="#000000" />
-                <path d="M363.959 29.0412H349.438V43.5617H363.959V29.0412Z" fill="#000000" />
-                <path d="M393 29.0412H378.479V43.5617H393V29.0412Z" fill="#000000" />
+                <path d="M189.24 0.000238189H174.719V14.5208H189.24V0.000238189Z" fill="#1a1a1a" />
+                <path d="M218.281 0H203.76V14.5205H218.281V0Z" fill="#1a1a1a" />
+                <path d="M189.24 29.0412H174.719V43.5617H189.24V29.0412Z" fill="#1a1a1a" />
+                <path d="M218.281 29.0412H203.76V43.5617H218.281V29.0412Z" fill="#1a1a1a" />
+                <path d="M276.599 0.000238189H262.079V14.5208H276.599V0.000238189Z" fill="#1a1a1a" />
+                <path d="M305.64 0H291.12V14.5205H305.64V0Z" fill="#1a1a1a" />
+                <path d="M276.599 29.0412H262.079V43.5617H276.599V29.0412Z" fill="#1a1a1a" />
+                <path d="M305.64 29.0412H291.12V43.5617H305.64V29.0412Z" fill="#1a1a1a" />
+                <path d="M363.959 0.000238189H349.438V14.5208H363.959V0.000238189Z" fill="#1a1a1a" />
+                <path d="M393 0H378.479V14.5205H393V0Z" fill="#1a1a1a" />
+                <path d="M363.959 29.0412H349.438V43.5617H363.959V29.0412Z" fill="#1a1a1a" />
+                <path d="M393 29.0412H378.479V43.5617H393V29.0412Z" fill="#1a1a1a" />
               </svg>
             </div>
 
@@ -371,6 +372,8 @@ export default function GraduationShowPage() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
+                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
+                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
                   <div className="flex items-center justify-center">
                     <Image
                       src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
@@ -380,6 +383,8 @@ export default function GraduationShowPage() {
                       className="max-h-10 max-w-[120px]"
                     />
                   </div>
+                  </a>
+                  </a>
                 </div>
               </div>
 
