@@ -76,7 +76,7 @@ export default function SuccessPage() {
                   { name: "GRADUATION-EXPO", path: "/graduation-expo" },
                   { name: "GRADUATION-SHOW", path: "/graduation-show" },
                   { name: "FASHION-SHOW", path: "/fashion-show" },
-                  { name: "TICKETS", path: "/tickets" },
+                  { name: "TICKETS", path: "/https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },
@@ -101,7 +101,7 @@ export default function SuccessPage() {
             <div className="flex flex-col items-center justify-center px-8 py-20">
               <h1 className="text-3xl font-bold mb-8">GELUKT!</h1>
               <p className="text-center text-base leading-relaxed">
-                Binnen twee minuten krijg je een bevestegingsmail binnen met alle benodigde informatie en tijden.
+                Jouw geuploadde foto wordt na goedkeuring op de moments pagina gezet!
               </p>
               <Link
                 href="/"

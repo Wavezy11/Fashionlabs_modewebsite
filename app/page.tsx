@@ -15,6 +15,10 @@ export default function FashionLabsApp() {
   const [photos, setPhotos] = useState([])
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(true)
 
+  // Fullscreen state
+  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false)
+  const [fullscreenPhoto, setFullscreenPhoto] = useState(null)
+
   // Slideshow refs and state
   const slideshowRef = useRef<HTMLDivElement>(null)
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
@@ -150,7 +154,7 @@ export default function FashionLabsApp() {
     },
     "Digital Alumni talk": {
       description:
-        "Stel je voor dat je een game had, waar jij jezelf kan stylen met je kledingkast? \nTijdens mijn afstudeerproject ontwikkelde ik Wanida’s Closet: een digitale kledingkast waarin je je eigen kleding kunt scannen, stylen en passen via jezelf als 3D-avatar. Mode wordt zo interactief, speels en persoonlijk. In de alumni talk vertel ik hoe dit project is ontstaan, en hoe het aansluit bij mijn huidige studie als multimedia designer en de visie op de toekomst van digitale mode.",
+        "Stel je voor dat je een game had, waar jij jezelf kan stylen met je kledingkast? \nTijdens mijn afstudeerproject ontwikkelde ik Wanida's Closet: een digitale kledingkast waarin je je eigen kleding kunt scannen, stylen en passen via jezelf als 3D-avatar. Mode wordt zo interactief, speels en persoonlijk. In de alumni talk vertel ik hoe dit project is ontstaan, en hoe het aansluit bij mijn huidige studie als multimedia designer en de visie op de toekomst van digitale mode.",
       image: "/wanida.jpg?height=200&width=300&text=Digital+Alumni+Speaker",
       imageAlt: "Digital Alumni Talk Speaker",
     },
@@ -206,6 +210,19 @@ export default function FashionLabsApp() {
   // Handle slide navigation
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
+  }
+
+  // Fullscreen handlers
+  const openFullscreen = (photo) => {
+    setFullscreenPhoto(photo)
+    setIsFullscreenOpen(true)
+    pauseAutoSlide() // Pause slideshow when fullscreen opens
+  }
+
+  const closeFullscreen = () => {
+    setIsFullscreenOpen(false)
+    setFullscreenPhoto(null)
+    startAutoSlide() // Resume slideshow when fullscreen closes
   }
 
   // Touch handlers
@@ -425,6 +442,36 @@ export default function FashionLabsApp() {
                               height={200}
                               className="w-full h-full object-contain bg-gray-100"
                             />
+
+                            {/* Fullscreen Button */}
+                            {photos[index] && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  openFullscreen(photos[index])
+                                }}
+                                className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 p-2 rounded-full transition-all duration-200 z-10"
+                                aria-label="View fullscreen"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="white"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <polyline points="15 3 21 3 21 9"></polyline>
+                                  <polyline points="9 21 3 21 3 15"></polyline>
+                                  <line x1="21" y1="3" x2="14" y2="10"></line>
+                                  <line x1="3" y1="21" x2="10" y2="14"></line>
+                                </svg>
+                              </button>
+                            )}
+
                             {photos[index] && (
                               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
                                 <p className="text-white text-sm font-bold truncate">{photos[index].title}</p>
@@ -533,14 +580,14 @@ export default function FashionLabsApp() {
 
                 {/* Tickets Button */}
                 <div className="flex justify-center mt-8">
-              <a
-                  href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
-                >
-                  TICKETS
-                </a>
+                  <a
+                    href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
+                  >
+                    TICKETS
+                  </a>
                 </div>
               </div>
             </div>
@@ -576,16 +623,16 @@ export default function FashionLabsApp() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
-                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={102.5}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-                  </div>
+                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                        alt="Yonder Logo"
+                        width={102.5}
+                        height={40}
+                        className="max-h-10 max-w-[120px]"
+                      />
+                    </div>
                   </a>
                 </div>
               </div>
@@ -604,6 +651,68 @@ export default function FashionLabsApp() {
           </main>
         </div>
       </div>
+
+      {/* Fullscreen Modal */}
+      {isFullscreenOpen && fullscreenPhoto && (
+        <div
+          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 overflow-hidden"
+          onClick={closeFullscreen}
+        >
+          <div className="relative w-full h-full max-w-6xl flex flex-col">
+            <button
+              onClick={closeFullscreen}
+              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200 z-10"
+              aria-label="Close fullscreen"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            {/* Image Container - Responsive sizing */}
+            <div
+              className="flex-1 flex items-center justify-center min-h-0 pb-20 md:pb-24"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={fullscreenPhoto.image_url || "/placeholder.svg"}
+                alt={fullscreenPhoto.title}
+                className="max-w-full max-h-full object-contain w-auto h-auto"
+                style={{
+                  maxHeight: "calc(100vh - 200px)", // Reserve space for title/controls
+                  maxWidth: "calc(100vw - 32px)", // Account for padding
+                }}
+              />
+            </div>
+
+            {/* Title Section - Fixed at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
+              <div className="flex justify-between items-center max-w-6xl mx-auto">
+                <div>
+                  <h3 className="text-white text-xl md:text-2xl font-bold">{fullscreenPhoto.title}</h3>
+                  <p className="text-white/70 text-sm md:text-base">by {fullscreenPhoto.user_name || "Anonymous"}</p>
+                </div>
+
+                <div className="flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 bg-white/20">
+                  <span className="text-red-500 text-xl">❤️</span>
+                  <span className="text-white font-bold text-lg">{fullscreenPhoto.likes}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

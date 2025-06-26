@@ -9,6 +9,7 @@ const fashionShowItems = [
     id: "the-white-screen",
     name: "The White Screen",
     image: "fashion-items/The-White-screen.png",
+    imagePosition: "center top", // Voeg deze toe
     description:
       "Deze collectie is een artistieke en rebelse verkenning van mentale gezondheid en de maatschappelijke misvattingen die daar vaak mee gepaard gaan. Elk kledingstuk draagt de sporen van innerlijke strijd en chaos maar ook van kracht, intelligentie en creativiteit. In plaats van de duistere kant te verbergen, wordt deze omarmd als een essentieel onderdeel van het mens-zijn.",
   },
@@ -16,13 +17,15 @@ const fashionShowItems = [
     id: "jeans-it-up",
     name: "Jeans it up",
     image: "fashion-items/Jeans-It-Up.png",
+    imagePosition: "center left", // Voeg deze toe
     description:
       "Het produceren van één paar jeans verbuikt maar liefst 7000 liter water, schokkend! Onze 2e jaars Tailor Fashion studenten hebben na moeten denken over de impact van de mode-industrie op onze planeet. \nZij hebben deze uitdaging omarmd en prachtige items gecreëerd van gebruikte jeans. Door oude materialen een nieuw leven te geven, tonen zij aan dat mode niet alleen mooi kan zijn, maar ook verantwoord.\n Duurzaamheid is de toekomst, en wij zijn trots om deze boodschap te delen met jullie!",
   },
   {
     id: "fashion-meets-gambia",
     name: "Fashion_Meets_Gambia",
-    image: "fashion-items/fashion-meets-gambia.jpg",
+    image: "gambia.avifff",
+    imagePosition: "center left", // Voeg deze toe (al bestaand)
     description:
       "In dit showonderdeel nemen we je mee op reis naar Gambia, waar 10 mode studenten zich twee weken lang hebben ingezet voor uiteenlopende projecten.\n Eën van de project was een samenwerking met een lokale kleermaker, waarmee ze een outfit hebben ontworpen en gemaakt.",
   },
@@ -30,13 +33,15 @@ const fashionShowItems = [
     id: "excellent-hair-dressers",
     name: "Excellent hair dressers",
     image: "fashion-items/Excellent-Hairdressers.png",
+    imagePosition: "center top", // Voeg deze toe
     description:
-      "Onze excellentieklas startte het jaar met een traject vol inspirerende, wekelijkse thema’s ter voorbereiding op het eindproduct. De kappers kozen als overkoepelend thema ‘film’ en vertaalden hun gekozen film naar kapsel, make-up en kleding. We zijn enorm trots op onze klas en de creatieve meesterwerken die zij hebben neergezet, en nemen jullie graag mee op deze filmische reis.",
+      "Onze excellentieklas startte het jaar met een traject vol inspirerende, wekelijkse thema's ter voorbereiding op het eindproduct. De kappers kozen als overkoepelend thema 'film' en vertaalden hun gekozen film naar kapsel, make-up en kleding. We zijn enorm trots op onze klas en de creatieve meesterwerken die zij hebben neergezet, en nemen jullie graag mee op deze filmische reis.",
   },
   {
     id: "ai-makes-business",
     name: "AI makes you're business",
     image: "fashion-items/AI-Makes-Your-Business.png",
+    imagePosition: "center bottom", // Voeg deze toe
     description:
       "You're first impression counts! \nDe 2e en 3ejaars Fashion Tailor studenten hebben met veel passie en vakmanschap een stijlvolle blouse en bijpassende broek gecreëerd, die niet alleen de perfecte balans tussen professionaliteit en flair uitstralen, maar ook de unieke persoonlijkheid van elke student weerspiegelen. Met deze prachtige ensembles zijn onze studenten klaar om de wereld van de mode en het bedrijfsleven te veroveren!",
   },
@@ -44,6 +49,7 @@ const fashionShowItems = [
     id: "stunning-red",
     name: "Stunning red",
     image: "fashion-items/Stunning-Red.png",
+    imagePosition: "center center", // Voeg deze toe
     description:
       "In een tijdperk waarin artificiële technologie steeds meer invloed heeft op de mode-industrie, hebben onze 2e en 3ejaars Fashion Tailor studenten de uitdaging aangegaan om deze technologie te combineren met traditionele ambacht. Tijdens hun ontwerpproces hebben ze zich afgevraagd: 'Denkt de computer echt net als ik, of is er nog steeds menselijke creativiteit en intuïtie nodig?' Laten we genieten van hun prachtige creaties en de innovatieve geest die hen heeft geïnspireerd!",
   },
@@ -51,6 +57,7 @@ const fashionShowItems = [
     id: "laser-layers",
     name: "Laser Layers",
     image: "fashion-items/Laser-Layers.png",
+    imagePosition: "center top", // Voeg deze toe
     description:
       "We zijn verheugd om de creaties van onze getalenteerde 1ejaars basismedewerkers fashion studenten te presenteren. Deze studenten hebben op een innovatieve manier met een laser cutter hun ontwerp op hun design laten laseren. Hun creativiteit en technische vaardigheden komen prachtig samen in deze unieke collectie!",
   },
@@ -58,11 +65,11 @@ const fashionShowItems = [
     id: "whats-your-statement",
     name: "What's your statement?",
     image: "fashion-items/Whats-Your-Statement.png",
+    imagePosition: "center bottom", // Voeg deze toe
     description:
       "De 3jaars tailor studenten showen hun unieke creaties, geïnspireerd door hun visie op de toekomst. Elk van deze outfits is niet alleen een mode-item, maar ook een verhaal dat de dromen, innovaties en duurzaamheid van morgen weerspiegelt. Laat je inspireren door de toekomst die onze studenten voor ogen hebben en geniet van deze bijzondere creaties vol talent en verbeeldingskracht!",
   },
 ]
-
 
 const ItemSection = ({ item, index }: { item: any; index: number }) => (
   <div className="bg-[#B8A5D1] px-6 py-12 text-center">
@@ -84,7 +91,14 @@ const ItemSection = ({ item, index }: { item: any; index: number }) => (
         className="overflow-hidden shadow-lg"
         style={{ width: "302px", height: "280px", borderRadius: "32px 0 32px 0" }}
       >
-        <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-full h-full object-cover" />
+        <img
+          src={item.image || "/placeholder.svg"}
+          alt={item.name}
+          className="w-full h-full object-cover"
+          style={{
+            objectPosition: item.imagePosition || "center center",
+          }}
+        />
       </div>
     </div>
     <div className="text-white text-sm leading-relaxed max-w-sm mx-auto mb-4 whitespace-pre-line">
@@ -160,24 +174,40 @@ export default function FashionShowItemsPage() {
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
-             { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/informatie" },
-                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
-                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
-                  { name: "FASHION-SHOW", path: "/fashion-show" },
-                  { name: "TICKETS", path: "/tickets" },
-                  { name: "MOMENTS", path: "/favorieten" },
-                  { name: "INFORMATIE", path: "/informatie" },
-                  { name: "CONTACT", path: "/contact" },
+                  { name: "HOME", path: "/", external: false },
+                  { name: "PROGRAMMA", path: "/informatie", external: false },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo", external: false },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show", external: false },
+                  { name: "FASHION-SHOW", path: "/fashion-show", external: false },
+                  {
+                    name: "TICKETS",
+                    path: "https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g",
+                    external: true,
+                  },
+                  { name: "MOMENTS", path: "/favorieten", external: false },
+                  { name: "INFORMATIE", path: "/informatie", external: false },
+                  { name: "CONTACT", path: "/contact", external: false },
                 ].map((item) => (
                   <li key={item.name} className="mb-[20px]">
-                    <Link
-                      href={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
-                    >
-                      {item.name}
-                    </Link>
+                    {item.external ? (
+                      <a
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.path}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -211,9 +241,9 @@ export default function FashionShowItemsPage() {
             {/* Vote Button Section - Purple background */}
             <div className="bg-[#B8A5D1] px-6 py-8 text-center">
               <a href="https://www.menti.com/alaqeqbw738s" target="_blank" rel="noopener noreferrer">
-              <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-[#B8A5D1] transition-colors rounded-lg">
-                STEMMEN
-              </button>
+                <button className="border-2 border-white text-white px-8 py-3 text-lg font-bold tracking-wider hover:bg-white hover:text-[#B8A5D1] transition-colors rounded-lg">
+                  STEMMEN
+                </button>
               </a>
             </div>
 
@@ -249,16 +279,16 @@ export default function FashionShowItemsPage() {
                       className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
                     />
                   </div>
-                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={102.5}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-                  </div>
+                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
+                    <div className="flex items-center justify-center">
+                      <Image
+                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
+                        alt="Yonder Logo"
+                        width={102.5}
+                        height={40}
+                        className="max-h-10 max-w-[120px]"
+                      />
+                    </div>
                   </a>
                 </div>
               </div>

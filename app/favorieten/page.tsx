@@ -183,24 +183,40 @@ export default function FavorietenPage() {
             <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
               <ul className="list-none text-center">
                 {[
-                  { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/informatie" },
-                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
-                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
-                  { name: "FASHION-SHOW", path: "/fashion-show" },
-                  { name: "TICKETS", path: "/tickets" },
-                  { name: "MOMENTS", path: "/favorieten" },
-                  { name: "INFORMATIE", path: "/informatie" },
-                  { name: "CONTACT", path: "/contact" },
+                  { name: "HOME", path: "/", external: false },
+                  { name: "PROGRAMMA", path: "/informatie", external: false },
+                  { name: "GRADUATION-EXPO", path: "/graduation-expo", external: false },
+                  { name: "GRADUATION-SHOW", path: "/graduation-show", external: false },
+                  { name: "FASHION-SHOW", path: "/fashion-show", external: false },
+                  {
+                    name: "TICKETS",
+                    path: "https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g",
+                    external: true,
+                  },
+                  { name: "MOMENTS", path: "/favorieten", external: false },
+                  { name: "INFORMATIE", path: "/informatie", external: false },
+                  { name: "CONTACT", path: "/contact", external: false },
                 ].map((item) => (
                   <li key={item.name} className="mb-[20px]">
-                    <Link
-                      href={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
-                    >
-                      {item.name}
-                    </Link>
+                    {item.external ? (
+                      <a
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.path}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -222,8 +238,7 @@ export default function FavorietenPage() {
 
               <h2 className="font-bold text-lg mb-4">FOTO&apos;S VAN FASHIONLABS 2024</h2>
 
-              {/* Reset Likes Button - for testing */}
-         
+       
 
               {/* Photo Grid - Single Column Layout */}
               {isLoading ? (
@@ -400,7 +415,7 @@ export default function FavorietenPage() {
           className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 overflow-hidden"
           onClick={closeFullscreen}
         >
-          <div className="relative max-w-4xl w-full h-[80vh] flex flex-col">
+          <div className="relative w-full h-full max-w-6xl flex flex-col">
             <button
               onClick={closeFullscreen}
               className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200 z-10"
@@ -422,38 +437,44 @@ export default function FavorietenPage() {
               </svg>
             </button>
 
-            <div className="flex-1 overflow-auto" onClick={(e) => e.stopPropagation()}>
-              <div className="min-h-full w-full flex items-center justify-center">
-                <img
-                  src={fullscreenPhoto.image_url || "/placeholder.svg"}
-                  alt={fullscreenPhoto.title}
-                  className="max-w-full max-h-full object-contain"
-                />
-              </div>
+            {/* Image Container - Responsive sizing */}
+            <div
+              className="flex-1 flex items-center justify-center min-h-0 pb-20 md:pb-24"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={fullscreenPhoto.image_url || "/placeholder.svg"}
+                alt={fullscreenPhoto.title}
+                className="max-w-full max-h-full object-contain w-auto h-auto"
+                style={{
+                  maxHeight: "calc(100vh - 200px)", // Reserve space for title/controls
+                  maxWidth: "calc(100vw - 32px)", // Account for padding
+                }}
+              />
             </div>
 
-            <div className="bg-black/70 p-4 flex justify-between items-center">
-              <div>
-                <h3 className="text-white text-xl font-bold">{fullscreenPhoto.title}</h3>
-                <p className="text-white/70">by {fullscreenPhoto.user_name || "Anonymous"}</p>
-              </div>
+            {/* Title and Like Section - Fixed at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
+              <div className="flex justify-between items-center max-w-6xl mx-auto">
+                <div>
+                  <h3 className="text-white text-xl md:text-2xl font-bold">{fullscreenPhoto.title}</h3>
+                  <p className="text-white/70 text-sm md:text-base">by {fullscreenPhoto.user_name || "Anonymous"}</p>
+                </div>
 
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleLike(fullscreenPhoto.id)
-                }}
-                disabled={likedPhotos.has(fullscreenPhoto.id)}
-                className={`flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 transition-all duration-200 ${
-                  likedPhotos.has(fullscreenPhoto.id)
-                    ? "bg-green-500/30 cursor-not-allowed"
-                    : "bg-white/20 hover:bg-white/30"
-                }`}
-              >
-                <span className="text-red-500 text-xl">❤️</span>
-                <span className="text-white font-bold">{fullscreenPhoto.likes}</span>
-                {likedPhotos.has(fullscreenPhoto.id) && <span className="text-green-400 text-xl ml-1">✓</span>}
-              </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleLike(fullscreenPhoto.id)
+                  }}
+                  className={`flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 transition-all duration-200 ${
+                    likedPhotos.has(fullscreenPhoto.id) ? "bg-red-500/30" : "bg-white/20 hover:bg-white/30"
+                  }`}
+                >
+                  <span className="text-red-500 text-xl">❤️</span>
+                  <span className="text-white font-bold text-lg">{fullscreenPhoto.likes}</span>
+                  {likedPhotos.has(fullscreenPhoto.id) && <span className="text-green-400 text-xl ml-1">✓</span>}
+                </button>
+              </div>
             </div>
           </div>
         </div>

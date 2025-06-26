@@ -180,8 +180,7 @@ export default function FashionLabsProgram() {
               </div>
             </div>
           </header>
-
-          {/* Navigation Menu Overlay */}
+ {/* Navigation Menu Overlay */}
           <div
             className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
           >
@@ -192,8 +191,8 @@ export default function FashionLabsProgram() {
                   { name: "PROGRAMMA", path: "/informatie" },
                   { name: "GRADUATION-EXPO", path: "/graduation-expo" },
                   { name: "GRADUATION-SHOW", path: "/graduation-show" },
-                  { name: "TAILORSHOW", path: "/tailor-show" },
-                  { name: "NIEUWS", path: "/" },
+                  { name: "FASHION-SHOW", path: "/fashion-show" },
+                  { name: "TICKETS", path: "/tickets" },
                   { name: "MOMENTS", path: "/favorieten" },
                   { name: "INFORMATIE", path: "/informatie" },
                   { name: "CONTACT", path: "/contact" },
@@ -211,6 +210,7 @@ export default function FashionLabsProgram() {
               </ul>
             </div>
           </div>
+
 
           {/* Main Content */}
           <main className="bg-white relative">
@@ -305,12 +305,14 @@ export default function FashionLabsProgram() {
 
             {/* Tickets Section */}
             <div className="px-4 py-6 bg-[#9480AB] flex justify-center">
-              <a
-                href="/tickets"
-                className="bg-black text-white px-8 py-3 rounded-none font-bold text-center inline-block min-w-[200px]"
-              >
-                TICKETS
-              </a>
+                 <a
+                  href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
+                >
+                  TICKETS
+                </a>
             </div>
 
             {/* Location and Time - Black Box */}
