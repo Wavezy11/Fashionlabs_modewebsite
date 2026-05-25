@@ -218,7 +218,7 @@ export default function PendingPhotosPage() {
               ) : (
                 <div className="space-y-6">
                   {pendingPhotos.length === 0 ? (
-                    <p className="text-center py-8 text-gray-500">Geen foto's in afwachting van goedkeuring</p>
+                    <p className="text-center py-8 text-gray-500">Geen foto&apos;s in afwachting van goedkeuring</p>
                   ) : (
                     pendingPhotos.map((photo) => {
                       const isFading = fadingPhotos.has(photo.id)
@@ -285,7 +285,7 @@ export default function PendingPhotosPage() {
                                   </>
                                 )}
                                 {photo.status === "approved" && isFading && (
-                                  <span className="text-green-600 text-sm font-medium">Toegevoegd aan foto's! 🎉</span>
+                                  <span className="text-green-600 text-sm font-medium">Toegevoegd aan foto&apos;s! 🎉</span>
                                 )}
                                 {photo.status === "rejected" && isFading && (
                                   <span className="text-red-600 text-sm font-medium">Foto afgekeurd</span>

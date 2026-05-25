@@ -2,15 +2,13 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 
 export default function FavorietenPage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [photos, setPhotos] = useState([])
+  const [photos, setPhotos] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [fullscreenPhoto, setFullscreenPhoto] = useState(null)
+  const [fullscreenPhoto, setFullscreenPhoto] = useState<any>(null)
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false)
-  const [likedPhotos, setLikedPhotos] = useState(new Set())
+  const [likedPhotos, setLikedPhotos] = useState(new Set<number>())
 
   useEffect(() => {
     async function fetchPhotos() {
@@ -20,12 +18,12 @@ export default function FavorietenPage() {
           const data = await response.json()
           // Ensure likes are numbers and sort by likes in descending order
           const sortedData = data
-            .map((photo) => ({
+            .map((photo: any) => ({
               ...photo,
               likes: Number(photo.likes) || 0,
               id: Number(photo.id),
             }))
-            .sort((a, b) => b.likes - a.likes)
+            .sort((a: any, b: any) => b.likes - a.likes)
           setPhotos(sortedData)
         }
       } catch (error) {
@@ -45,10 +43,6 @@ export default function FavorietenPage() {
     }
   }, [])
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
   const resetLikes = () => {
     if (confirm("Weet je zeker dat je alle likes wilt resetten?")) {
       setLikedPhotos(new Set())
@@ -57,7 +51,7 @@ export default function FavorietenPage() {
     }
   }
 
-  const handleLike = async (photoId) => {
+  const handleLike = async (photoId: number) => {
     const isCurrentlyLiked = likedPhotos.has(photoId)
 
     try {
@@ -90,7 +84,7 @@ export default function FavorietenPage() {
 
         // If we're in fullscreen mode, update the fullscreen photo too
         if (fullscreenPhoto && fullscreenPhoto.id === photoId) {
-          setFullscreenPhoto((prevPhoto) => ({
+          setFullscreenPhoto((prevPhoto: any) => ({
             ...prevPhoto,
             likes: Number(updatedPhoto.likes),
           }))
@@ -114,7 +108,7 @@ export default function FavorietenPage() {
     }
   }
 
-  const openFullscreen = (photo) => {
+  const openFullscreen = (photo: any) => {
     setFullscreenPhoto(photo)
     setIsFullscreenOpen(true)
   }
@@ -123,362 +117,167 @@ export default function FavorietenPage() {
     setIsFullscreenOpen(false)
   }
 
-  const scrollToTop = () => {
-    const scrollContainer = document.querySelector(".scroll-container")
-    if (scrollContainer) {
-      scrollContainer.scrollTo({ top: 0, behavior: "smooth" })
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center md:p-4 p-0">
-      <div className="relative w-full h-full md:w-[390px] md:max-w-[390px] md:h-[90vh] md:max-h-[844px] bg-white md:rounded-[60px] md:shadow-2xl overflow-hidden overscroll-none">
-        {/* Screen Content */}
-        <div className="scroll-container h-full pt-[0] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overscroll-none">
-          {/* Header */}
-          <header className={`h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex ${isMenuOpen ? "relative" : ""}`}>
-            {/* Logo */}
-            <div className="absolute left-[40%] top-[22.5%] h-full flex">
-              <Image
-                src="/fashionlabs.png"
-                alt="Fashion Labs Logo"
-                width={150}
-                height={150}
-                className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-              />
-            </div>
+    <main className="w-full flex-1 bg-white flex flex-col min-h-screen relative">
+      {/* Title Section */}
+      <div className="bg-gradient-to-b from-white to-gray-50 py-16 md:py-24 text-center relative z-10 shadow-sm border-b border-gray-100">
+        <h1 className="text-black text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-widest drop-shadow-sm">
+          FAVORIETEN
+          <div className="w-24 h-1 bg-[#9480AB] mx-auto mt-6 rounded-full"></div>
+        </h1>
+      </div>
 
-            {/* Yonder */}
-            <div className="absolute top-[40%] left-[7.5%] max-h-[68px] h-full flex items-center justify-center pr-5">
-              <div className="text-white text-lg font-light">
-                <Image
-                  src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                  alt="Yonder Logo"
-                  width={80}
-                  height={40}
-                  className="max-h-10 max-w-[120px]"
-                />
-              </div>
-            </div>
+      {/* Favorites Info */}
+      <div className="max-w-[1600px] mx-auto px-4 md:px-8 w-full flex-1 pb-20 pt-12">
+        <p className="text-center mb-16 bg-[#9480AB]/10 backdrop-blur-md border border-[#9480AB]/20 p-8 md:p-10 text-black rounded-3xl shadow-[0_10px_40px_rgba(148,128,171,0.15)] max-w-4xl mx-auto text-lg md:text-xl font-medium leading-relaxed">
+          Bij Moments vind je de mooiste foto&apos;s van onze bezoekers! Upload je eigen foto, verzamel likes en wie
+          weet word jij uitgelicht op onze socials. De meest gewaardeerde inzending krijgt na afloop van de show
+          een speciale vermelding!
+        </p>
 
-            {/* Menu Icon */}
-            <div className="absolute top-[55%] right-[7.5%] max-h-5 h-full flex items-center justify-center pr-5 z-[60]">
-              <div className="relative w-[30px] h-[30px] cursor-pointer" onClick={toggleMenu}>
-                <span
-                  className={`absolute w-full h-[5px] bg-[#9480AB] rounded-sm top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
-                ></span>
-                <span
-                  className={`absolute w-[5px] h-full bg-[#9480AB] rounded-sm left-1/2 top-0 transform -translate-x-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
-                ></span>
-              </div>
-            </div>
-          </header>
+        <h2 className="font-bold text-2xl md:text-3xl mb-8 uppercase tracking-wider text-center border-b-2 border-black inline-block pb-2 mx-auto">
+          FOTO&apos;S VAN FASHIONLABS 2024
+        </h2>
 
-          {/* Navigation Menu Overlay */}
-          <div
-            className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
-          >
-            <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
-              <ul className="list-none text-center">
-                {[
-                  { name: "HOME", path: "/", external: false },
-                  { name: "PROGRAMMA", path: "/informatie", external: false },
-                  { name: "GRADUATION-EXPO", path: "/graduation-expo", external: false },
-                  { name: "GRADUATION-SHOW", path: "/graduation-show", external: false },
-                  { name: "FASHION-SHOW", path: "/fashion-show", external: false },
-                  {
-                    name: "TICKETS",
-                    path: "https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g",
-                    external: true,
-                  },
-                  { name: "MOMENTS", path: "/favorieten", external: false },
-                  { name: "INFORMATIE", path: "/informatie", external: false },
-                  { name: "CONTACT", path: "/contact", external: false },
-                ].map((item) => (
-                  <li key={item.name} className="mb-[20px]">
-                    {item.external ? (
-                      <a
-                        href={item.path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={item.path}
-                        onClick={() => setIsMenuOpen(false)}
-                        className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
-                      >
-                        {item.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+        {/* Photo Grid - Responsive Layout */}
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <div className="w-16 h-16 border-8 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
+            {photos.map((photo, index) => (
+              <div key={photo.id} className="relative group">
+                {/* Photo Container */}
+                <div className="relative aspect-[4/3] bg-gray-100 rounded-xl overflow-hidden shadow-md group-hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2">
+                  <img
+                    src={photo.image_url || "/placeholder.svg"}
+                    alt={photo.title}
+                    className="w-full h-full object-cover"
+                    onError={(e: any) => {
+                      e.target.src = "/placeholder.svg?height=300&width=400"
+                    }}
+                  />
 
-          {/* Main Content */}
-          <main className="bg-white relative">
-            {/* Title */}
-            <h1 className="text-xl font-bold text-center py-5 tracking-wider">FAVORIETEN</h1>
+                  {/* Fullscreen Button */}
+                  <button
+                    onClick={() => openFullscreen(photo)}
+                    className="absolute top-4 right-4 bg-black/60 hover:bg-black/90 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+                    aria-label="View fullscreen"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <polyline points="9 21 3 21 3 15"></polyline>
+                      <line x1="21" y1="3" x2="14" y2="10"></line>
+                      <line x1="3" y1="21" x2="10" y2="14"></line>
+                    </svg>
+                  </button>
 
-            {/* Favorites Info */}
-            <div className="px-8 pb-6">
-              <p className="text-center mb-8 bg-[#9480AB] p-4 text-white">
-                Bij Moments vind je de mooiste foto's van onze bezoekers! Upload je eigen foto, verzamel likes en wie
-                weet word jij uitgelicht op onze socials. De meest gewaardeerde inzending krijgt na afloop van de show
-                een speciale vermelding!
-              </p>
+                  {/* Overlay with title and like button */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-5">
+                    <div className="flex items-end justify-between">
+                      <div className="flex-1 pr-4">
+                        <p className="text-white font-bold text-lg leading-tight mb-1 truncate">{photo.title}</p>
+                        <p className="text-white/70 text-sm truncate">by {photo.user_name || "Anonymous"}</p>
+                      </div>
 
-              <h2 className="font-bold text-lg mb-4">FOTO&apos;S VAN FASHIONLABS 2024</h2>
-
-       
-
-              {/* Photo Grid - Single Column Layout */}
-              {isLoading ? (
-                <div className="flex justify-center py-8">
-                  <div className="w-8 h-8 border-4 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              ) : (
-                <div className="space-y-8 mb-8">
-                  {photos.map((photo, index) => (
-                    <div key={photo.id} className="relative mx-auto max-w-[320px]">
-                      {/* Photo Container */}
-                      <div className="relative aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden shadow-lg">
-                        <img
-                          src={photo.image_url || "/placeholder.svg"}
-                          alt={photo.title}
-                          className="w-full h-full object-contain"
-                          onError={(e) => {
-                            e.target.src = "/placeholder.svg?height=300&width=400"
-                          }}
-                        />
-
-                        {/* Fullscreen Button */}
+                      {/* Like Button and Count */}
+                      <div className="flex items-center">
                         <button
-                          onClick={() => openFullscreen(photo)}
-                          className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 p-2 rounded-full transition-all duration-200"
-                          aria-label="View fullscreen"
+                          onClick={() => handleLike(photo.id)}
+                          className={`flex items-center gap-1.5 backdrop-blur-md rounded-full px-3 py-2 transition-all duration-300 active:scale-95 ${
+                            likedPhotos.has(photo.id) ? "bg-red-500/40 border border-red-500/50" : "bg-white/20 hover:bg-white/40 border border-white/20"
+                          }`}
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <polyline points="9 21 3 21 3 15"></polyline>
-                            <line x1="21" y1="3" x2="14" y2="10"></line>
-                            <line x1="3" y1="21" x2="10" y2="14"></line>
-                          </svg>
+                          <span className="text-red-500 text-lg">❤️</span>
+                          <span className="text-white font-bold">{photo.likes}</span>
+                          {likedPhotos.has(photo.id) && <span className="text-green-400 text-sm ml-1">✓</span>}
                         </button>
-
-                        {/* Overlay with title and like button */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                          <div className="flex items-center justify-between">
-                            <div className="flex-1">
-                              <p className="text-white font-bold text-lg mb-1">{photo.title}</p>
-                              <p className="text-white/80 text-sm">by {photo.user_name || "Anonymous"}</p>
-                            </div>
-
-                            {/* Like Button and Count */}
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={() => handleLike(photo.id)}
-                                className={`flex items-center gap-1 backdrop-blur-sm rounded-full px-3 py-2 transition-all duration-200 active:scale-95 ${
-                                  likedPhotos.has(photo.id) ? "bg-red-500/30" : "bg-white/20 hover:bg-white/30"
-                                }`}
-                              >
-                                <span className="text-red-500 text-lg">❤️</span>
-                                <span className="text-white font-bold">{photo.likes}</span>
-                                {likedPhotos.has(photo.id) && <span className="text-green-400 text-sm ml-1">✓</span>}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Ranking Badge for top 3 */}
-                        {index < 3 && (
-                          <div className="absolute top-3 left-3">
-                            <div
-                              className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm ${
-                                index === 0 ? "bg-yellow-500" : index === 1 ? "bg-gray-400" : "bg-orange-600"
-                              }`}
-                            >
-                              {index + 1}
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Upload Button */}
-              <div className="flex justify-center">
-                <Link
-                  href="/dashboard/photos/new"
-                  className="bg-black text-white px-12 py-4 text-lg font-bold tracking-wide hover:bg-gray-800 transition-colors"
-                >
-                  UPLOAD
-                </Link>
-              </div>
-            </div>
-
-            {/* Checkered Pattern */}
-            <div
-              className="w-full h-10 mt-8"
-              style={{
-                backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(-45deg, #000 25%, transparent 25%), 
-                                 linear-gradient(45deg, transparent 75%, #000 75%), 
-                                 linear-gradient(-45deg, transparent 75%, #000 75%)`,
-                backgroundSize: "20px 20px",
-                backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-              }}
-            ></div>
-
-            {/* Footer */}
-            <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
-              <div className="flex justify-between w-full pb-5">
-                <div>
-                  <ul className="list-none">
-                    {[
-                      { name: "Voor studenten", path: "/voor-studenten" },
-                      { name: "Voor volwassenen", path: "/voor-volwassenen" },
-                      { name: "Voor bedrijven", path: "/voor-bedrijven" },
-                      { name: "Over FashionLabs", path: "/over-fashionlabs" },
-                    ].map((item) => (
-                      <li key={item.name} className="mb-[15px] flex items-center">
-                        <span className="text-[#9480AB] mr-2.5 font-bold text-lg">+</span>
-                        <Link href={item.path} className="text-white no-underline text-base hover:underline">
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-col items-end gap-5">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/fashionlabs.png"
-                      alt="Fashion Labs Logo"
-                      width={150}
-                      height={150}
-                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                    />
                   </div>
-                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                    <div className="flex items-center justify-center">
-                      <Image
-                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                        alt="Yonder Logo"
-                        width={102.5}
-                        height={40}
-                        className="max-h-10 max-w-[120px]"
-                      />
+
+                  {/* Ranking Badge for top 3 */}
+                  {index < 3 && (
+                    <div className="absolute top-4 left-4">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-black shadow-lg border-2 border-white/20 ${
+                          index === 0 ? "bg-yellow-500" : index === 1 ? "bg-gray-400" : "bg-orange-600"
+                        }`}
+                      >
+                        {index + 1}
+                      </div>
                     </div>
-                  </a>
+                  )}
                 </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              {/* Back to top button - full width at bottom */}
-              <div className="w-full">
-                <button
-                  onClick={scrollToTop}
-                  className="bg-white text-[#1a1a1a] border-none p-4 w-full text-center text-base cursor-pointer transition-colors hover:bg-[#f0f0f0] font-medium rounded-t-lg"
-                >
-                  Terug naar boven
-                </button>
-              </div>
-            </footer>
-          </main>
+        {/* Upload Button */}
+        <div className="flex justify-center mt-12 pb-12">
+          <Link
+            href="/dashboard/photos/new"
+            className="group relative overflow-hidden bg-black text-white px-16 py-6 text-xl font-black tracking-widest text-center min-w-[300px] uppercase rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.4)] hover:scale-105 transition-all duration-500"
+          >
+            <span className="relative z-10 group-hover:text-black transition-colors duration-500">UPLOAD FOTO</span>
+            <div className="absolute inset-0 h-full w-0 bg-white group-hover:w-full transition-all duration-500 ease-out z-0"></div>
+          </Link>
         </div>
       </div>
 
       {/* Fullscreen Modal */}
       {isFullscreenOpen && fullscreenPhoto && (
         <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 overflow-hidden"
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 md:p-8"
           onClick={closeFullscreen}
         >
-          <div className="relative w-full h-full max-w-6xl flex flex-col">
+          <div className="relative w-full h-full max-w-[90vw] flex flex-col items-center justify-center">
             <button
               onClick={closeFullscreen}
-              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200 z-10"
+              className="absolute top-0 right-0 bg-white/10 hover:bg-white/30 p-3 rounded-full transition-all duration-300 z-10"
               aria-label="Close fullscreen"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
 
-            {/* Image Container - Responsive sizing */}
+            {/* Image Container */}
             <div
-              className="flex-1 flex items-center justify-center min-h-0 pb-20 md:pb-24"
+              className="flex-1 flex items-center justify-center w-full max-h-[80vh] my-8"
               onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={fullscreenPhoto.image_url || "/placeholder.svg"}
                 alt={fullscreenPhoto.title}
-                className="max-w-full max-h-full object-contain w-auto h-auto"
-                style={{
-                  maxHeight: "calc(100vh - 200px)", // Reserve space for title/controls
-                  maxWidth: "calc(100vw - 32px)", // Account for padding
-                }}
+                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
               />
             </div>
 
-            {/* Title and Like Section - Fixed at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
-              <div className="flex justify-between items-center max-w-6xl mx-auto">
-                <div>
-                  <h3 className="text-white text-xl md:text-2xl font-bold">{fullscreenPhoto.title}</h3>
-                  <p className="text-white/70 text-sm md:text-base">by {fullscreenPhoto.user_name || "Anonymous"}</p>
-                </div>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleLike(fullscreenPhoto.id)
-                  }}
-                  className={`flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 transition-all duration-200 ${
-                    likedPhotos.has(fullscreenPhoto.id) ? "bg-red-500/30" : "bg-white/20 hover:bg-white/30"
-                  }`}
-                >
-                  <span className="text-red-500 text-xl">❤️</span>
-                  <span className="text-white font-bold text-lg">{fullscreenPhoto.likes}</span>
-                  {likedPhotos.has(fullscreenPhoto.id) && <span className="text-green-400 text-xl ml-1">✓</span>}
-                </button>
+            {/* Title and Like Section */}
+            <div className="w-full max-w-4xl bg-black/50 p-6 rounded-2xl backdrop-blur-md flex flex-col md:flex-row justify-between items-center gap-6" onClick={(e) => e.stopPropagation()}>
+              <div className="text-center md:text-left">
+                <h3 className="text-white text-2xl md:text-3xl font-bold mb-1">{fullscreenPhoto.title}</h3>
+                <p className="text-white/70 text-lg">by {fullscreenPhoto.user_name || "Anonymous"}</p>
               </div>
+
+              <button
+                onClick={() => handleLike(fullscreenPhoto.id)}
+                className={`flex items-center gap-3 rounded-full px-6 py-3 transition-all duration-300 text-xl ${
+                  likedPhotos.has(fullscreenPhoto.id) ? "bg-red-500/40 border-2 border-red-500/50" : "bg-white/10 hover:bg-white/20 border-2 border-white/20"
+                }`}
+              >
+                <span className="text-red-500 text-2xl">❤️</span>
+                <span className="text-white font-bold">{fullscreenPhoto.likes}</span>
+                {likedPhotos.has(fullscreenPhoto.id) && <span className="text-green-400 text-2xl ml-2">✓</span>}
+              </button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </main>
   )
 }

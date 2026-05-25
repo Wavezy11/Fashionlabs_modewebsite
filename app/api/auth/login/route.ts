@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       const user = users[0]
 
       // Voor nu simpele wachtwoord check (in productie zou je bcrypt gebruiken)
-      if (password === "admin123") {
+      if (password === process.env.ADMIN_PASSWORD) {
         // Maak een simpele session token
         const token = Buffer.from(`${user.id}:${user.username}:${Date.now()}`).toString("base64")
 

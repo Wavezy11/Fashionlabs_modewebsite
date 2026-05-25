@@ -12,13 +12,13 @@ export function UploadGuidelines() {
           • <strong>Alle foto formaten</strong> - JPEG, PNG, WebP, GIF, HEIC, etc.
         </li>
         <li>
-          • <strong>Max 350 foto's</strong> voor het hele evenement
+          • <strong>Max 350 foto&apos;s</strong> voor het hele evenement
         </li>
         <li>
           • <strong>Direct van telefoon</strong> - geen conversie nodig
         </li>
         <li>
-          • <strong>iPhone foto's</strong> - HEIC formaat wordt ondersteund
+          • <strong>iPhone foto&apos;s</strong> - HEIC formaat wordt ondersteund
         </li>
         <li>
           • <strong>Problemen?</strong> Vraag hulp aan de organisatie

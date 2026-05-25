@@ -268,7 +268,7 @@ export default function Dashboard() {
                   className={`flex-1 py-3 text-center font-medium ${activeTab === "photos" ? "text-[#9480AB] border-b-2 border-[#9480AB]" : "text-gray-500"}`}
                   onClick={() => setActiveTab("photos")}
                 >
-                  Foto's
+                  Foto&apos;s
                 </button>
                 <button
                   className={`flex-1 py-3 text-center font-medium ${activeTab === "events" ? "text-[#9480AB] border-b-2 border-[#9480AB]" : "text-gray-500"}`}
@@ -354,7 +354,7 @@ export default function Dashboard() {
                   {activeTab === "photos" && (
                     <div>
                       <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-lg font-bold">Foto's</h2>
+                        <h2 className="text-lg font-bold">Foto&apos;s</h2>
                         <Link
                           href="/dashboard/photos/new"
                           className="bg-[#9480AB] text-white px-3 py-1 rounded text-sm"
@@ -397,7 +397,7 @@ export default function Dashboard() {
                       </div>
 
                       {photos.length === 0 && (
-                        <p className="text-center py-8 text-gray-500 col-span-2">Geen foto's gevonden</p>
+                        <p className="text-center py-8 text-gray-500 col-span-2">Geen foto&apos;s gevonden</p>
                       )}
                     </div>
                   )}

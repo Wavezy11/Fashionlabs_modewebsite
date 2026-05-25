@@ -1,25 +1,26 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
 import { Plus, Minus } from "lucide-react"
 import Image from "next/image"
 
+interface Photo {
+  id: number
+  image_url: string
+  title: string
+  likes: number
+  user_name?: string
+}
+
 export default function FashionLabsApp() {
-  // Slideshow state
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [expandedProgram, setExpandedProgram] = useState<string | null>(null)
-
-  const [photos, setPhotos] = useState([])
+  const [photos, setPhotos] = useState<Photo[]>([])
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(true)
-
-  // Fullscreen state
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false)
-  const [fullscreenPhoto, setFullscreenPhoto] = useState(null)
+  const [fullscreenPhoto, setFullscreenPhoto] = useState<Photo | null>(null)
 
-  // Slideshow refs and state
   const slideshowRef = useRef<HTMLDivElement>(null)
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
   const [touchStart, setTouchStart] = useState(0)
@@ -32,9 +33,8 @@ export default function FashionLabsApp() {
         const response = await fetch("/api/photos")
         if (response.ok) {
           const data = await response.json()
-          // Only use photos that have actual image URLs (not the old static ones)
-          const validPhotos = data.filter(
-            (photo) =>
+          const validPhotos = (data as any[]).filter(
+            (photo: any) =>
               photo.image_url &&
               !photo.image_url.includes("/1.png") &&
               !photo.image_url.includes("/2.png") &&
@@ -43,14 +43,15 @@ export default function FashionLabsApp() {
               !photo.image_url.includes("/5.png"),
           )
 
-          // Get top 5 photos sorted by likes for slideshow
-          const topPhotos = validPhotos
-            .map((photo) => ({
-              ...photo,
-              likes: Number(photo.likes) || 0,
+          const topPhotos: Photo[] = validPhotos
+            .map((photo: any) => ({
               id: Number(photo.id),
+              image_url: photo.image_url,
+              title: photo.title || "",
+              likes: Number(photo.likes) || 0,
+              user_name: photo.user_name || "",
             }))
-            .sort((a, b) => b.likes - a.likes)
+            .sort((a: Photo, b: Photo) => b.likes - a.likes)
             .slice(0, 5)
 
           setPhotos(topPhotos)
@@ -141,7 +142,16 @@ export default function FashionLabsApp() {
     },
   ]
 
-  const expandedContent = {
+  const expandedContent: Record<
+    string,
+    {
+      description: string
+      image?: string
+      imageAlt?: string
+      buttonText?: string
+      buttonLink?: string
+    }
+  > = {
     "Graduation Talk": {
       description:
         "Tijdens de graduation talk zal Jim Steward in gesprek gaan met verschillende afstudeer studenten. De vragen hoe zij tegen de veranderende wereld met AI aankijken en hoe zij SHAPE in hun eigen werk hebben vertaald zullen aan bod komen. Maar ook de vraag hoe hun kijk op de mode wereld is zal aan bod komen.",
@@ -178,11 +188,8 @@ export default function FashionLabsApp() {
     },
   }
 
-  // Auto slideshow functionality
   const startAutoSlide = () => {
-    if (autoSlideRef.current) {
-      clearInterval(autoSlideRef.current)
-    }
+    if (autoSlideRef.current) clearInterval(autoSlideRef.current)
     autoSlideRef.current = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length)
     }, 2000)
@@ -195,37 +202,29 @@ export default function FashionLabsApp() {
     }
   }
 
-  // Initialize slideshow
   useEffect(() => {
-    if (slides.length > 0) {
-      startAutoSlide()
-    }
+    if (slides.length > 0) startAutoSlide()
     return () => {
-      if (autoSlideRef.current) {
-        clearInterval(autoSlideRef.current)
-      }
+      if (autoSlideRef.current) clearInterval(autoSlideRef.current)
     }
   }, [slides.length])
 
-  // Handle slide navigation
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
   }
 
-  // Fullscreen handlers
-  const openFullscreen = (photo) => {
+  const openFullscreen = (photo: Photo) => {
     setFullscreenPhoto(photo)
     setIsFullscreenOpen(true)
-    pauseAutoSlide() // Pause slideshow when fullscreen opens
+    pauseAutoSlide()
   }
 
   const closeFullscreen = () => {
     setIsFullscreenOpen(false)
     setFullscreenPhoto(null)
-    startAutoSlide() // Resume slideshow when fullscreen closes
+    startAutoSlide()
   }
 
-  // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     pauseAutoSlide()
     setTouchStart(e.targetTouches[0].clientX)
@@ -233,9 +232,6 @@ export default function FashionLabsApp() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!touchStart) return
-    const touchX = e.targetTouches[0].clientX
-    const diff = touchStart - touchX
-    // Visual feedback during drag could be added here
   }
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -245,7 +241,6 @@ export default function FashionLabsApp() {
     startAutoSlide()
   }
 
-  // Mouse handlers for desktop
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
     pauseAutoSlide()
@@ -255,7 +250,6 @@ export default function FashionLabsApp() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return
-    // Visual feedback during drag could be added here
   }
 
   const handleMouseUp = (e: React.MouseEvent) => {
@@ -273,446 +267,348 @@ export default function FashionLabsApp() {
 
     if (Math.abs(swipeDistance) > swipeThreshold) {
       if (swipeDistance > 0) {
-        // Swipe left - next slide
         setCurrentSlide((prev) => (prev + 1) % slides.length)
       } else {
-        // Swipe right - previous slide
         setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
       }
     }
-
     setTouchStart(0)
     setTouchEnd(0)
-  }
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
   }
 
   const toggleProgram = (programId: string) => {
     setExpandedProgram(expandedProgram === programId ? null : programId)
   }
 
-  const scrollToTop = () => {
-    const scrollContainer = document.querySelector(".scroll-container")
-    if (scrollContainer) {
-      scrollContainer.scrollTo({ top: 0, behavior: "smooth" })
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-black flex items-center justify-center md:p-4 p-0">
-      <div className="relative w-full h-full md:w-[390px] md:max-w-[390px] md:h-[90vh] md:max-h-[844px] bg-white md:rounded-[60px] md:shadow-2xl overflow-hidden overscroll-none">
-        {/* Screen Content with hidden scrollbar */}
-        <div className="scroll-container h-full pt-[0] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overscroll-none">
-          {/* Header */}
-          <header className={`h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex ${isMenuOpen ? "relative" : ""}`}>
-            {/* Logo */}
-            <div className="absolute left-[40%] top-[22.5%] h-full flex">
-              <Image
-                src="/fashionlabs.png"
-                alt="Fashion Labs Logo"
-                width={150}
-                height={150}
-                className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-              />
-            </div>
-
-            {/* Yonder */}
-            <div className="absolute top-[40%] left-[7.5%] max-h-[68px] h-full flex items-center justify-center pr-5">
-              <div className="text-white text-lg font-light">
-                <Image
-                  src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                  alt="Yonder Logo"
-                  width={80}
-                  height={40}
-                  className="max-h-10 max-w-[120px]"
-                />
-              </div>{" "}
-            </div>
-
-            {/* Menu Icon */}
-            <div className="absolute top-[55%] right-[7.5%] max-h-5 h-full flex items-center justify-center pr-5 z-[60]">
-              <div className="relative w-[30px] h-[30px] cursor-pointer" onClick={toggleMenu}>
-                <span
-                  className={`absolute w-full h-[5px] bg-[#9480AB] rounded-sm top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
-                ></span>
-                <span
-                  className={`absolute w-[5px] h-full bg-[#9480AB] rounded-sm left-1/2 top-0 transform -translate-x-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
-                ></span>
-              </div>
-            </div>
-          </header>
-
-          {/* Navigation Menu Overlay */}
+  const renderSlideshow = (isDesktopLayout: boolean) => (
+    <div
+      className={`relative overflow-hidden ${
+        isDesktopLayout
+          ? "h-[50vh] md:h-[60vh] w-full max-w-[500px] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-white/5 backdrop-blur-xl"
+          : "h-[250px] w-full max-w-[350px] md:h-[400px] md:max-w-[600px] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-white/5 backdrop-blur-xl"
+      }`}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={(e: any) => {
+        handleMouseUp(e);
+        startAutoSlide();
+      }}
+    >
+      {isLoadingPhotos ? (
+        <div className="flex justify-center items-center w-full h-full">
+          <div className="w-10 h-10 border-4 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : slides.length > 0 ? (
+        <>
           <div
-            className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
+            ref={slideshowRef}
+            className="flex w-full h-full transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
-              <ul className="list-none text-center">
-                {[
-                  { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/informatie" },
-                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
-                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
-                  { name: "FASHION-SHOW", path: "/fashion-show" },
-                  { name: "TICKETS", path: "/tickets" },
-                  { name: "MOMENTS", path: "/favorieten" },
-                  { name: "INFORMATIE", path: "/informatie" },
-                  { name: "CONTACT", path: "/contact" },
-                ].map((item) => (
-                  <li key={item.name} className="mb-[20px]">
-                    <a
-                      href={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
+            {slides.map((slide, index) => {
+              const photo = photos[index]
+              return (
+                <div key={index} className="min-w-full h-full relative bg-black/20">
+                  <Image
+                    src={slide || "/placeholder.svg"}
+                    alt={photo?.title || `Fashion Labs Slide ${index + 1}`}
+                    fill
+                    className="object-contain drop-shadow-lg"
+                  />
+
+                  {photo && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        openFullscreen(photo)
+                      }}
+                      className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 p-3 rounded-full transition-all duration-200 z-10"
+                      aria-label="View fullscreen"
                     >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Main Content */}
-          <main className="bg-white relative">
-            {/* App Content */}
-            <div className="relative w-full">
-              {/* Hero Section */}
-              <div className="relative w-full h-[500px] md:-top-[145px] -top-[220px]">
-                <Image
-                  src="/fashionlabs-hero.png?height=500&width=390&text=Hero+Image"
-                  alt="Hero"
-                  width={390}
-                  height={500}
-                  className="w-full h-full object-cover absolute left-0 md:top-[145px] top-[30vh]"
-                />
-                <button
-                  onClick={() => {
-                    const programSection = document.getElementById("programma")
-                    if (programSection) {
-                      programSection.scrollIntoView({ behavior: "smooth" })
-                    }
-                  }}
-                  className="absolute md:bottom-[0px] -bottom-[200px] left-1/2 transform -translate-x-1/2 bg-black text-white px-[29px] py-[14px] text-lg border-none cursor-pointer z-[2] font-bold"
-                >
-                  PROGRAMMA
-                </button>
-              </div>
-
-              {/* News Section */}
-              <div className="h-[300px] w-full bg-white md:mt-0 mt-0">
-                <div className="pt-8">
-                  <h2 className="text-2xl text-center mb-5 font-bold text-black">POPULAIRE MOMENTS</h2>
-                </div>
-
-                {/* Slideshow */}
-                <div
-                  className="relative h-[200px] w-[275px] left-1/2 transform -translate-x-1/2 overflow-hidden mt-4"
-                  onMouseEnter={pauseAutoSlide}
-                  onMouseLeave={startAutoSlide}
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
-                  onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp}
-                >
-                  {isLoadingPhotos ? (
-                    <div className="flex justify-center items-center w-full h-full">
-                      <div className="w-8 h-8 border-4 border-[#9480AB] border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                  ) : slides.length > 0 ? (
-                    <>
-                      <div
-                        ref={slideshowRef}
-                        className="flex w-full h-full transition-transform duration-500 ease-in-out"
-                        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
-                        {slides.map((slide, index) => (
-                          <div key={index} className="min-w-full h-full relative">
-                            <Image
-                              src={slide || "/placeholder.svg"}
-                              alt={photos[index]?.title || `Fashion Labs Slide ${index + 1}`}
-                              width={275}
-                              height={200}
-                              className="w-full h-full object-contain bg-gray-100"
-                            />
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <polyline points="9 21 3 21 3 15"></polyline>
+                        <line x1="21" y1="3" x2="14" y2="10"></line>
+                        <line x1="3" y1="21" x2="10" y2="14"></line>
+                      </svg>
+                    </button>
+                  )}
 
-                            {/* Fullscreen Button */}
-                            {photos[index] && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  openFullscreen(photos[index])
-                                }}
-                                className="absolute top-2 right-2 bg-black/50 hover:bg-black/70 p-2 rounded-full transition-all duration-200 z-10"
-                                aria-label="View fullscreen"
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="white"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="15 3 21 3 21 9"></polyline>
-                                  <polyline points="9 21 3 21 3 15"></polyline>
-                                  <line x1="21" y1="3" x2="14" y2="10"></line>
-                                  <line x1="3" y1="21" x2="10" y2="14"></line>
-                                </svg>
-                              </button>
-                            )}
-
-                            {photos[index] && (
-                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-                                <p className="text-white text-sm font-bold truncate">{photos[index].title}</p>
-                                <p className="text-white/80 text-xs">❤️ {photos[index].likes}</p>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Dots */}
-                      <div className="absolute bottom-2.5 left-0 right-0 flex justify-center gap-2">
-                        {slides.map((_, index) => (
-                          <span
-                            key={index}
-                            className={`w-2 h-2 rounded-full cursor-pointer transition-colors duration-300 ${
-                              index === currentSlide ? "bg-[rgb(46,212,207)]" : "bg-[rgba(21,21,21,0.5)]"
-                            }`}
-                            onClick={() => goToSlide(index)}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex justify-center items-center w-full h-full bg-gray-100">
-                      <p className="text-gray-500 text-center">
-                        Geen foto's beschikbaar.
-                        <br />
-                        Upload foto's in de MOMENTS sectie!
-                      </p>
+                  {photo && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 md:p-6">
+                      <p className="text-white text-lg md:text-xl font-bold truncate">{photo.title}</p>
+                      <p className="text-white/80 text-sm md:text-base mt-1">❤️ {photo.likes}</p>
                     </div>
                   )}
                 </div>
-              </div>
+              )
+            })}
+          </div>
 
-              {/* Program Section */}
-              <div id="programma" className="w-full bg-[#9480AB] relative px-4 py-8">
-                <h2 className="text-2xl text-center mb-8 font-bold text-white">PROGRAMMA</h2>
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-3">
+            {slides.map((_, index) => (
+              <span
+                key={index}
+                className={`w-3 h-3 md:w-4 md:h-4 rounded-full cursor-pointer transition-colors duration-300 ${
+                  index === currentSlide ? "bg-[rgb(46,212,207)]" : "bg-white/50"
+                }`}
+                onClick={() => goToSlide(index)}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="flex justify-center items-center w-full h-full bg-black/10">
+          <p className="text-white/70 text-center text-lg">
+            Geen foto&apos;s beschikbaar.
+            <br />
+            Upload foto&apos;s in de MOMENTS sectie!
+          </p>
+        </div>
+      )}
+    </div>
+  )
 
-                <div className="space-y-4">
-                  {programItems.map((item) => (
-                    <div key={item.id} className="space-y-2">
-                      {/* Program Item */}
-                      <div className="flex items-center">
-                        {/* Time Box */}
-                        <div className="bg-black text-white px-4 py-3 font-bold text-base min-w-[80px] text-center">
-                          {item.time}
+  return (
+    <main className="w-full flex-1">
+      {/* Hero Section */}
+      <section className="relative w-full bg-[#0a0a0a] flex items-center justify-center overflow-hidden min-h-[50vh] lg:min-h-[85vh]">
+        {/* Blurred Background to fill any gaps */}
+        <div className="absolute inset-0">
+          <Image
+            src="/fashionlabs-hero.png"
+            alt="Background blur"
+            fill
+            className="object-cover opacity-20 blur-3xl scale-125"
+            priority
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="relative w-full max-w-[1600px] mx-auto z-10 flex flex-col lg:flex-row items-center justify-center lg:justify-between px-0 md:px-8 lg:px-12 h-[75vh] md:h-[85vh] lg:h-auto gap-8 py-8">
+          
+          {/* Main Image: Scales naturally, no cropping, max height constrained */}
+          <div className="relative w-full lg:w-1/2 flex items-center justify-center h-full lg:h-[75vh]">
+            <Image
+              src="/fashionlabs-hero.png"
+              alt="Fashion Labs Hero"
+              fill
+              className="object-contain drop-shadow-2xl"
+              priority
+            />
+          </div>
+
+          {/* Popular Moments - DESKTOP ONLY (Shown next to the hero) */}
+          <div className="hidden lg:flex w-full lg:w-1/2 flex-col items-center justify-center h-full">
+            <h2 className="text-3xl xl:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#e0d4f0] to-[#b8a5d1] tracking-widest uppercase mb-8 drop-shadow-md text-center">
+              POPULAIRE MOMENTS
+            </h2>
+            {renderSlideshow(true)}
+            
+            {/* Button directly below moments on desktop */}
+            <div className="mt-12 flex justify-center w-full">
+              <button
+                onClick={() => {
+                  const programSection = document.getElementById("programma")
+                  if (programSection) {
+                    programSection.scrollIntoView({ behavior: "smooth" })
+                  }
+                }}
+                className="group relative overflow-hidden bg-white/10 backdrop-blur-md border border-white/30 text-white px-10 py-4 text-xl font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] transition-all duration-500 rounded-full"
+              >
+                <span className="relative z-10">BEKIJK PROGRAMMA</span>
+                <div className="absolute inset-0 h-full w-0 bg-white group-hover:w-full transition-all duration-500 ease-out z-0"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Subtle Bottom Gradient for the button visibility on Mobile */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent pointer-events-none lg:hidden" />
+        
+        {/* Programma Button Positioned at the Bottom - MOBILE ONLY */}
+        <div className="absolute bottom-6 md:bottom-10 z-20 flex flex-col items-center px-4 w-full lg:hidden">
+          <button
+            onClick={() => {
+              const programSection = document.getElementById("programma")
+              if (programSection) {
+                programSection.scrollIntoView({ behavior: "smooth" })
+              }
+            }}
+            className="group relative overflow-hidden bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-3 md:px-12 md:py-4 text-base md:text-xl font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] transition-all duration-500 rounded-full"
+          >
+            <span className="relative z-10">BEKIJK PROGRAMMA</span>
+            <div className="absolute inset-0 h-full w-0 bg-white group-hover:w-full transition-all duration-500 ease-out z-0"></div>
+          </button>
+        </div>
+      </section>
+
+
+      {/* News Section - MOBILE ONLY */}
+      <section className="w-full bg-[#0a0a0a] py-16 lg:hidden px-4 relative overflow-hidden">
+        {/* Blurred Background to match hero */}
+        <div className="absolute inset-0">
+          <Image
+            src="/fashionlabs-hero.png"
+            alt="Background blur"
+            fill
+            className="object-cover opacity-20 blur-3xl scale-125"
+          />
+        </div>
+        <div className="max-w-screen-xl mx-auto relative z-10">
+          <h2 className="text-3xl md:text-4xl text-center mb-10 font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#e0d4f0] to-[#b8a5d1] tracking-widest uppercase drop-shadow-md">
+            POPULAIRE MOMENTS
+          </h2>
+
+          <div className="flex justify-center">
+            {renderSlideshow(false)}
+          </div>
+        </div>
+      </section>
+
+      {/* Program Section */}
+      <section id="programma" className="w-full bg-gradient-to-b from-[#1a1a1a] to-[#2d2438] py-20 px-4 relative">
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 pointer-events-none mix-blend-overlay"></div>
+        <div className="max-w-screen-xl mx-auto relative z-10">
+          <h2 className="text-4xl md:text-5xl text-center mb-16 font-black text-white tracking-widest uppercase">
+            PROGRAMMA
+            <div className="w-24 h-1 bg-[#9480AB] mx-auto mt-6 rounded-full"></div>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {programItems.map((item) => (
+              <div key={item.id} className="group flex flex-col h-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] hover:-translate-y-2 hover:border-white/20">
+                <div className="flex items-stretch min-h-[70px]">
+                  <div className="bg-[#9480AB] text-white px-5 py-4 font-black text-xl min-w-[100px] flex items-center justify-center">
+                    {item.time}
+                  </div>
+                  <div className="flex-1 px-5 py-4 flex items-center justify-between bg-white/5">
+                    <h3 className="font-bold text-white text-lg md:text-xl group-hover:text-[#e0d4f0] transition-colors">{item.title}</h3>
+                    {item.hasPlus && (
+                      <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0 ml-3 focus:outline-none bg-white/10 p-2 rounded-full hover:bg-white/20 transition-all">
+                        {expandedProgram === item.id ? (
+                          <Minus className="w-5 h-5 text-white" />
+                        ) : (
+                          <Plus className="w-5 h-5 text-white" />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="bg-black/40 px-5 py-3 text-sm font-medium text-white/70 flex items-center gap-2">
+                  <span className="text-[#9480AB]">📍</span> {item.location}
+                </div>
+
+                {/* Expanded Content */}
+                {(() => {
+                  if (expandedProgram !== item.id || !item.isExpandable) return null
+                  const content = expandedContent[item.title]
+                  if (!content) return null
+                  return (
+                    <div className="p-6 border-t border-white/10 bg-black/60 flex-grow animate-in slide-in-from-top-4 duration-500">
+                      {content.image && (
+                        <div className="mb-6 relative w-full h-48 rounded-xl overflow-hidden shadow-2xl">
+                          <Image
+                            src={content.image || "/placeholder.svg"}
+                            alt={content.imageAlt || ""}
+                            fill
+                            className="object-cover transform hover:scale-105 transition-transform duration-700"
+                          />
                         </div>
+                      )}
 
-                        {/* Content Box */}
-                        <div className="bg-white flex-1 px-4 py-3 flex items-center justify-between">
-                          <h3 className="font-bold text-[#9480AB] text-base">{item.title}</h3>
-                          {item.hasPlus && (
-                            <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0">
-                              {expandedProgram === item.id ? (
-                                <Minus className="w-6 h-6 text-[#9480AB]" />
-                              ) : (
-                                <Plus className="w-6 h-6 text-[#9480AB]" />
-                              )}
-                            </button>
-                          )}
-                        </div>
-                      </div>
+                      <p className="text-white/80 text-sm md:text-base leading-relaxed mb-8">
+                        {content.description}
+                      </p>
 
-                      {/* Location Text */}
-                      <div className="text-white text-sm pl-4">{item.location}</div>
-
-                      {/* Expanded Content */}
-                      {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
-                        <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
-                          {/* Image for Digital Alumni talk and AI talk */}
-                          {expandedContent[item.title].image && (
-                            <div className="mb-4 flex justify-center">
-                              <Image
-                                src={expandedContent[item.title].image || "/placeholder.svg"}
-                                alt={expandedContent[item.title].imageAlt}
-                                width={250}
-                                height={150}
-                                className="rounded-lg object-cover shadow-md hover:opacity-90 transition-opacity duration-300"
-                              />
-                            </div>
-                          )}
-
-                          <p
-                            className={`text-gray-800 text-sm leading-relaxed mb-4 ${expandedContent[item.title].image ? "text-center" : ""}`}
+                      {content.buttonText && content.buttonLink && (
+                        <div className="mt-auto pt-2">
+                          <a
+                            href={content.buttonLink}
+                            className="block w-full bg-[#9480AB] hover:bg-[#b8a5d1] text-white px-6 py-4 font-bold text-center rounded-xl transition-all duration-300 shadow-lg hover:shadow-[#9480AB]/50 tracking-wider"
                           >
-                            {expandedContent[item.title].description}
-                          </p>
-
-                          {/* Only show button if buttonText and buttonLink exist */}
-                          {expandedContent[item.title].buttonText && expandedContent[item.title].buttonLink && (
-                            <div className="flex justify-center">
-                              <a
-                                href={expandedContent[item.title].buttonLink}
-                                className="bg-[#9480AB] text-white px-6 py-3 font-bold text-center inline-block rounded hover:bg-[#7a6b8a] transition-colors duration-300"
-                              >
-                                {expandedContent[item.title].buttonText}
-                              </a>
-                            </div>
-                          )}
+                            {content.buttonText}
+                          </a>
                         </div>
                       )}
                     </div>
-                  ))}
-                </div>
-
-                {/* Tickets Button */}
-                <div className="flex justify-center mt-8">
-                  <a
-                    href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
-                  >
-                    TICKETS
-                  </a>
-                </div>
+                  )
+                })()}
               </div>
-            </div>
+            ))}
+          </div>
 
-            {/* Footer */}
-            <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
-              <div className="flex justify-between w-full pb-5">
-                <div>
-                  <ul className="list-none">
-                    {[
-                      { name: "Voor studenten", path: "/voor-studenten" },
-                      { name: "Voor volwassenen", path: "/voor-volwassenen" },
-                      { name: "Voor bedrijven", path: "/voor-bedrijven" },
-                      { name: "Over FashionLabs", path: "/over-fashionlabs" },
-                    ].map((item) => (
-                      <li key={item.name} className="mb-[15px] flex items-center">
-                        <span className="text-[#9480AB] mr-2.5 font-bold text-lg">+</span>
-                        <a href={item.path} className="text-white no-underline text-base hover:underline">
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-col items-end gap-5">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/fashionlabs.png"
-                      alt="Fashion Labs Logo"
-                      width={150}
-                      height={150}
-                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                    />
-                  </div>
-                  <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                    <div className="flex items-center justify-center">
-                      <Image
-                        src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                        alt="Yonder Logo"
-                        width={102.5}
-                        height={40}
-                        className="max-h-10 max-w-[120px]"
-                      />
-                    </div>
-                  </a>
-                </div>
-              </div>
-
-              {/* Button moved outside footer */}
-            </footer>
-            {/* Back to top button - full width at bottom */}
-            <div className="w-full">
-              <button
-                onClick={scrollToTop}
-                className="bg-white text-[#1a1a1a] border-none p-4 w-full text-center text-base cursor-pointer transition-colors hover:bg-[#f0f0f0] font-medium rounded-t-lg"
-              >
-                Terug naar boven
-              </button>
-            </div>
-          </main>
+          <div className="flex justify-center mt-20">
+            <a
+              href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-white text-black px-16 py-6 text-xl font-black text-center inline-block min-w-[300px] uppercase tracking-widest rounded-full shadow-[0_10px_30px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_40px_rgba(255,255,255,0.4)] hover:scale-105 transition-all duration-500"
+            >
+              <span className="relative z-10 group-hover:text-white transition-colors duration-500">TICKETS HALEN</span>
+              <div className="absolute inset-0 h-full w-0 bg-[#9480AB] group-hover:w-full transition-all duration-500 ease-out z-0"></div>
+            </a>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Fullscreen Modal */}
       {isFullscreenOpen && fullscreenPhoto && (
         <div
-          className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 overflow-hidden"
+          className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4"
           onClick={closeFullscreen}
         >
-          <div className="relative w-full h-full max-w-6xl flex flex-col">
+          <div className="relative w-full h-full max-w-7xl flex flex-col items-center justify-center">
             <button
               onClick={closeFullscreen}
-              className="absolute top-4 right-4 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200 z-10"
+              className="absolute top-4 right-4 md:top-8 md:right-8 bg-white/20 hover:bg-white/40 p-3 rounded-full transition-all z-10"
               aria-label="Close fullscreen"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
             </button>
 
-            {/* Image Container - Responsive sizing */}
-            <div
-              className="flex-1 flex items-center justify-center min-h-0 pb-20 md:pb-24"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
+            <div className="relative w-full h-[80vh]" onClick={(e) => e.stopPropagation()}>
+              <Image
                 src={fullscreenPhoto.image_url || "/placeholder.svg"}
                 alt={fullscreenPhoto.title}
-                className="max-w-full max-h-full object-contain w-auto h-auto"
-                style={{
-                  maxHeight: "calc(100vh - 200px)", // Reserve space for title/controls
-                  maxWidth: "calc(100vw - 32px)", // Account for padding
-                }}
+                fill
+                className="object-contain"
               />
             </div>
 
-            {/* Title Section - Fixed at bottom */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6">
-              <div className="flex justify-between items-center max-w-6xl mx-auto">
+            <div className="absolute bottom-8 left-0 right-0 px-8">
+              <div className="max-w-4xl mx-auto flex justify-between items-center bg-black/50 p-4 md:p-6 rounded-xl backdrop-blur-md">
                 <div>
-                  <h3 className="text-white text-xl md:text-2xl font-bold">{fullscreenPhoto.title}</h3>
-                  <p className="text-white/70 text-sm md:text-base">by {fullscreenPhoto.user_name || "Anonymous"}</p>
+                  <h3 className="text-white text-2xl md:text-3xl font-bold">{fullscreenPhoto.title}</h3>
+                  <p className="text-white/70 text-base md:text-lg mt-1">by {fullscreenPhoto.user_name || "Anonymous"}</p>
                 </div>
-
-                <div className="flex items-center gap-2 backdrop-blur-sm rounded-full px-4 py-2 bg-white/20">
-                  <span className="text-red-500 text-xl">❤️</span>
-                  <span className="text-white font-bold text-lg">{fullscreenPhoto.likes}</span>
+                <div className="flex items-center gap-3 bg-white/20 px-5 py-2 rounded-full">
+                  <span className="text-red-500 text-2xl">❤️</span>
+                  <span className="text-white font-bold text-xl">{fullscreenPhoto.likes}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </main>
   )
 }

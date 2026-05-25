@@ -5,7 +5,6 @@ import { Plus, Minus } from "lucide-react"
 import Image from "next/image"
 
 export default function FashionLabsProgram() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [expandedProgram, setExpandedProgram] = useState<string | null>(null)
 
   const programItems = [
@@ -120,284 +119,144 @@ export default function FashionLabsProgram() {
     },
   }
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
   const toggleProgram = (programId: string) => {
     setExpandedProgram(expandedProgram === programId ? null : programId)
   }
 
-  const scrollToTop = () => {
-    const scrollContainer = document.querySelector(".scroll-container")
-    if (scrollContainer) {
-      scrollContainer.scrollTo({ top: 0, behavior: "smooth" })
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center md:p-4 p-0">
-      <div className="relative w-full h-full md:w-[390px] md:max-w-[390px] md:h-[90vh] md:max-h-[844px] bg-white md:rounded-[60px] md:shadow-2xl overflow-hidden overscroll-none">
-        {/* Screen Content */}
-        <div className="scroll-container h-full pt-[0] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] overscroll-none">
-          {/* Header */}
-          <header className={`h-[145px] w-full sticky top-0 bg-[#242424] z-50 flex ${isMenuOpen ? "relative" : ""}`}>
-            {/* Logo */}
-            <div className="absolute left-[40%] top-[22.5%] h-full flex">
-              <Image
-                src="/fashionlabs.png"
-                alt="Fashion Labs Logo"
-                width={150}
-                height={150}
-                className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-              />
-            </div>
-
-            {/* Yonder */}
-            <div className="absolute top-[40%] left-[7.5%] max-h-[68px] h-full flex items-center justify-center pr-5">
-              <div className="text-white text-lg font-light">
-                <Image
-                  src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                  alt="Yonder Logo"
-                  width={80}
-                  height={40}
-                  className="max-h-10 max-w-[120px]"
-                />
-              </div>
-            </div>
-
-            {/* Menu Icon */}
-            <div className="absolute top-[55%] right-[7.5%] max-h-5 h-full flex items-center justify-center pr-5 z-[60]">
-              <div className="relative w-[30px] h-[30px] cursor-pointer" onClick={toggleMenu}>
-                <span
-                  className={`absolute w-full h-[5px] bg-[#9480AB] rounded-sm top-1/2 left-0 transform -translate-y-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
-                ></span>
-                <span
-                  className={`absolute w-[5px] h-full bg-[#9480AB] rounded-sm left-1/2 top-0 transform -translate-x-1/2 transition-all duration-300 ${isMenuOpen ? "rotate-45" : ""}`}
-                ></span>
-              </div>
-            </div>
-          </header>
- {/* Navigation Menu Overlay */}
-          <div
-            className={`fixed top-0 left-0 w-full h-full bg-[#242424] z-[45] flex justify-center items-center transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
-          >
-            <div className="w-full h-full flex flex-col justify-center items-center p-5 pt-[180px] pb-[80px]">
-              <ul className="list-none text-center">
-                {[
-                  { name: "HOME", path: "/" },
-                  { name: "PROGRAMMA", path: "/informatie" },
-                  { name: "GRADUATION-EXPO", path: "/graduation-expo" },
-                  { name: "GRADUATION-SHOW", path: "/graduation-show" },
-                  { name: "FASHION-SHOW", path: "/fashion-show" },
-                  { name: "TICKETS", path: "/tickets" },
-                  { name: "MOMENTS", path: "/favorieten" },
-                  { name: "INFORMATIE", path: "/informatie" },
-                  { name: "CONTACT", path: "/contact" },
-                ].map((item) => (
-                  <li key={item.name} className="mb-[20px]">
-                    <a
-                      href={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-white no-underline text-xl font-bold tracking-wide hover:text-[#9480AB] transition-colors duration-300"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <main className="w-full flex-1 bg-white">
+      {/* Information Section with Timetable SVG */}
+      <section className="w-full bg-white py-16 px-4">
+        <div className="max-w-screen-xl mx-auto flex flex-col items-center">
+          <h1 className="text-4xl md:text-6xl font-black text-black mb-12 text-center tracking-widest uppercase">
+            Informatie
+            <div className="w-24 h-1 bg-[#9480AB] mx-auto mt-6 rounded-full"></div>
+          </h1>
+          <div className="relative w-full max-w-4xl bg-white rounded-3xl p-4 md:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-shadow duration-500">
+            <Image
+              src="/timetable.svg"
+              alt="Fashion Labs Timetable"
+              width={1000}
+              height={600}
+              className="w-full h-auto object-contain"
+            />
           </div>
+        </div>
+      </section>
 
+      {/* Program Section */}
+      <section id="programma" className="w-full bg-gradient-to-b from-[#1a1a1a] to-[#2d2438] py-20 px-4 relative">
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-5 pointer-events-none mix-blend-overlay"></div>
+        <div className="max-w-screen-xl mx-auto relative z-10">
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-16 text-center tracking-widest uppercase">
+            PROGRAMMA
+            <div className="w-24 h-1 bg-[#9480AB] mx-auto mt-6 rounded-full"></div>
+          </h2>
 
-          {/* Main Content */}
-          <main className="bg-white relative">
-            {/* Information Section with Timetable SVG */}
-            <div className="relative w-full">
-              {/* Timetable SVG */}
-              <div className="w-full bg-white p-4">
-                <h2 className="text-xl font-bold text-black mb-4 text-center">Informatie</h2>
-                <div className="flex justify-center">
-                  <Image
-                    src="/timetable.svg"
-                    alt="Fashion Labs Timetable"
-                    width={350}
-                    height={400}
-                    className="w-full max-w-[350px] h-auto"
-                  />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {programItems.map((item) => (
+              <div key={item.id} className="group flex flex-col h-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] hover:-translate-y-2 hover:border-white/20">
+                <div className="flex items-stretch min-h-[70px]">
+                  <div className="bg-[#9480AB] text-white px-5 py-4 font-black text-xl min-w-[100px] flex items-center justify-center">
+                    {item.time}
+                  </div>
+                  <div className="flex-1 px-5 py-4 flex items-center justify-between bg-white/5">
+                    <h3 className="font-bold text-white text-lg md:text-xl group-hover:text-[#e0d4f0] transition-colors">{item.title}</h3>
+                    {item.hasPlus && (
+                      <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0 ml-3 focus:outline-none bg-white/10 p-2 rounded-full hover:bg-white/20 transition-all">
+                        {expandedProgram === item.id ? (
+                          <Minus className="w-5 h-5 text-white" />
+                        ) : (
+                          <Plus className="w-5 h-5 text-white" />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Program Section */}
-            <div className="bg-[#9480AB] px-4 py-6">
-              <h2 className="text-xl font-bold text-white mb-6 text-center">PROGRAMMA</h2>
+                <div className="bg-black/40 px-5 py-3 text-sm font-medium text-white/70 flex items-center gap-2">
+                  <span className="text-[#9480AB]">📍</span> {item.location}
+                </div>
 
-              <div className="space-y-4">
-                {programItems.map((item) => (
-                  <div key={item.id} className="space-y-2">
-                    {/* Program Item */}
-                    <div className="flex items-center">
-                      {/* Time Box */}
-                      <div className="bg-black text-white px-4 py-3 font-bold text-lg min-w-[80px] text-center">
-                        {item.time}
+                {/* Expanded Content */}
+                {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
+                  <div className="p-6 border-t border-white/10 bg-black/60 flex-grow animate-in slide-in-from-top-4 duration-500">
+                    {expandedContent[item.title].image && (
+                      <div className="mb-6 relative w-full h-48 rounded-xl overflow-hidden shadow-2xl">
+                        <Image
+                          src={expandedContent[item.title].image || "/placeholder.svg"}
+                          alt={expandedContent[item.title].imageAlt}
+                          fill
+                          className="object-cover transform hover:scale-105 transition-transform duration-700"
+                        />
                       </div>
+                    )}
 
-                      {/* Content Box */}
-                      <div className="bg-white flex-1 px-4 py-3 flex items-center justify-between">
-                        <h3 className="font-bold text-[#9480AB] text-lg">{item.title}</h3>
-                        {item.hasPlus && (
-                          <button onClick={() => toggleProgram(item.id)} className="flex-shrink-0">
-                            {expandedProgram === item.id ? (
-                              <Minus className={`w-6 h-6 text-[#9480AB] ${item.isExpandable ? "stroke-[3]" : ""}`} />
-                            ) : (
-                              <Plus className={`w-6 h-6 text-[#9480AB] ${item.isExpandable ? "stroke-[3]" : ""}`} />
-                            )}
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                    <p className="text-white/80 text-sm md:text-base leading-relaxed mb-8">
+                      {expandedContent[item.title].description}
+                    </p>
 
-                    {/* Location Text */}
-                    <div className="text-white text-sm pl-4">{item.location}</div>
-
-                    {/* Expanded Content */}
-                    {expandedProgram === item.id && item.isExpandable && expandedContent[item.title] && (
-                      <div className="bg-white mx-4 p-4 rounded-lg shadow-lg">
-                        {/* Image for Digital Alumni talk and AI talk */}
-                        {expandedContent[item.title].image && (
-                          <div className="mb-4 flex justify-center">
-                            <Image
-                              src={expandedContent[item.title].image || "/placeholder.svg"}
-                              alt={expandedContent[item.title].imageAlt}
-                              width={250}
-                              height={150}
-                              className="rounded-lg object-cover shadow-md hover:opacity-90 transition-opacity duration-300"
-                            />
-                          </div>
-                        )}
-
-                        <p
-                          className={`text-gray-800 text-sm leading-relaxed mb-4 ${expandedContent[item.title].image ? "text-center" : ""}`}
+                    {expandedContent[item.title].buttonText && expandedContent[item.title].buttonLink && (
+                      <div className="mt-auto pt-2">
+                        <a
+                          href={expandedContent[item.title].buttonLink}
+                          className="block w-full bg-[#9480AB] hover:bg-[#b8a5d1] text-white px-6 py-4 font-bold text-center rounded-xl transition-all duration-300 shadow-lg hover:shadow-[#9480AB]/50 tracking-wider"
                         >
-                          {expandedContent[item.title].description}
-                        </p>
-
-                        {/* Only show button if buttonText and buttonLink exist */}
-                        {expandedContent[item.title].buttonText && expandedContent[item.title].buttonLink && (
-                          <div className="flex justify-center">
-                            <a
-                              href={expandedContent[item.title].buttonLink}
-                              className="bg-[#9480AB] text-white px-6 py-3 font-bold text-center inline-block rounded hover:bg-[#7a6b8a] transition-colors duration-300"
-                            >
-                              {expandedContent[item.title].buttonText}
-                            </a>
-                          </div>
-                        )}
+                          {expandedContent[item.title].buttonText}
+                        </a>
                       </div>
                     )}
                   </div>
-                ))}
+                )}
               </div>
-            </div>
+            ))}
+          </div>
 
-            {/* Tickets Section */}
-            <div className="px-4 py-6 bg-[#9480AB] flex justify-center">
-                 <a
-                  href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319?fbclid=PAQ0xDSwKwKUNleHRuA2FlbQIxMQABp4ocJPBgfjIqi1ua-_JlHSGOyiXEDBmXJzG4kF8ZTOrgPbzjyxd7IKqXzUGY_aem_K8Ypz8ffKNjdWUrYXamk-g"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-black text-white px-8 py-3 font-bold text-center inline-block min-w-[200px]"
-                >
-                  TICKETS
-                </a>
-            </div>
+          {/* Tickets Section */}
+          <div className="flex justify-center mt-20">
+             <a
+              href="https://www.eventbrite.nl/e/tickets-fashionlabs-1381853935319"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden bg-white text-black px-16 py-6 text-xl font-black text-center inline-block min-w-[300px] uppercase tracking-widest rounded-full shadow-[0_10px_30px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_40px_rgba(255,255,255,0.4)] hover:scale-105 transition-all duration-500"
+            >
+              <span className="relative z-10 group-hover:text-white transition-colors duration-500">TICKETS HALEN</span>
+              <div className="absolute inset-0 h-full w-0 bg-[#9480AB] group-hover:w-full transition-all duration-500 ease-out z-0"></div>
+            </a>
+          </div>
+        </div>
+      </section>
 
-            {/* Location and Time - Black Box */}
-            <div className="bg-black text-white p-6 text-center">
-              <div className="font-bold text-lg mb-2">MindLabs</div>
-              <div className="text-sm mb-2">Locomotiefboulevard 101 5041 SE Tilburg</div>
-              <div className="font-bold text-lg">15:00 - 21:30</div>
+      {/* Location and Map Section */}
+      <section className="w-full bg-black py-16 px-4">
+        <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          
+          <div className="text-white text-center md:text-left flex flex-col justify-center space-y-6">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-wider uppercase mb-2">Locatie</h2>
+            <div>
+              <div className="font-bold text-2xl text-[#9480AB] mb-2">MindLabs</div>
+              <div className="text-lg text-gray-300 mb-6">Locomotiefboulevard 101<br/>5041 SE Tilburg</div>
+              <div className="font-bold text-2xl">15:00 - 21:30</div>
             </div>
+          </div>
 
-            {/* Map Section */}
-            <div className="bg-black text-white py-4 text-center">
-              <h2 className="text-xl font-bold mb-4">PLATTEGROND</h2>
-            </div>
-
-            <div className="px-4 py-6 bg-white">
+          <div className="bg-white p-4 rounded-xl shadow-2xl">
+            <h2 className="text-xl font-bold mb-4 text-center text-black uppercase tracking-wider">PLATTEGROND</h2>
+            <div className="relative w-full h-[300px] md:h-[400px]">
               <Image
                 src="/maps.png"
                 alt="Plattegrond Tilburg"
-                width={350}
-                height={200}
-                className="w-full h-[200px] object-cover rounded-lg mb-4"
+                fill
+                className="object-cover rounded-lg"
               />
-              <div className="text-center text-sm text-gray-600">
-                Mindlabs - Locomotiefboulevard 101 5041 SE Tilburg
-              </div>
             </div>
+            <div className="text-center text-sm font-medium text-gray-600 mt-4">
+              Mindlabs - Locomotiefboulevard 101, 5041 SE Tilburg
+            </div>
+          </div>
 
-            {/* Footer */}
-            <footer className="bg-[#1a1a1a] text-white p-[20px] relative">
-              <div className="flex justify-between w-full pb-5">
-                <div>
-                  <ul className="list-none">
-                    {[
-                      { name: "Voor studenten", path: "/voor-studenten" },
-                      { name: "Voor volwassenen", path: "/voor-volwassenen" },
-                      { name: "Voor bedrijven", path: "/voor-bedrijven" },
-                      { name: "Over FashionLabs", path: "/over-fashionlabs" },
-                    ].map((item) => (
-                      <li key={item.name} className="mb-[15px] flex items-center">
-                        <span className="text-[#9480AB] mr-2.5 font-bold text-lg">+</span>
-                        <a href={item.path} className="text-white no-underline text-base hover:underline">
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-col items-end gap-5">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/fashionlabs.png"
-                      alt="Fashion Labs Logo"
-                      width={150}
-                      height={150}
-                      className="max-h-[100px] max-w-[100px] object-contain mx-autoh"
-                    />
-                  </div>
-                          <a href="https://www.yonder.nl/" target="_blank" rel="noopener noreferrer">
-                  <div className="flex items-center justify-center">
-                    <Image
-                      src="/Yonder-paars-White.png?height=40&width=120&text=Yonder"
-                      alt="Yonder Logo"
-                      width={102.5}
-                      height={40}
-                      className="max-h-10 max-w-[120px]"
-                    />
-                  </div>
-                  </a>
-                </div>
-              </div>
-
-              {/* Back to top button - full width at bottom */}
-              <div className="w-full">
-                <button
-                  onClick={scrollToTop}
-                  className="bg-white text-[#1a1a1a] border-none p-4 w-full text-center text-base cursor-pointer transition-colors hover:bg-[#f0f0f0] font-medium rounded-t-lg"
-                >
-                  Terug naar boven
-                </button>
-              </div>
-            </footer>
-          </main>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }

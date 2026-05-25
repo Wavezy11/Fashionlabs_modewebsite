@@ -49,7 +49,7 @@ export function StorageMonitor() {
       <h4 className="font-bold mb-2">📊 Opslag Status</h4>
       <div className="text-sm space-y-1">
         <div>
-          Foto's: <strong>{storageInfo.totalFiles}/350</strong>
+          Foto&apos;s: <strong>{storageInfo.totalFiles}/350</strong>
         </div>
         <div>
           Gebruikt: <strong>{storageInfo.totalSizeMB} MB / 2000 MB</strong>
@@ -60,7 +60,7 @@ export function StorageMonitor() {
       </div>
 
       {storageInfo.percentUsed > 85 && (
-        <div className="mt-2 text-xs font-medium">⚠️ Opslag bijna vol! Overweeg oude foto's te verwijderen.</div>
+        <div className="mt-2 text-xs font-medium">⚠️ Opslag bijna vol! Overweeg oude foto&apos;s te verwijderen.</div>
       )}
     </div>
   )
